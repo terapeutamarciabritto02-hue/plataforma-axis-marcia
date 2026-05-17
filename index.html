@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="AXIS™ é a plataforma terapêutica multidimensional criada por Márcia Britto. Mesas energéticas, radiônica e geometria sagrada para sua transformação."/>
+<meta property="og:title" content="AXIS™ — Plataforma Terapêutica Multidimensional | Márcia Britto"/>
+<meta property="og:description" content="Sistema terapêutico multidimensional com mais de 40 mesas originais integrando geometria sagrada, radiônica e tecnologia arcturiana."/>
+<title>AXIS™ | Plataforma Terapêutica Multidimensional — Márcia Britto</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Josefin+Sans:wght@200;300;400;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#050505;
+  --cosmic:#081326;
+  --gold:#D4AF37;
+  --gold2:#f0cc5a;
+  --gold-dim:rgba(212,175,55,0.12);
+  --gold-border:rgba(212,175,55,0.22);
+  --violet:#7B4DFF;
+  --violet-dim:rgba(123,77,255,0.12);
+  --white:#F5F5F5;
+  --white-dim:rgba(245,245,245,0.6);
+  --white-faint:rgba(245,245,245,0.06);
+  --glass:rgba(255,255,255,0.03);
+  --radius:16px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--white);
+  font-family:'Josefin Sans',sans-serif;
+  font-weight:300;
+  overflow-x:hidden;
+}
+
+/* ── CANVAS BACKGROUND ── */
+#bg-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;}
+
+/* ── STARS ── */
+.stars{position:fixed;inset:0;pointer-events:none;z-index:0;}
+.star{position:absolute;background:#fff;border-radius:50%;animation:twinkle var(--d,4s) ease-in-out infinite;animation-delay:var(--delay,0s);}
+@keyframes twinkle{0%,100%{opacity:0.05}50%{opacity:var(--op,0.4)}}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 60px;height:70px;
+  background:rgba(5,5,5,0.7);
+  backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--gold-border);
+  transition:all 0.3s;
+}
+nav.scrolled{background:rgba(5,5,5,0.95);border-bottom-color:rgba(212,175,55,0.3);}
+.nav-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:22px;font-weight:300;color:var(--gold);letter-spacing:8px;
+  text-decoration:none;
+}
+.nav-links{display:flex;align-items:center;gap:30px;}
+.nav-link{
+  color:var(--white-dim);font-size:10px;letter-spacing:3px;text-transform:uppercase;
+  text-decoration:none;transition:all 0.25s;position:relative;padding-bottom:4px;
+}
+.nav-link::after{
+  content:'';position:absolute;bottom:0;left:0;width:0;height:1px;
+  background:var(--gold);transition:width 0.3s;
+}
+.nav-link:hover{color:var(--white);}
+.nav-link:hover::after{width:100%;}
+.nav-cta{
+  padding:9px 22px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:#0a0800;font-size:9px;letter-spacing:3px;font-weight:600;
+  text-transform:uppercase;border-radius:30px;text-decoration:none;
+  transition:all 0.25s;white-space:nowrap;
+}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(212,175,55,0.3);}
+.nav-mobile-btn{display:none;cursor:pointer;font-size:18px;color:var(--gold);}
+.nav-mobile-menu{
+  display:none;position:fixed;top:70px;left:0;right:0;
+  background:rgba(5,5,5,0.98);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--gold-border);
+  flex-direction:column;padding:20px 30px;gap:16px;z-index:199;
+}
+.nav-mobile-menu.open{display:flex;}
+.nav-mobile-menu .nav-link{font-size:12px;}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;
+  display:flex;align-items:center;
+  padding:100px 60px 60px;
+  position:relative;z-index:1;
+}
+.hero-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:60px;align-items:center;
+  max-width:1300px;margin:0 auto;width:100%;
+}
+.hero-left{animation:fadeInUp 1s ease both;}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:7px 18px;border-radius:30px;
+  background:var(--violet-dim);border:1px solid rgba(123,77,255,0.25);
+  font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--violet);
+  margin-bottom:28px;
+}
+.hero-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--violet);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
+
+.hero-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(72px,10vw,120px);
+  font-weight:300;line-height:0.9;
+  color:var(--gold);letter-spacing:12px;
+  margin-bottom:16px;
+  text-shadow:0 0 60px rgba(212,175,55,0.2);
+}
+.hero-trademark{font-size:0.3em;vertical-align:super;color:var(--gold-dim);}
+.hero-subtitle{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(16px,2.5vw,22px);
+  font-style:italic;color:var(--white-dim);
+  letter-spacing:3px;margin-bottom:8px;
+}
+.hero-acro{
+  font-size:9px;letter-spacing:4px;color:var(--gold);
+  text-transform:uppercase;margin-bottom:28px;opacity:0.7;
+}
+.hero-text{
+  font-size:14px;letter-spacing:1px;line-height:1.9;
+  color:var(--white-dim);max-width:520px;margin-bottom:36px;
+}
+.hero-text strong{color:var(--white);}
+
+.hero-btns{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:48px;}
+.btn-primary{
+  padding:13px 28px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:#0a0800;font-family:'Josefin Sans',sans-serif;
+  font-size:9px;letter-spacing:3px;font-weight:600;text-transform:uppercase;
+  border:none;border-radius:30px;cursor:pointer;transition:all 0.3s;
+  text-decoration:none;display:inline-flex;align-items:center;gap:8px;
+}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 36px rgba(212,175,55,0.35);}
+.btn-outline{
+  padding:13px 28px;background:transparent;
+  border:1px solid var(--gold-border);color:var(--gold);
+  font-family:'Josefin Sans',sans-serif;
+  font-size:9px;letter-spacing:3px;text-transform:uppercase;
+  border-radius:30px;cursor:pointer;transition:all 0.3s;
+  text-decoration:none;display:inline-flex;align-items:center;gap:8px;
+}
+.btn-outline:hover{background:var(--gold-dim);border-color:var(--gold);transform:translateY(-2px);}
+
+.hero-stats{
+  display:flex;gap:32px;padding-top:32px;
+  border-top:1px solid var(--gold-border);
+}
+.stat-item{}
+.stat-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:36px;font-weight:300;color:var(--gold);line-height:1;
+}
+.stat-label{font-size:9px;letter-spacing:2px;color:var(--white-dim);text-transform:uppercase;margin-top:4px;}
+
+/* HERO RIGHT — foto */
+.hero-right{
+  position:relative;
+  display:flex;align-items:center;justify-content:center;
+  animation:fadeInRight 1.2s ease both;
+}
+@keyframes fadeInRight{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+
+.hero-photo-wrap{
+  position:relative;
+  width:100%;max-width:480px;
+}
+.hero-photo-ring{
+  position:absolute;inset:-20px;
+  border-radius:50%;
+  border:1px solid var(--gold-border);
+  animation:spin 30s linear infinite;
+}
+.hero-photo-ring2{
+  position:absolute;inset:-40px;
+  border-radius:50%;
+  border:1px solid rgba(123,77,255,0.15);
+  animation:spin 50s linear infinite reverse;
+}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+.hero-photo{
+  width:100%;border-radius:24px;
+  border:1px solid var(--gold-border);
+  display:block;
+  box-shadow:
+    0 0 60px rgba(212,175,55,0.12),
+    0 0 120px rgba(123,77,255,0.08),
+    inset 0 0 60px rgba(212,175,55,0.04);
+  position:relative;z-index:2;
+  object-fit:cover;
+  background:linear-gradient(135deg,var(--cosmic),var(--violet-dim));
+}
+.hero-photo-label{
+  position:absolute;bottom:-16px;left:50%;transform:translateX(-50%);
+  background:linear-gradient(135deg,rgba(5,5,5,0.95),rgba(8,19,38,0.95));
+  border:1px solid var(--gold-border);border-radius:30px;
+  padding:10px 24px;text-align:center;white-space:nowrap;z-index:3;
+}
+.hero-photo-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:16px;color:var(--gold);letter-spacing:2px;
+}
+.hero-photo-role{font-size:8px;letter-spacing:3px;color:var(--white-dim);text-transform:uppercase;margin-top:2px;}
+
+.hero-glow{
+  position:absolute;
+  width:300px;height:300px;border-radius:50%;
+  background:radial-gradient(circle,rgba(212,175,55,0.12),transparent 70%);
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  pointer-events:none;z-index:1;
+}
+
+/* ── SECTIONS ── */
+section{position:relative;z-index:1;}
+.section-inner{max-width:1300px;margin:0 auto;padding:0 60px;}
+.section-tag{
+  font-size:8px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);
+  display:flex;align-items:center;gap:12px;margin-bottom:16px;
+}
+.section-tag::before,.section-tag::after{content:'';flex:1;max-width:40px;height:1px;background:var(--gold-border);}
+.section-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(32px,5vw,52px);font-weight:300;
+  color:var(--white);letter-spacing:3px;margin-bottom:16px;
+  line-height:1.1;
+}
+.section-title span{color:var(--gold);}
+.section-subtitle{
+  font-size:12px;letter-spacing:2px;color:var(--white-dim);
+  max-width:600px;line-height:1.8;
+}
+
+/* ── QUEM SOU ── */
+#quem-sou{padding:120px 0;}
+.quem-grid{
+  display:grid;grid-template-columns:1fr 1.2fr;gap:80px;
+  align-items:center;
+}
+.quem-img-wrap{position:relative;}
+.quem-img{
+  width:100%;border-radius:20px;
+  border:1px solid var(--gold-border);
+  display:block;
+  box-shadow:0 0 80px rgba(212,175,55,0.1);
+  background:linear-gradient(135deg,var(--cosmic),rgba(123,77,255,0.15));
+  aspect-ratio:3/4;object-fit:cover;
+}
+.quem-badge-wrap{
+  position:absolute;bottom:-20px;right:-20px;
+  background:linear-gradient(135deg,rgba(5,5,5,0.98),rgba(8,19,38,0.98));
+  border:1px solid var(--gold-border);border-radius:16px;
+  padding:20px 24px;text-align:center;
+}
+.quem-badge-num{font-family:'Cormorant Garamond',serif;font-size:42px;color:var(--gold);line-height:1;}
+.quem-badge-label{font-size:8px;letter-spacing:2px;color:var(--white-dim);text-transform:uppercase;margin-top:4px;}
+
+.quem-content{}
+.quem-quote{
+  font-family:'Cormorant Garamond',serif;
+  font-size:18px;font-style:italic;
+  color:var(--white-dim);line-height:1.8;letter-spacing:0.5px;
+  border-left:2px solid var(--gold);padding-left:24px;margin:24px 0;
+}
+.quem-text{font-size:13px;letter-spacing:0.5px;line-height:1.9;color:var(--white-dim);margin-bottom:16px;}
+.quem-text strong{color:var(--white);}
+.quem-tags{display:flex;flex-wrap:wrap;gap:8px;margin:24px 0;}
+.quem-tag{
+  padding:6px 14px;border-radius:20px;
+  border:1px solid var(--gold-border);
+  font-size:9px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--gold);background:var(--gold-dim);
+}
+.quem-btns{display:flex;gap:12px;flex-wrap:wrap;}
+
+/* ── MÉTODO ── */
+#metodo{
+  padding:120px 0;
+  background:linear-gradient(180deg,transparent,rgba(8,19,38,0.3),transparent);
+}
+.metodo-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:20px;
+  margin-top:60px;
+}
+.metodo-card{
+  background:var(--glass);
+  border:1px solid var(--gold-border);border-radius:var(--radius);
+  padding:32px;position:relative;overflow:hidden;
+  transition:all 0.4s;
+}
+.metodo-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  opacity:0.4;transition:opacity 0.4s;
+}
+.metodo-card:hover{border-color:var(--gold);transform:translateY(-4px);box-shadow:0 20px 60px rgba(212,175,55,0.1);}
+.metodo-card:hover::before{opacity:1;}
+.metodo-icon{font-size:28px;margin-bottom:18px;}
+.metodo-card-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:22px;font-weight:300;color:var(--gold);
+  letter-spacing:2px;margin-bottom:12px;
+}
+.metodo-card-text{font-size:12px;letter-spacing:0.5px;line-height:1.8;color:var(--white-dim);}
+
+.axis-meaning{
+  margin-top:60px;
+  background:linear-gradient(135deg,rgba(8,19,38,0.6),rgba(123,77,255,0.08));
+  border:1px solid var(--gold-border);border-radius:var(--radius);
+  padding:40px;text-align:center;
+}
+.axis-meaning-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(28px,4vw,42px);color:var(--gold);letter-spacing:6px;margin-bottom:12px;
+}
+.axis-meaning-letters{
+  display:flex;justify-content:center;gap:40px;flex-wrap:wrap;margin-top:24px;
+}
+.axis-letter{text-align:center;}
+.axis-letter-char{
+  font-family:'Cormorant Garamond',serif;
+  font-size:42px;color:var(--gold);font-weight:300;display:block;line-height:1;
+}
+.axis-letter-word{font-size:9px;letter-spacing:3px;color:var(--white-dim);text-transform:uppercase;margin-top:6px;}
+
+/* ── MESAS ── */
+#mesas{padding:120px 0;}
+.mesas-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:20px;margin-top:60px;
+}
+.mesa-card{
+  background:var(--glass);
+  border:1px solid var(--gold-border);border-radius:var(--radius);
+  overflow:hidden;transition:all 0.4s;cursor:pointer;
+}
+.mesa-card:hover{border-color:var(--gold);transform:translateY(-6px);box-shadow:0 24px 60px rgba(212,175,55,0.12);}
+.mesa-img{
+  width:100%;aspect-ratio:4/3;object-fit:cover;
+  background:linear-gradient(135deg,var(--cosmic),rgba(123,77,255,0.2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:60px;position:relative;overflow:hidden;
+}
+.mesa-img::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 50%,rgba(5,5,5,0.8));
+}
+.mesa-img-real{width:100%;height:100%;object-fit:cover;display:block;}
+.mesa-body{padding:24px;}
+.mesa-cat{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.mesa-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:20px;font-weight:300;color:var(--white);letter-spacing:1px;
+  margin-bottom:10px;line-height:1.3;
+}
+.mesa-desc{font-size:11px;letter-spacing:0.5px;line-height:1.7;color:var(--white-dim);margin-bottom:16px;}
+.mesa-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;}
+.mesa-tag{font-size:8px;letter-spacing:1px;padding:3px 10px;border-radius:20px;background:var(--white-faint);border:1px solid rgba(255,255,255,0.08);color:var(--white-dim);}
+.mesa-link{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);
+  text-decoration:none;transition:gap 0.2s;
+}
+.mesa-link:hover{gap:10px;}
+
+.mesas-more{text-align:center;margin-top:48px;}
+
+/* ── FORMAÇÕES ── */
+#formacoes{
+  padding:120px 0;
+  background:linear-gradient(180deg,transparent,rgba(8,19,38,0.4),transparent);
+}
+.formacoes-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:60px;}
+.formacao-card{
+  background:var(--glass);border:1px solid var(--gold-border);
+  border-radius:var(--radius);padding:28px;
+  position:relative;overflow:hidden;transition:all 0.3s;
+}
+.formacao-card:hover{border-color:var(--gold);transform:translateY(-4px);}
+.formacao-status{
+  display:inline-block;font-size:7px;letter-spacing:3px;text-transform:uppercase;
+  padding:4px 12px;border-radius:20px;margin-bottom:16px;
+}
+.status-disponivel{background:rgba(74,222,128,0.1);color:#4ade80;border:1px solid rgba(74,222,128,0.2);}
+.status-breve{background:var(--violet-dim);color:var(--violet);border:1px solid rgba(123,77,255,0.2);}
+.status-consulta{background:var(--gold-dim);color:var(--gold);border:1px solid var(--gold-border);}
+.formacao-icon{font-size:26px;margin-bottom:14px;}
+.formacao-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:20px;font-weight:300;color:var(--white);letter-spacing:1px;margin-bottom:10px;
+}
+.formacao-desc{font-size:11px;letter-spacing:0.5px;line-height:1.7;color:var(--white-dim);margin-bottom:20px;}
+.formacao-link{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:9px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--gold);text-decoration:none;transition:gap 0.2s;
+}
+.formacao-link:hover{gap:10px;}
+
+/* ── DEPOIMENTOS ── */
+#depoimentos{padding:120px 0;}
+.depo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;margin-top:60px;}
+.depo-card{
+  background:linear-gradient(135deg,rgba(8,19,38,0.6),var(--glass));
+  border:1px solid var(--gold-border);border-radius:var(--radius);
+  padding:28px;transition:all 0.3s;
+}
+.depo-card:hover{border-color:var(--gold);transform:translateY(-4px);}
+.depo-stars{font-size:12px;color:var(--gold);letter-spacing:3px;margin-bottom:16px;}
+.depo-text{
+  font-family:'Cormorant Garamond',serif;
+  font-size:15px;font-style:italic;color:var(--white-dim);
+  line-height:1.8;margin-bottom:20px;letter-spacing:0.3px;
+}
+.depo-author{display:flex;align-items:center;gap:12px;}
+.depo-avatar{
+  width:40px;height:40px;border-radius:50%;
+  background:linear-gradient(135deg,var(--violet-dim),var(--gold-dim));
+  border:1px solid var(--gold-border);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--gold);
+  flex-shrink:0;
+}
+.depo-name{font-size:12px;letter-spacing:1px;color:var(--white);}
+.depo-role{font-size:9px;letter-spacing:1px;color:var(--white-dim);margin-top:2px;}
+
+/* ── CONTATO ── */
+#contato{
+  padding:120px 0;
+  background:linear-gradient(180deg,transparent,rgba(8,19,38,0.5));
+}
+.contato-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;margin-top:60px;}
+.contato-info{display:flex;flex-direction:column;gap:20px;}
+.contato-item{
+  display:flex;align-items:center;gap:16px;
+  padding:20px 24px;
+  background:var(--glass);border:1px solid var(--gold-border);border-radius:12px;
+  text-decoration:none;transition:all 0.2s;
+}
+.contato-item:hover{border-color:var(--gold);background:var(--gold-dim);}
+.contato-icon{font-size:22px;flex-shrink:0;}
+.contato-text-label{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:3px;}
+.contato-text-val{font-size:13px;letter-spacing:1px;color:var(--white);}
+.contato-cta{
+  background:linear-gradient(135deg,rgba(8,19,38,0.6),rgba(123,77,255,0.1));
+  border:1px solid var(--gold-border);border-radius:var(--radius);padding:36px;
+}
+.contato-cta-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:28px;font-weight:300;color:var(--gold);letter-spacing:2px;margin-bottom:12px;
+}
+.contato-cta-text{font-size:12px;letter-spacing:1px;line-height:1.8;color:var(--white-dim);margin-bottom:24px;}
+
+/* ── FOOTER ── */
+footer{
+  padding:60px 0 30px;
+  border-top:1px solid var(--gold-border);
+  position:relative;z-index:1;
+}
+.footer-inner{max-width:1300px;margin:0 auto;padding:0 60px;}
+.footer-top{
+  display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:40px;
+  padding-bottom:40px;border-bottom:1px solid var(--gold-border);
+  margin-bottom:30px;
+}
+.footer-brand{font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--gold);letter-spacing:8px;margin-bottom:12px;}
+.footer-brand-sub{font-size:9px;letter-spacing:3px;color:var(--white-dim);text-transform:uppercase;margin-bottom:14px;}
+.footer-desc{font-size:11px;letter-spacing:0.5px;line-height:1.8;color:var(--white-dim);}
+.footer-social{display:flex;gap:10px;margin-top:18px;}
+.footer-social-link{
+  width:34px;height:34px;border-radius:50%;
+  border:1px solid var(--gold-border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;color:var(--white-dim);text-decoration:none;transition:all 0.2s;
+}
+.footer-social-link:hover{background:var(--gold-dim);color:var(--gold);}
+.footer-col-title{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;}
+.footer-link{display:block;font-size:11px;letter-spacing:1px;color:var(--white-dim);text-decoration:none;margin-bottom:10px;transition:color 0.2s;}
+.footer-link:hover{color:var(--gold);}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.footer-copy{font-size:10px;letter-spacing:1px;color:var(--white-dim);}
+.footer-phrase{font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;color:var(--gold);opacity:0.6;}
+
+/* ── WHATSAPP FLOAT ── */
+.wa-float{
+  position:fixed;bottom:30px;right:30px;z-index:300;
+  width:56px;height:56px;border-radius:50%;
+  background:linear-gradient(135deg,#25d366,#128c7e);
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;text-decoration:none;
+  box-shadow:0 8px 30px rgba(37,211,102,0.4);
+  transition:all 0.3s;animation:float 3s ease-in-out infinite;
+}
+.wa-float:hover{transform:scale(1.1)!important;box-shadow:0 12px 40px rgba(37,211,102,0.5);}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+/* ── DIVIDER ── */
+.divider-line{
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold-border),transparent);
+  margin:0 60px;position:relative;z-index:1;
+}
+
+/* ── SCROLL REVEAL ── */
+.reveal{opacity:0;transform:translateY(30px);transition:all 0.8s cubic-bezier(0.22,1,0.36,1);}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  nav{padding:0 30px;}
+  .nav-links{display:none;}
+  .nav-mobile-btn{display:block;}
+  .hero{padding:100px 30px 60px;}
+  .hero-grid{grid-template-columns:1fr;gap:40px;text-align:center;}
+  .hero-right{order:-1;}
+  .hero-stats{justify-content:center;}
+  .section-inner{padding:0 30px;}
+  .quem-grid{grid-template-columns:1fr;}
+  .contato-grid{grid-template-columns:1fr;}
+  .footer-top{grid-template-columns:1fr 1fr;}
+  .footer-inner{padding:0 30px;}
+  .divider-line{margin:0 30px;}
+  .metodo-grid{grid-template-columns:1fr;}
+}
+@media(max-width:600px){
+  .hero-title{font-size:72px;}
+  .hero-btns{justify-content:center;}
+  .footer-top{grid-template-columns:1fr;}
+  .axis-meaning-letters{gap:20px;}
+}
+
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--gold-border);border-radius:2px;}
+</style>
+</head>
+<body>
+
+<!-- Stars -->
+<div class="stars" id="stars"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">AXIS™</a>
+  <div class="nav-links">
+    <a href="#quem-sou" class="nav-link">Márcia Britto</a>
+    <a href="#metodo" class="nav-link">Método</a>
+    <a href="#mesas" class="nav-link">Mesas</a>
+    <a href="#formacoes" class="nav-link">Formações</a>
+    <a href="#depoimentos" class="nav-link">Depoimentos</a>
+    <a href="#contato" class="nav-link">Contato</a>
+  </div>
+  <a href="https://wa.me/5565993451066?text=Olá%20Márcia!%20Gostaria%20de%20agendar%20um%20atendimento%20AXIS™." target="_blank" class="nav-cta">Agendar</a>
+  <div class="nav-mobile-btn" onclick="toggleMenu()">☰</div>
+</nav>
+<div class="nav-mobile-menu" id="mobile-menu">
+  <a href="#quem-sou" class="nav-link" onclick="toggleMenu()">Márcia Britto</a>
+  <a href="#metodo" class="nav-link" onclick="toggleMenu()">Método AXIS™</a>
+  <a href="#mesas" class="nav-link" onclick="toggleMenu()">Mesas</a>
+  <a href="#formacoes" class="nav-link" onclick="toggleMenu()">Formações</a>
+  <a href="#depoimentos" class="nav-link" onclick="toggleMenu()">Depoimentos</a>
+  <a href="#contato" class="nav-link" onclick="toggleMenu()">Contato</a>
+  <a href="https://wa.me/5565993451066" target="_blank" class="btn-primary" style="justify-content:center;">Agendar</a>
+</div>
+
+<!-- ══════════ HERO ══════════ -->
+<section class="hero" id="home">
+  <div class="hero-grid">
+    <div class="hero-left">
+      <div class="hero-badge">✦ Plataforma Terapêutica Multidimensional</div>
+      <div class="hero-title">AXIS<span class="hero-trademark">™</span></div>
+      <div class="hero-subtitle">Ativação · Existência · Integração · Síntese</div>
+      <div class="hero-acro">A · X · I · S — Os quatro pilares da transformação</div>
+      <p class="hero-text">
+        Métodos vibracionais, mesas radiestésicas e tecnologias espirituais desenvolvidas para <strong>alinhamento energético, expansão da consciência</strong> e transformação multidimensional profunda.
+      </p>
+      <div class="hero-btns">
+        <a href="#mesas" class="btn-primary">✦ Conhecer as Mesas</a>
+        <a href="https://wa.me/5565993451066?text=Olá%20Márcia!%20Gostaria%20de%20agendar%20um%20atendimento%20AXIS™." target="_blank" class="btn-outline">◈ Agendar Sessão</a>
+        <a href="#metodo" class="btn-outline">⬡ Explorar Método</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-num">40+</div>
+          <div class="stat-label">Mesas Criadas</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">500+</div>
+          <div class="stat-label">Vidas Transformadas</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">15+</div>
+          <div class="stat-label">Anos de Pesquisa</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-glow"></div>
+      <div class="hero-photo-wrap">
+        <div class="hero-photo-ring"></div>
+        <div class="hero-photo-ring2"></div>
+        <img
+          src="marcia-pendulo.png"
+          alt="Márcia Britto — Terapeuta Multidimensional"
+          class="hero-photo"
+          onerror="this.style.minHeight='500px';this.style.background='linear-gradient(135deg,#081326,rgba(123,77,255,0.15))'"
+        />
+        <div class="hero-photo-label">
+          <div class="hero-photo-name">Márcia Britto</div>
+          <div class="hero-photo-role">Criadora do Método AXIS™</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-line"></div>
+
+<!-- ══════════ QUEM SOU ══════════ -->
+<section id="quem-sou">
+  <div class="section-inner">
+    <div class="quem-grid">
+      <div class="quem-img-wrap reveal">
+        <img
+          src="marcia-pendulo.png"
+          alt="Márcia Britto"
+          class="quem-img"
+          onerror="this.style.background='linear-gradient(135deg,#081326,rgba(123,77,255,0.2))'"
+        />
+        <div class="quem-badge-wrap">
+          <div class="quem-badge-num">15+</div>
+          <div class="quem-badge-label">Anos de Pesquisa</div>
+        </div>
+      </div>
+      <div class="quem-content reveal">
+        <div class="section-tag">Fundadora do Método AXIS™</div>
+        <h2 class="section-title">Márcia <span>Britto</span></h2>
+        <p style="font-size:11px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:20px;">Terapeuta Multidimensional · Pesquisadora Espiritual · Criadora do Método AXIS™</p>
+        <p class="quem-text">
+          Ao longo de mais de 15 anos dedicados à pesquisa e prática terapêutica multidimensional, desenvolvi um sistema único que integra <strong>geometria sagrada, radiônica, tecnologia arcturiana e o Sagrado Feminino</strong> — o Método AXIS™.
+        </p>
+        <p class="quem-text">
+          Minha jornada nasceu de uma busca profunda pelo entendimento das camadas invisíveis da existência. Aprendi que o campo energético é preciso, inteligente e responsivo — e que a cura acontece quando trabalhamos com ele de forma ética, consciente e multidimensional.
+        </p>
+        <blockquote class="quem-quote">
+          "O invisível não é irracional — é o substrato de toda realidade. Trabalhar com ele é trabalhar com a origem de tudo."
+        </blockquote>
+        <p class="quem-text">
+          Cada mesa criada carrega minha essência — minha dedicação à <em>precisão, ética e respeito profundo</em> pelo campo energético de cada ser.
+        </p>
+        <div class="quem-tags">
+          <span class="quem-tag">Apometria</span>
+          <span class="quem-tag">Radiônica</span>
+          <span class="quem-tag">Geometria Sagrada</span>
+          <span class="quem-tag">Tecnologia Arcturiana</span>
+          <span class="quem-tag">Sagrado Feminino</span>
+          <span class="quem-tag">40+ Mesas Originais</span>
+        </div>
+        <div class="quem-btns">
+          <a href="https://wa.me/5565993451066?text=Olá%20Márcia!%20Gostaria%20de%20agendar%20um%20atendimento." target="_blank" class="btn-primary">✦ Agendar Atendimento</a>
+          <a href="#mesas" class="btn-outline">◈ Ver as Mesas</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-line"></div>
+
+<!-- ══════════ MÉTODO ══════════ -->
+<section id="metodo">
+  <div class="section-inner">
+    <div style="text-align:center;" class="reveal">
+      <div class="section-tag" style="justify-content:center;">O Sistema</div>
+      <h2 class="section-title">Método <span>AXIS™</span></h2>
+      <p class="section-subtitle" style="margin:0 auto;">Um sistema terapêutico multidimensional inédito que integra quatro pilares fundamentais para a transformação vibracional.</p>
+    </div>
+    <div class="metodo-grid">
+      <div class="metodo-card reveal">
+        <div class="metodo-icon">⬡</div>
+        <div class="metodo-card-title">Geometria Sagrada</div>
+        <p class="metodo-card-text">Cada mesa integra padrões geométricos que acessam frequências específicas da realidade multidimensional, criando portais de transformação precisa e consciente.</p>
+      </div>
+      <div class="metodo-card reveal">
+        <div class="metodo-icon">◈</div>
+        <div class="metodo-card-title">Radiônica Quântica</div>
+        <p class="metodo-card-text">Tecnologia de transmissão energética que opera além das limitações do espaço-tempo convencional, permitindo atuação multidimensional em tempo real.</p>
+      </div>
+      <div class="metodo-card reveal">
+        <div class="metodo-icon">✦</div>
+        <div class="metodo-card-title">Tecnologia Arcturiana</div>
+        <p class="metodo-card-text">Protocolos canalizados de civilizações estelares avançadas para cura e ativação de alta frequência, integrando sabedoria cósmica à prática terapêutica.</p>
+      </div>
+      <div class="metodo-card reveal">
+        <div class="metodo-icon">♦</div>
+        <div class="metodo-card-title">Sagrado Feminino</div>
+        <p class="metodo-card-text">A inteligência receptiva e intuitiva que permite a escuta fina dos campos energéticos sutis, integrando a sabedoria ancestral feminina ao método.</p>
+      </div>
+    </div>
+    <div class="axis-meaning reveal">
+      <div class="axis-meaning-title">O que significa AXIS™</div>
+      <p style="font-size:12px;letter-spacing:1px;color:var(--white-dim);max-width:600px;margin:0 auto;line-height:1.8;">Os quatro pilares que sustentam cada mesa criada, cada protocolo aplicado, cada transformação alcançada.</p>
+      <div class="axis-meaning-letters">
+        <div class="axis-letter"><span class="axis-letter-char">A</span><div class="axis-letter-word">Ativação</div></div>
+        <div class="axis-letter"><span class="axis-letter-char">X</span><div class="axis-letter-word">Xistência</div></div>
+        <div class="axis-letter"><span class="axis-letter-char">I</span><div class="axis-letter-word">Integração</div></div>
+        <div class="axis-letter"><span class="axis-letter-char">S</span><div class="axis-letter-word">Síntese</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-line"></div>
+
+<!-- ══════════ MESAS ══════════ -->
+<section id="mesas">
+  <div class="section-inner">
+    <div style="text-align:center;" class="reveal">
+      <div class="section-tag" style="justify-content:center;">Portais Energéticos</div>
+      <h2 class="section-title">Galeria de <span>Mesas</span></h2>
+      <p class="section-subtitle" style="margin:0 auto;">Cada mesa é um portal energético único criado por Márcia Britto. Ferramentas vibracionais de precisão para transformação multidimensional.</p>
+    </div>
+    <div class="mesas-grid" id="mesas-grid"></div>
+    <div class="mesas-more reveal">
+      <a href="https://marciabrittoaxis7.netlify.app/mesas" target="_blank" class="btn-primary">✦ Ver Todas as Mesas</a>
+    </div>
+  </div>
+</section>
+
+<div class="divider-line"></div>
+
+<!-- ══════════ FORMAÇÕES ══════════ -->
+<section id="formacoes">
+  <div class="section-inner">
+    <div style="text-align:center;" class="reveal">
+      <div class="section-tag" style="justify-content:center;">Formações &amp; Cursos</div>
+      <h2 class="section-title">Área de <span>Formação</span></h2>
+      <p class="section-subtitle" style="margin:0 auto;">Torne-se um praticante certificado do Método AXIS™ e aprenda a trabalhar com as mesas terapêuticas multidimensionais.</p>
+    </div>
+    <div class="formacoes-grid">
+      <div class="formacao-card reveal">
+        <div class="formacao-status status-disponivel">● Disponível</div>
+        <div class="formacao-icon">◈</div>
+        <div class="formacao-title">Formação AXIS™ Nível 1</div>
+        <p class="formacao-desc">Fundamentos da Terapia Multidimensional, introdução às mesas energéticas e princípios do Método AXIS™.</p>
+        <a href="https://wa.me/5565993451066?text=Olá%20Márcia!%20Tenho%20interesse%20na%20Formação%20AXIS™%20Nível%201" target="_blank" class="formacao-link">Saber Mais →</a>
+      </div>
+      <div class="formacao-card reveal">
+        <div class="formacao-status status-breve">Em breve</div>
+        <div class="formacao-icon">✦</div>
+        <div class="formacao-title">Formação AXIS™ Nível 2</div>
+        <p class="formacao-desc">Aprofundamento em radiônica quântica, tecnologia arcturiana e criação de protocolos personalizados.</p>
+        <a href="https://wa.me/5565993451066?text=Olá%20Márcia!%20Tenho%20interesse%20na%20Formação%20AXIS™%20Nível%202" target="_blank" class="formacao-link">Saber Mais →</a>
+      </div>
+      <div class="formacao-card reveal">
+        <div class="formacao-status status-consulta">Sob consulta</div>
+        <div class="formacao-icon">⬡</div>
+        <div class="formacao-title">Mentoria Individual</div>
+        <p class="formacao-desc">Acompanhamento personalizado direto com Márcia Britto para aperfeiçoamento e certificação avançada.</p>
+        <a href="https://wa.me/5565993451066?text=Olá%20Márcia!%20Tenho%20interesse%20na%20Mentoria%20Individual" target="_blank" class="formacao-link">Saber Mais →</a>
+      </div>
+      <div class="formacao-card reveal">
+        <div class="formacao-status status-breve">Em breve</div>
+        <div class="formacao-icon">♦</div>
+        <div class="formacao-title">Biblioteca AXIS™</div>
+        <p class="formacao-desc">Acesso a apostilas, PDFs das mesas, guias de uso, meditações e materiais exclusivos do Método AXIS™.</p>
+        <a href="https://wa.me/5565993451066?text=Olá%20Márcia!%20Tenho%20interesse%20na%20Biblioteca%20AXIS™" target="_blank" class="formacao-link">Saber Mais →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-line"></div>
+
+<!-- ══════════ DEPOIMENTOS ══════════ -->
+<section id="depoimentos">
+  <div class="section-inner">
+    <div style="text-align:center;" class="reveal">
+      <div class="section-tag" style="justify-content:center;">Experiências Reais</div>
+      <h2 class="section-title">Transformações <span>Reais</span></h2>
+    </div>
+    <div class="depo-grid">
+      <div class="depo-card reveal">
+        <div class="depo-stars">✦ ✦ ✦ ✦ ✦</div>
+        <p class="depo-text">"A Mesa de Ancestralidade transformou minha relação com minha família de uma forma que nunca imaginei possível. Sinto como se gerações de dor finalmente tivessem sido liberadas."</p>
+        <div class="depo-author"><div class="depo-avatar">AS</div><div><div class="depo-name">Ana S.</div><div class="depo-role">Terapeuta, São Paulo</div></div></div>
+      </div>
+      <div class="depo-card reveal">
+        <div class="depo-stars">✦ ✦ ✦ ✦ ✦</div>
+        <p class="depo-text">"O trabalho com a Mesa de Prosperidade desbloqueou algo que eu carregava há anos. Em três meses, minha vida financeira mudou de forma incompreensível para qualquer lógica."</p>
+        <div class="depo-author"><div class="depo-avatar">RM</div><div><div class="depo-name">Renata M.</div><div class="depo-role">Empresária, Rio de Janeiro</div></div></div>
+      </div>
+      <div class="depo-card reveal">
+        <div class="depo-stars">✦ ✦ ✦ ✦ ✦</div>
+        <p class="depo-text">"A Mesa Arcturiana de Ativação foi uma experiência fora deste plano. Senti a mudança nos primeiros dias. Márcia tem um dom e um compromisso com o trabalho que poucos têm."</p>
+        <div class="depo-author"><div class="depo-avatar">LF</div><div><div class="depo-name">Lucia F.</div><div class="depo-role">Terapeuta Holística, BH</div></div></div>
+      </div>
+      <div class="depo-card reveal">
+        <div class="depo-stars">✦ ✦ ✦ ✦ ✦</div>
+        <p class="depo-text">"Depois da Mesa de Apometria Arcturiana, minha vida tomou um rumo completamente diferente. A clareza mental, o equilíbrio emocional e a sensação de leveza são indescritíveis."</p>
+        <div class="depo-author"><div class="depo-avatar">CP</div><div><div class="depo-name">Carlos P.</div><div class="depo-role">Empresário, Cuiabá</div></div></div>
+      </div>
+      <div class="depo-card reveal">
+        <div class="depo-stars">✦ ✦ ✦ ✦ ✦</div>
+        <p class="depo-text">"Trabalhar com as mesas do Método AXIS™ foi um divisor de águas na minha jornada espiritual. Márcia é uma mestra genuína, com um coração imenso e um método preciso."</p>
+        <div class="depo-author"><div class="depo-avatar">FL</div><div><div class="depo-name">Fernanda L.</div><div class="depo-role">Coach Espiritual, SP</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-line"></div>
+
+<!-- ══════════ CONTATO ══════════ -->
+<section id="contato">
+  <div class="section-inner">
+    <div style="text-align:center;" class="reveal">
+      <div class="section-tag" style="justify-content:center;">Fale Conosco</div>
+      <h2 class="section-title">Entre em <span>Contato</span></h2>
+      <p class="section-subtitle" style="margin:0 auto;">Pronta para iniciar sua jornada de transformação multidimensional</p>
+    </div>
+    <div class="contato-grid">
+      <div class="contato-info reveal">
+        <a href="https://wa.me/5565993451066" target="_blank" class="contato-item">
+          <div class="contato-icon">📱</div>
+          <div><div class="contato-text-label">WhatsApp</div><div class="contato-text-val">(65) 99345-1066</div></div>
+        </a>
+        <a href="https://instagram.com" target="_blank" class="contato-item">
+          <div class="contato-icon">📷</div>
+          <div><div class="contato-text-label">Instagram</div><div class="contato-text-val">@axismb</div></div>
+        </a>
+        <a href="mailto:axissistemmetodomb@gmail.com" class="contato-item">
+          <div class="contato-icon">✉</div>
+          <div><div class="contato-text-label">E-mail</div><div class="contato-text-val">axissistemmetodomb@gmail.com</div></div>
+        </a>
+      </div>
+      <div class="contato-cta reveal">
+        <div class="contato-cta-title">✦ Agendar Atendimento</div>
+        <p class="contato-cta-text">Entre em contato pelo WhatsApp para agendar seu atendimento ou tirar dúvidas sobre as mesas terapêuticas, formações e o Método AXIS™.</p>
+        <a href="https://wa.me/5565993451066?text=Olá%20Márcia!%20Gostaria%20de%20agendar%20um%20atendimento%20AXIS™." target="_blank" class="btn-primary">📱 Falar no WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">AXIS™</div>
+        <div class="footer-brand-sub">Plataforma Terapêutica Multidimensional</div>
+        <p class="footer-desc">Sistema terapêutico multidimensional criado por Márcia Britto. Integrando geometria sagrada, radiônica e tecnologia arcturiana para transformação profunda.</p>
+        <div class="footer-social">
+          <a href="https://wa.me/5565993451066" target="_blank" class="footer-social-link">📱</a>
+          <a href="https://instagram.com" target="_blank" class="footer-social-link">📷</a>
+          <a href="mailto:axissistemmetodomb@gmail.com" class="footer-social-link">✉</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Método AXIS™</div>
+        <a href="#quem-sou" class="footer-link">Márcia Britto</a>
+        <a href="#metodo" class="footer-link">Sobre o Método</a>
+        <a href="#mesas" class="footer-link">Galeria de Mesas</a>
+        <a href="#formacoes" class="footer-link">Formações</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Categorias</div>
+        <a href="#mesas" class="footer-link">Apometria</a>
+        <a href="#mesas" class="footer-link">Arcturiana</a>
+        <a href="#mesas" class="footer-link">Prosperidade</a>
+        <a href="#mesas" class="footer-link">Ancestralidade</a>
+        <a href="#mesas" class="footer-link">Reprogramação</a>
+        <a href="#mesas" class="footer-link">Proteção</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Contato</div>
+        <a href="https://wa.me/5565993451066" target="_blank" class="footer-link">📱 (65) 99345-1066</a>
+        <a href="mailto:axissistemmetodomb@gmail.com" class="footer-link">✉ axissistemmetodomb@gmail.com</a>
+        <a href="https://marciabrittoaxis7.netlify.app/admin/login" target="_blank" class="footer-link">◈ Área Admin</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 <strong style="color:var(--gold);">AXIS™</strong> — Todos os direitos reservados · Márcia Britto</div>
+      <div class="footer-phrase">Criado com ✦ por Márcia Britto</div>
+    </div>
+  </div>
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/5565993451066?text=Olá%20Márcia,%20gostaria%20de%20saber%20mais%20sobre%20o%20AXIS™." target="_blank" class="wa-float" title="Falar no WhatsApp">💬</a>
+
+<script>
+// ── STARS ──
+const starsEl=document.getElementById('stars');
+for(let i=0;i<100;i++){
+  const s=document.createElement('div');s.className='star';
+  const sz=Math.random()*2+0.4;
+  s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${3+Math.random()*6}s;--delay:${Math.random()*8}s;--op:${0.1+Math.random()*0.5};`;
+  starsEl.appendChild(s);
+}
+
+// ── NAV SCROLL ──
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>60);
+});
+
+// ── MOBILE MENU ──
+function toggleMenu(){
+  document.getElementById('mobile-menu').classList.toggle('open');
+}
+
+// ── MESAS DATA ──
+const mesas=[
+  {cat:'Apometria · Destaque',nome:'Mesa de Apometria Arcturiana AXIS™',desc:'Sistema multidimensional de limpeza, resgate e reintegração espiritual. Atua em 4 anéis: rastreamento, desacoplamento, encaminhamento espiritual e reintegração da soberania.',tags:['Limpeza profunda','Resgate espiritual','Reintegração'],link:'https://marciabrittoaxis7.netlify.app/mesas/1',emoji:'✦'},
+  {cat:'Ancestralidade · Destaque',nome:'Mesa Harmonia do Espírito Familiar™',desc:'Atua na frequência de amor incondicional para harmonizar vínculos, pacificar memórias, integrar perdas e restaurar a paz do espírito familiar.',tags:['Harmonia familiar','Equilíbrio ancestral','Liberação emocional'],link:'https://marciabrittoaxis7.netlify.app/mesas/2',emoji:'◉'},
+  {cat:'Apometria · Destaque',nome:'Mesa Estelar Soberana',desc:'Apometria multidimensional estelar com ativação da Merkaba, corte de vínculos negativos, transmutação em chama violeta e reprogramação de padrões limitantes.',tags:['Merkaba','Corte de vínculos','Chama violeta'],link:'https://marciabrittoaxis7.netlify.app/mesas/4',emoji:'⬡'},
+  {cat:'Reprogramação · Destaque',nome:'Mesa Radiônica Quântica Pleiadiana',desc:'Conexão estelar pleiadiana com ativação DNA, limpeza emocional, geometria sagrada, cura holística e transmutação quântica pelo Método MB.',tags:['DNA','Plêiades','Transmutação quântica'],link:'https://marciabrittoaxis7.netlify.app/mesas/7',emoji:'◈'},
+  {cat:'Prosperidade · Destaque',nome:'Mesa Radiônica Egípcia',desc:'Quatro forças solares: Rá, Ísis, Thoth e Anúbis. Cura, clareza, proteção e prosperidade. Uma ferramenta sagrada de transformação completa.',tags:['Rá','Ísis','Thoth'],link:'https://marciabrittoaxis7.netlify.app/mesas/8',emoji:'♦'},
+  {cat:'Prosperidade · Destaque',nome:'Mesa Multidimensional de Mandalas para Abundância',desc:'Portal vivo de abundância com 5 mandalas: Abundância, Prosperidade, Fluxo Financeiro, Shri Yantra e Proteção. Combo Frequência da Riqueza.',tags:['Abundância','Shri Yantra','Fluxo financeiro'],link:'https://marciabrittoaxis7.netlify.app/mesas/13',emoji:'✦'},
+];
+
+function renderMesas(){
+  const grid=document.getElementById('mesas-grid');
+  grid.innerHTML=mesas.map(m=>`
+    <div class="mesa-card reveal">
+      <div class="mesa-img">
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:80px;opacity:0.15;z-index:0;">${m.emoji}</div>
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(8,19,38,0.8),rgba(123,77,255,0.15));z-index:1;"></div>
+        <div style="position:relative;z-index:2;text-align:center;">
+          <div style="font-size:48px;margin-bottom:8px;">${m.emoji}</div>
+          <div style="font-size:8px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;">${m.cat.split('·')[0].trim()}</div>
+        </div>
+      </div>
+      <div class="mesa-body">
+        <div class="mesa-cat">${m.cat}</div>
+        <div class="mesa-name">${m.nome}</div>
+        <p class="mesa-desc">${m.desc}</p>
+        <div class="mesa-tags">${m.tags.map(t=>`<span class="mesa-tag">${t}</span>`).join('')}</div>
+        <a href="${m.link}" target="_blank" class="mesa-link">Explorar Frequência →</a>
+      </div>
+    </div>
+  `).join('');
+  observeReveal();
+}
+renderMesas();
+
+// ── SCROLL REVEAL ──
+function observeReveal(){
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
+  },{threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+}
+observeReveal();
+</script>
+</body>
+</html>
