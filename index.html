@@ -1,252 +1,404 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AXIS™ — Sistema Multidimensional | Márcia Britto</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Josefin+Sans:wght@100;200;300;400;600;700&display=swap" rel="stylesheet">
-<style>
-/* ============================================
-   AXIS™ PLATFORM — VARIÁVEIS E RESET
-   ============================================ */
-:root {
-  --preto: #04030a;
-  --azul-cosmos: #060d1f;
-  --azul-medio: #0a1628;
-  --azul-claro: #0d1f3c;
-  --dourado: #c9a84c;
-  --dourado-glow: #e8c96d;
-  --dourado-escuro: #8a6820;
-  --roxo: #2a1a4a;
-  --roxo-neon: #3d1f6e;
-  --roxo-vivo: #6b21a8;
-  --branco: #f0ede8;
-  --branco-suave: #d4cfc8;
-  --azul-estelar: #1a3a6e;
-  --ciano: #00d4ff;
-  --verde-esmeralda: #00c896;
-}
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body {
-  font-family: 'Josefin Sans', sans-serif;
-  background: var(--azul-cosmos);
-  color: var(--branco);
-  overflow-x: hidden;
-  min-height: 100vh;
-}
-/* ============================================
-   FUNDO CÓSMICO ANIMADO
-   ============================================ */
-.cosmos-bg {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  background:
-    radial-gradient(ellipse at 20% 20%, rgba(42,26,74,0.6) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 80%, rgba(61,31,110,0.4) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 0%, rgba(10,22,40,0.😎 0%, transparent 60%),
-    linear-gradient(180deg, #04050f 0%, #060d1f 40%, #0a1228 100%);
-  pointer-events: none;
-}
-/* ============================================
-   SIDEBAR — MENU LATERAL
-   ============================================ */
-.sidebar {
-  position: fixed;
-  left: 0; top: 0; bottom: 0;
-  width: 240px;
-  background: rgba(4, 5, 15, 0.85);
-  backdrop-filter: blur(20px);
-  border-right: 1px solid rgba(201,168,76,0.15);
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.3s ease;
-  box-shadow: 4px 0 30px rgba(0,0,0,0.5);
-}
-.sidebar-logo {
-  padding: 24px 20px;
-  border-bottom: 1px solid rgba(201,168,76,0.1);
-  text-align: center;
-}
-.sidebar-logo .logo-text {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 28px;
-  font-weight: 700;
-  background: linear-gradient(135deg, var(--dourado-glow), var(--dourado), var(--dourado-escuro));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  letter-spacing: 4px;
-  display: block;
-}
-.sidebar-logo .logo-sub {
-  font-size: 9px;
-  letter-spacing: 3px;
-  color: rgba(201,168,76,0.6);
-  text-transform: uppercase;
-  margin-top: 2px;
-}
-.sidebar-user {
-  padding: 16px 20px;
-  border-bottom: 1px solid rgba(201,168,76,0.08);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.user-avatar {
-  width: 38px; height: 38px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--dourado), var(--roxo-neon));
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 16px; font-weight: 700;
-  color: var(--preto);
-  border: 1px solid rgba(201,168,76,0.4);
-  flex-shrink: 0;
-}
-.user-info .user-name {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--dourado-glow);
-  letter-spacing: 0.5px;
-}
-.user-info .user-role {
-  font-size: 9px;
-  color: rgba(201,168,76,0.5);
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-.nav-section {
-  flex: 1;
-  overflow-y: auto;
-  padding: 12px 0;
-}
-.nav-label {
-  font-size: 8px;
-  letter-spacing: 2.5px;
-  text-transform: uppercase;
-  color: rgba(201,168,76,0.3);
-  padding: 12px 20px 4px;
-}
-.nav-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 20px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border-left: 2px solid transparent;
-}
-.nav-item:hover, .nav-item.active {
-  background: rgba(201,168,76,0.1);
-  border-left-color: var(--dourado);
-}
-.nav-text {
-  font-size: 11px;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-  color: rgba(240,237,232,0.8);
-}
-/* ============================================
-   CONTEÚDO PRINCIPAL E CARDS
-   ============================================ */
-.main-content {
-  margin-left: 240px;
-  min-height: 100vh;
-  position: relative;
-  z-index: 1;
-  padding: 40px;
-}
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 24px;
-  margin-top: 20px;
-}
-.feature-card {
-  background: rgba(10,22,40,0.6);
-  border: 1px solid rgba(201,168,76,0.12);
-  border-radius: 4px;
-  padding: 32px;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-}
-.feature-card:hover {
-  border-color: rgba(201,168,76,0.4);
-  transform: translateY(-4px);
-}
-.feature-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 22px;
-  font-weight: 600;
-  color: var(--dourado-glow);
-  margin-bottom: 12px;
-}
-.feature-desc {
-  font-size: 13px;
-  color: rgba(240,237,232,0.7);
-  line-height: 1.8;
-}
-.sidebar-footer {
-  padding: 16px 20px;
-  border-top: 1px solid rgba(201,168,76,0.08);
-  font-size: 9px;
-  color: rgba(201,168,76,0.3);
-  text-align: center;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AXIS™ — Sistema Multidimensional | Márcia Britto</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Josefin+Sans:wght@100;200;300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================
+           DESIGN SYSTEM PREMIUM & VARIÁVEIS (MÉTODO MB)
+           ============================================ */
+        :root {
+            --preto: #04030a;
+            --cosmos: #050d1e;
+            --cosmos-mid: #080f20;
+            --cosmos-light: #0b1530;
+            --dourado: #c9a84c;
+            --dourado-glow: #e8c96d;
+            --dourado-border: rgba(201, 168, 76, 0.22);
+            --dourado-glass: rgba(201, 168, 76, 0.11);
+            --roxo: #2a1a4a;
+            --roxo-neon: #3d1f6e;
+            --branco: #f0ede8;
+            --branco-dim: rgba(240, 237, 232, 0.6);
+            --glass: rgba(5, 13, 30, 0.45);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Josefin Sans', sans-serif;
+            background-color: var(--preto);
+            color: var(--branco);
+            min-height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+        /* FUNDO CÓSMICO DINÂMICO */
+        .universe-bg {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at 50% 50%, #0a142c 0%, #04030a 100%);
+            z-index: -2;
+        }
+        .stars {
+            position: fixed;
+            inset: 0;
+            background-image: radial-gradient(white 1px, transparent 0);
+            background-size: 40px 40px;
+            opacity: 0.15;
+            z-index: -1;
+        }
+        /* SIDEBAR FIXA PREMIUM */
+        .sidebar {
+            width: 280px;
+            background: rgba(4, 3, 10, 0.85);
+            border-right: 1px solid var(--dourado-border);
+            display: flex;
+            flex-direction: column;
+            padding: 2rem 1.5rem;
+            z-index: 10;
+            backdrop-filter: blur(20px);
+        }
+        .brand {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        .brand h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 32px;
+            color: var(--dourado-glow);
+            letter-spacing: 4px;
+        }
+        .brand p {
+            font-size: 10px;
+            color: var(--dourado);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+        .profile-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 1rem;
+            background: var(--dourado-glass);
+            border: 1px solid rgba(201, 168, 76, 0.15);
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        .avatar {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--roxo-neon), var(--dourado));
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold; color: var(--branco);
+            border: 1px solid var(--dourado-glow);
+        }
+        .profile-info h3 { font-size: 13px; color: var(--branco); }
+        .profile-info p { font-size: 11px; color: var(--dourado-glow); }
+        .nav-menu { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+        .nav-item {
+            padding: 12px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 13px;
+            letter-spacing: 1px;
+            color: var(--branco-dim);
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+        .nav-item:hover, .nav-item.active {
+            color: var(--branco);
+            background: var(--dourado-glass);
+            border-color: rgba(201, 168, 76, 0.3);
+            box-shadow: 0 0 15px rgba(201, 168, 76, 0.05);
+        }
+        /* ÁREA DE CONTEÚDO PRINCIPAL (SPA) */
+        .main-content {
+            flex: 1;
+            padding: 2.5rem;
+            overflow-y: auto;
+            position: relative;
+        }
+        .view-section {
+            display: none;
+            animation: fadeIn 0.6s ease forwards;
+        }
+        .view-section.active { display: block; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* CARDS E GRIDS */
+        .glass-card {
+            background: var(--glass);
+            border: 1px solid var(--dourado-border);
+            border-radius: 8px;
+            padding: 2rem;
+            backdrop-filter: blur(15px);
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        @media (max-width: 992px) {
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+        }
+        h2.section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 28px;
+            color: var(--dourado-glow);
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+        }
+        /* COMPONENTE: DOIS SÍMBOLOS NO TOPO */
+        .symbols-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+        .sym-box {
+            background: rgba(6, 13, 31, 0.6);
+            border: 1px solid rgba(201, 168, 76, 0.2);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .sym-circle {
+            width: 70px; height: 70px; margin: 0 auto 1rem;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 24px;
+        }
+        .sym-1 { border: 2px solid #00d4ff; box-shadow: 0 0 15px rgba(0,212,255,0.3); color: #00d4ff; }
+        .sym-2 { border: 2px solid var(--dourado); box-shadow: 0 0 15px rgba(201,168,76,0.3); color: var(--dourado); }
+        /* BIÔMETRO VIRTUAL ANIMAÇÃO */
+        .biometro-bar-container {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px; height: 12px; overflow: hidden; margin: 8px 0 16px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .biometro-bar-fill {
+            height: 100%; width: 0%; transition: width 1.5s cubic-bezier(0.1, 1, 0.1, 1);
+        }
+        /* AXIS INTELLIGENCE SCANNER */
+        .scan-window {
+            background: #020205; border: 1px solid #3d1f6e; border-radius: 6px;
+            padding: 1.5rem; font-family: monospace; color: #00ffcc;
+            position: relative; overflow: hidden; min-height: 150px;
+        }
+        .scan-line {
+            position: absolute; inset: 0; height: 2px;
+            background: linear-gradient(90deg, transparent, #00ffcc, transparent);
+            animation: scanAnimation 2.5s linear infinite;
+            display: none;
+        }
+        @keyframes scanAnimation {
+            0% { top: 0%; } 50% { top: 100%; } 100% { top: 0%; }
+        }
+        /* TABELAS E BOTÕES ELEGANTES */
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th { font-family: 'Cormorant Garamond', serif; font-size: 16px; color: var(--dourado-glow); text-align: left; padding: 12px; border-bottom: 1px solid var(--dourado-border); }
+        td { padding: 12px; font-size: 13px; border-bottom: 1px solid rgba(201,168,76,0.05); color: var(--branco-dim); }
+        .btn-gold {
+            background: var(--dourado-glass); border: 1px solid var(--dourado);
+            color: var(--dourado-glow); padding: 10px 20px; font-family: 'Josefin Sans', sans-serif;
+            text-transform: uppercase; font-size: 11px; letter-spacing: 2px; cursor: pointer;
+            transition: all 0.3s ease; border-radius: 4px;
+        }
+        .btn-gold:hover { background: var(--dourado); color: var(--preto); box-shadow: 0 0 15px var(--dourado-glow); }
+        .status-badge { padding: 4px 8px; border-radius: 4px; font-size: 10px; text-transform: uppercase; font-weight: bold; }
+        .status-active { background: rgba(0, 255, 204, 0.15); color: #00ffcc; border: 1px solid #00ffcc; }
+    </style>
 </head>
 <body>
-<div class="cosmos-bg"></div>
-<div class="sidebar">
-  <div class="sidebar-logo">
-    <span class="logo-text">AXIS</span>
-    <div class="logo-sub">Sistema Multidimensional</div>
-  </div>
-  <div class="sidebar-user">
-    <div class="user-avatar">MB</div>
-    <div class="user-info">
-      <div class="user-name">Márcia Britto</div>
-      <div class="user-role">Terapeuta Administradora</div>
-    </div>
-  </div>
-  <div class="nav-section">
-    <div class="nav-label">Sistema</div>
-    <div class="nav-item active"><div class="nav-text">Início</div></div>
-    <div class="nav-item"><div class="nav-text">Dashboard</div></div>
-    <div class="nav-item"><div class="nav-text">AXIS Intelligence™</div></div>
-    <div class="nav-item"><div class="nav-text">Biômetro Virtual</div></div>
-    <div class="nav-item"><div class="nav-text">Sessões</div></div>
-    <div class="nav-item"><div class="nav-text">Mesas AXIS™</div></div>
-    <div class="nav-item"><div class="nav-text">Relatórios</div></div>
-    <div class="nav-label">Gestão</div>
-    <div class="nav-item"><div class="nav-text">Clientes</div></div>
-  </div>
-  <div class="sidebar-footer">
-    AXIS® Método MB v1.0
-  </div>
-</div>
-<div class="main-content">
-  <div class="features-grid">
-    <div class="feature-card">
-      <div class="feature-name">AXIS Intelligence™</div>
-      <div class="feature-desc">Inteligência artificial exclusiva que analisa campos energéticos, identifica bloqueios e recomenda automaticamente a mesa ideal para cada processo de cura.</div>
-    </div>
-    <div class="feature-card">
-      <div class="feature-name">Biômetro Radiônico</div>
-      <div class="feature-desc">Diagnóstico multidimensional completo dos 7 chakras com leitura de frequência emocional, campo áurico, assinatura radiônica e interferências energéticas.</div>
-    </div>
-    <div class="feature-card">
-      <div class="feature-name">Relatórios Premium</div>
-      <div class="feature-desc">Geração automática de relatórios terapêuticos elegantes com diagnóstico completo, gráficos de chakras, frequências e assinatura digital AXIS™.</div>
-    </div>
-    <div class="feature-card">
-      <div class="feature-name">Proteção Arcangelical</div>
-      <div class="feature-desc">Conexão permanente com Arcanjo Miguel, Rafael e Metatron – guardiões ativos de toda sessão e proteção do campo terapêutico multidimensional.</div>
-    </div>
-  </div>
-</div>
+    <div class="universe-bg"></div>
+    <div class="stars"></div>
+    <nav class="sidebar">
+        <div class="brand">
+            <h1>AXIS™</h1>
+            <p>Sistema Multidimensional</p>
+        </div>
+        <div class="profile-area">
+            <div class="avatar">MB</div>
+            <div class="profile-info">
+                <h3>Márcia Britto</h3>
+                <p>Terapeuta Criadora</p>
+            </div>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item active" onclick="switchView('dashboard')">🌌 Dashboard Principal</li>
+            <li class="nav-item" onclick="switchView('clientes')">👥 Interagentes / Clientes</li>
+            <li class="nav-item" onclick="switchView('mesas')">♦ Catálogo de Mesas AXIS</li>
+            <li class="nav-item" onclick="switchView('biometro')">📊 Biômetro Virtual</li>
+            <li class="nav-item" onclick="switchView('intelligence')">⚡ AXIS Intelligence™</li>
+            <li class="nav-item" onclick="switchView('jornada')">⌘ Área do Cliente</li>
+        </ul>
+    </nav>
+    <main class="main-content">
+        <section id="dashboard" class="view-section active">
+            <div class="symbols-header">
+                <div class="sym-box">
+                    <div class="sym-circle sym-1">☉</div>
+                    <h4 style="color:var(--dourado-glow)">Símbolo 1: Portal de Conexão</h4>
+                    <p style="font-size:11px; color:var(--branco-dim); margin-top:5px">Núcleo tecnológico-espiritual. Eixo vivo de conexão frequencial interdimensional.</p>
+                </div>
+                <div class="sym-box">
+                    <div class="sym-circle sym-2">⎔</div>
+                    <h4 style="color:var(--dourado-glow)">Símbolo 2: Selo da Estrutura</h4>
+                    <p style="font-size:11px; color:var(--branco-dim); margin-top:5px">Selo sagrado de proteção geométrica e sustentação do Método MB.</p>
+                </div>
+            </div>
+            <h2 class="section-title">Painel de Controle Frequencial</h2>
+            <div class="grid-3">
+                <div class="glass-card">
+                    <h3>Egrégora Ativa</h3>
+                    <p style="font-size:24px; color:var(--dourado-glow); margin: 10px 0;">Arcanjo Miguel</p>
+                    <span class="status-badge status-active">Proteção Ativa</span>
+                </div>
+                <div class="glass-card">
+                    <h3>Frequência do Campo</h3>
+                    <p style="font-size:24px; color:#00ffcc; margin: 10px 0;">432 Hz</p>
+                    <p style="font-size:12px; color:var(--branco-dim)">Harmonização Vibracional</p>
+                </div>
+                <div class="glass-card">
+                    <h3>Sessões Realizadas</h3>
+                    <p style="font-size:24px; color:var(--dourado-glow); margin: 10px 0;">142</p>
+                    <p style="font-size:12px; color:var(--branco-dim)">Este mês</p>
+                </div>
+            </div>
+        </section>
+        <section id="clientes" class="view-section">
+            <h2 class="section-title">Gerenciamento de Interagentes</h2>
+            <div class="glass-card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome do Interagente</th>
+                            <th>Última Análise</th>
+                            <th>Chakra Alvo</th>
+                            <th>Status Energético</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="color:var(--branco)">Walner Tadeu Carvalho Oliveira</td>
+                            <td>18/05/2026</td>
+                            <td>Plexo Solar</td>
+                            <td><span class="status-badge status-active">Em Harmonização</span></td>
+                            <td><button class="btn-gold" onclick="switchView('biometro')">Medir</button></td>
+                        </tr>
+                        <tr>
+                            <td style="color:var(--branco)">Miguel Alonso Brito</td>
+                            <td>15/05/2026</td>
+                            <td>Cardíaco</td>
+                            <td><span class="status-badge status-active">Alinhado</span></td>
+                            <td><button class="btn-gold" onclick="switchView('biometro')">Medir</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <section id="mesas" class="view-section">
+            <h2 class="section-title">Mesas Radiónicas Digitais Autorais</h2>
+            <div class="grid-3">
+                <div class="glass-card">
+                    <h3 style="color:var(--dourado-glow)">Mesa Arcturiana AXIS™</h3>
+                    <p style="font-size:12px; color:var(--branco-dim); margin: 10px 0; line-height:1.5">Alinhamento e limpeza profunda com códigos de luz estelares e frequências geométricas puras.</p>
+                    <button class="btn-gold">Ativar Campo</button>
+                </div>
+                <div class="glass-card">
+                    <h3 style="color:var(--dourado-glow)">Mandala da Alma™</h3>
+                    <p style="font-size:12px; color:var(--branco-dim); margin: 10px 0; line-height:1.5">Mapeamento estrutural do propósito de vida e emaranhados kármicos multidimensionais.</p>
+                    <button class="btn-gold">Ativar Campo</button>
+                </div>
+                <div class="glass-card">
+                    <h3 style="color:var(--dourado-glow)">Mesa Pleiadiana</h3>
+                    <p style="font-size:12px; color:var(--branco-dim); margin: 10px 0; line-height:1.5">Foco em regeneração celular, equilíbrio do corpo emocional e reconexão interna espiritual.</p>
+                    <button class="btn-gold">Ativar Campo</button>
+                </div>
+            </div>
+        </section>
+        <section id="biometro" class="view-section">
+            <h2 class="section-title">Biômetro Radiônico Digital</h2>
+            <div class="glass-card">
+                <p style="margin-bottom:1.5rem; color:var(--branco-dim)">Selecione o escaneamento dos centros vitais para diagnóstico em tempo real.</p>
+                <button class="btn-gold" onclick="iniciarBiometro()">Iniciar Medição Geral</button>
+                <div style="margin-top:2rem;">
+                    <h4>Chakra Coronário</h4>
+                    <div class="biometro-bar-container"><div id="bar-coronario" class="biometro-bar-fill" style="background:linear-gradient(90deg, #7c3aed, #a78bfa)"></div></div>
+                    <h4>Chakra Cardíaco</h4>
+                    <div class="biometro-bar-container"><div id="bar-cardiaco" class="biometro-bar-fill" style="background:linear-gradient(90deg, #059669, #34d399)"></div></div>
+                    <h4>Chakra Plexo Solar</h4>
+                    <div class="biometro-bar-container"><div id="bar-plexo" class="biometro-bar-fill" style="background:linear-gradient(90deg, #ca8a04, #fde047)"></div></div>
+                </div>
+            </div>
+        </section>
+        <section id="intelligence" class="view-section">
+            <h2 class="section-title">AXIS Intelligence™ — IA Exclusiva</h2>
+            <div class="glass-card">
+                <div class="scan-window">
+                    <div id="scan-line" class="scan-line"></div>
+                    <div id="terminal-text">> Sistema AXIS Intelligence™ pronto para varredura de campo...</div>
+                </div>
+                <br>
+                <button class="btn-gold" onclick="executarScanIA()">Escanear Campo Áurico</button>
+            </div>
+        </section>
+        <section id="jornada" class="view-section">
+            <h2 class="section-title">Minha Jornada Multidimensional</h2>
+            <div class="glass-card">
+                <h3>Último Relatório Emitido</h3>
+                <p style="font-size:12px; color:var(--branco-dim); margin-top:5px">Interagente ativo: Walner Tadeu | Terapeuta: Márcia Britto</p>
+                <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(201,168,76,0.1); padding:1rem; border-radius:6px; margin-top:1rem; line-height:1.6; font-size:13px">
+                    "Campo energético com abertura expressiva nos chakras superiores. Detetou-se uma resistência residual no plexo solar associada a padrões antigos de escassez. Ativada a egrégora de Arcanjo Miguel para blindagem do campo."
+                </div>
+            </div>
+        </section>
+    </main>
+    <script>
+        // Função Mestre de Alternância SPA
+        function switchView(viewId) {
+            document.querySelectorAll('.view-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.getElementById(viewId).classList.add('active');
+            // Ativa o item correto na sidebar
+            const items = document.querySelectorAll('.nav-item');
+            items.forEach(item => {
+                if(item.setAttribute('onclick', `switchView('${viewId}')`)) {
+                    item.classList.add('active');
+                }
+            });
+        }
+        // Animação do Biômetro
+        function iniciarBiometro() {
+            document.getElementById('bar-coronario').style.width = '88%';
+            document.getElementById('bar-cardiaco').style.width = '74%';
+            document.getElementById('bar-plexo').style.width = '42%';
+        }
+        // Animação da IA
+        function executarScanIA() {
+            const line = document.getElementById('scan-line');
+            const terminal = document.getElementById('terminal-text');
+            line.style.display = 'block';
+            terminal.innerHTML = "> Conectando aos eixos quânticos AXIS...<br>> Escaneando assinaturas energéticas e frequências emocionais...";
+            setTimeout(() => {
+                line.style.display = 'none';
+                terminal.innerHTML += "<br><br>✦ [DIAGNÓSTICO] Campo estabilizado em 432Hz. Recomendação ativa: Mesa Arcturiana AXIS™ para fixação de egrégora.";
+            }, 5000);
+        }
+    </script>
 </body>
-</html> 
+</html>
+
+
+Facebook
+Facebook
