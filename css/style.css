@@ -1,1 +1,164 @@
 
+/* Estilos Globais e Variáveis */
+:root {
+    --gold-primary: #d4af37;
+    --gold-light: #f3e5ab;
+    --space-black: #0a0a12;
+    --cosmic-purple: #120e2e;
+    --text-light: #f5f5f7;
+    --sidebar-width: 260px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Josefin Sans', sans-serif;
+    background-color: var(--space-black);
+    color: var(--text-light);
+    display: flex;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Fundo Cósmico Gradiente */
+.cosmic-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(circle at 50% 50%, var(--cosmic-purple) 0%, var(--space-black) 100%);
+    z-index: -2;
+}
+
+/* Menu Lateral (Sidebar) */
+.sidebar {
+    width: var(--sidebar-width);
+    background: rgba(10, 10, 18, 0.85);
+    backdrop-filter: blur(10px);
+    border-right: 1px solid rgba(212, 175, 55, 0.2);
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 1rem;
+    position: fixed;
+    height: 100vh;
+    z-index: 10;
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.logo h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    color: var(--gold-primary);
+    letter-spacing: 2px;
+    font-weight: 700;
+}
+
+.logo p {
+    font-size: 0.85rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: rgba(245, 245, 247, 0.6);
+    margin-top: 0.3rem;
+}
+
+nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+nav a {
+    color: var(--text-light);
+    text-decoration: none;
+    padding: 0.8rem 1rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+nav a:hover {
+    background: rgba(212, 175, 55, 0.1);
+    color: var(--gold-primary);
+    padding-left: 1.5rem;
+}
+
+/* Conteúdo Principal */
+.main-content {
+    margin-left: var(--sidebar-width);
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.hero {
+    text-align: center;
+    max-width: 600px;
+    animation: fadeIn 1.5s ease;
+}
+
+.hero h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    color: var(--gold-light);
+    margin-bottom: 1rem;
+    font-weight: 400;
+}
+
+.hero p {
+    font-size: 1.1rem;
+    color: rgba(245, 245, 247, 0.8);
+    margin-bottom: 2.5rem;
+    letter-spacing: 1px;
+}
+
+/* Botão Dourado Premium */
+.gold-button {
+    background: transparent;
+    border: 1px solid var(--gold-primary);
+    color: var(--gold-primary);
+    padding: 1rem 2.5rem;
+    font-size: 1rem;
+    font-family: 'Josefin Sans', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.4s ease;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.1);
+}
+
+.gold-button:hover {
+    background: var(--gold-primary);
+    color: var(--space-black);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+    font-weight: 600;
+}
+
+/* Rodapé */
+footer {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    font-size: 0.8rem;
+    color: rgba(245, 245, 247, 0.4);
+    letter-spacing: 1px;
+}
+
+/* Animação Simples */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
