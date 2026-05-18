@@ -1,3 +1,9 @@
+<section id="biometro"
+class="glass-card">
+
+  <h2>Biômetro Radiônico</h2>
+
+</section>
 ✔ Chakras
 ✔ Barras energéticas
 ✔ Frequências
