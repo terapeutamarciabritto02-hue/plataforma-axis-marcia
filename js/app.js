@@ -12,3 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     console.log('Sistema AXIS™ carregado com sucesso. Método MB ativo.');
 });
+✔ Controle do menu
+✔ Navegação SPA
+✔ Troca de telas
+✔ Efeitos visuais
+✔ Cards animados
+✔ Loading inicial
+✔ Eventos do dashboard
+✔ Ativações visuais
