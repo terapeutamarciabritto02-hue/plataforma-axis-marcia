@@ -1,4 +1,4 @@
-<section id="axis-intelligence"
+section id="axis-intelligence"
 class="glass-card">
 
   <h2>AXIS Intelligence™</h2>
