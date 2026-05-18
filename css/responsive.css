@@ -1,0 +1,54 @@
+/* Adaptações para Tablets e Celulares */
+@media (max-width: 992px) {
+    body {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        border-right: none;
+        border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        padding: 1.5rem 1rem;
+    }
+
+    .logo {
+        margin-bottom: 1.5rem;
+    }
+
+    nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.3rem;
+    }
+
+    nav a {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.85rem;
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding: 3rem 1rem;
+        min-height: calc(100vh - 200px);
+    }
+
+    .hero h2 {
+        font-size: 2rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+
+    footer {
+        position: relative;
+        text-align: center;
+        right: auto;
+        bottom: auto;
+        padding: 1rem 0;
+        width: 100%;
+    }
+}
