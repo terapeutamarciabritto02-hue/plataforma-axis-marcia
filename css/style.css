@@ -1,3 +1,14 @@
+:root {
+  --axis-black: #04030a;
+  --axis-gold: #c9a84c;
+  --axis-gold-glow: #e8c96d;
+  --axis-purple: #2a1a4a;
+  --axis-purple-neon: #3d1f6e;
+  --axis-white: #f0ede8;
+
+  --font-title: 'Cormorant Garamond', serif;
+  --font-body: 'Josefin Sans', sans-serif;
+}
 
 /* Estilos Globais e Variáveis */
 :root {
