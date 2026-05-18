@@ -52,3 +52,150 @@
         width: 100%;
     }
 }
+
+/* =========================================
+   RESPONSIVIDADE AXIS™
+========================================= */
+
+/* TABLETS */
+@media (max-width: 1024px) {
+
+  .sidebar {
+    width: 90px;
+    padding: 20px 10px;
+  }
+
+  .sidebar .logo-text,
+  .sidebar .menu-text {
+    display: none;
+  }
+
+  .dashboard {
+    margin-left: 90px;
+    padding: 20px;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .glass-card {
+    padding: 20px;
+  }
+
+  .axis-symbol {
+    width: 140px;
+  }
+
+}
+
+/* CELULARES */
+@media (max-width: 768px) {
+
+  body {
+    overflow-x: hidden;
+  }
+
+  .sidebar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+
+    width: 100%;
+    height: 75px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+    border-right: none;
+    border-top: 1px solid rgba(255,255,255,0.08);
+
+    z-index: 9999;
+  }
+
+  .dashboard {
+    margin-left: 0;
+    padding: 20px;
+    padding-bottom: 100px;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .glass-card {
+    padding: 18px;
+    border-radius: 20px;
+  }
+
+  .dashboard-title {
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  .dashboard-subtitle {
+    text-align: center;
+  }
+
+  .axis-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .axis-symbol {
+    width: 110px;
+  }
+
+  .menu-item {
+    font-size: 12px;
+  }
+
+  .charts-container,
+  .cards-container,
+  .metrics-container {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+/* CELULARES PEQUENOS */
+@media (max-width: 480px) {
+
+  .dashboard-title {
+    font-size: 1.6rem;
+  }
+
+  .glass-card {
+    padding: 16px;
+  }
+
+  .axis-button {
+    padding: 12px 18px;
+    font-size: 14px;
+  }
+
+  .axis-symbol {
+    width: 90px;
+  }
+
+  .sidebar {
+    height: 70px;
+  }
+
+}
+
+/* TELAS ULTRA GRANDES */
+@media (min-width: 1600px) {
+
+  .dashboard {
+    max-width: 1600px;
+    margin: auto;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+}
