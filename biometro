@@ -1,2 +1,306 @@
 
 biometro.html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIÔMETRO RADIÔNICO MULTIDIMENSIONAL PREMIUM | AXIS™ CORE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Josefin+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/biometro.css">
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+</head>
+<body>
+    <!-- Fundo de partículas cósmicas -->
+    <div id="particles-js" class="absolute top-0 left-0 w-full h-full -z-10"></div>
+
+    <!-- Cabeçalho Principal -->
+    <header class="w-full py-6 px-8 flex justify-between items-center border-b border-[#2a1a4a]/40 backdrop-blur-md">
+        <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-[#c9a84c] to-[#e8c96d] flex items-center justify-center shadow-[0_0_15px_#e8c96d50]">
+                <span class="text-[#04030a] font-bold text-lg">AXIS™</span>
+            </div>
+            <div>
+                <h1 class="text-[#e8c96d] font-['Cormorant_Garamond'] text-2xl font-semibold tracking-wider">BIÔMETRO RADIÔNICO MULTIDIMENSIONAL</h1>
+                <p class="text-[#f0ede8]/70 font-['Josefin_Sans'] text-sm">CORE OPERATIONAL SOFTWARE · PREMIUM SYSTEM</p>
+            </div>
+        </div>
+        <div class="status-operacional px-4 py-2 rounded-lg bg-[#2a1a4a]/30 border border-[#3d1f6e]/50 backdrop-blur-sm">
+            <span class="text-[#e8c96d] font-['Josefin_Sans'] text-sm flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+                SISTEMA ATIVO · LEITURA EM TEMPO REAL
+            </span>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Painel Esquerdo: Scanner Energético e Chakras -->
+        <section class="lg:col-span-2 space-y-6">
+            <!-- Scanner Energético Holográfico -->
+            <div class="glass-panel rounded-2xl p-8 relative overflow-hidden">
+                <div class="scan-line absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#e8c96d] to-transparent opacity-70"></div>
+                
+                <div class="flex flex-col items-center justify-center mb-10 relative">
+                    <!-- Símbolo AXIS™ Central -->
+                    <div class="w-40 h-40 rounded-full bg-gradient-to-br from-[#2a1a4a]/60 to-[#3d1f6e]/40 flex items-center justify-center border-2 border-[#c9a84c]/50 shadow-[0_0_40px_#e8c96d40] relative">
+                        <div class="w-28 h-28 rounded-full bg-[#04030a]/80 flex items-center justify-center">
+                            <span class="text-[#c9a84c] font-['Cormorant_Garamond'] text-4xl font-bold">AXIS™</span>
+                        </div>
+                        <!-- Radar Vibracional -->
+                        <div class="radar absolute w-full h-full rounded-full border-2 border-dashed border-[#3d1f6e]/60 animate-spin-slow"></div>
+                    </div>
+
+                    <h2 class="text-[#e8c96d] font-['Cormorant_Garamond'] text-2xl mt-6 mb-2">SCANNER ENERGÉTICO HOLOGRÁFICO</h2>
+                    <p class="text-[#f0ede8]/60 font-['Josefin_Sans'] text-sm">Análise multidimensional do campo energético e vibracional</p>
+                </div>
+
+                <!-- Leitura dos 7 Chakras -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Chakra 1: Coronário -->
+                    <div class="chakra-card rounded-xl p-5 bg-[#2a1a4a]/20 border border-[#3d1f6e]/30 backdrop-blur-sm">
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 class="text-white font-['Cormorant_Garamond'] text-lg">Coronário</h3>
+                            <span class="porcentagem text-[#f0ede8] font-['Josefin_Sans'] font-semibold" data-value="92">92%</span>
+                        </div>
+                        <div class="barra-holografica w-full h-3 rounded-full bg-[#04030a]/70 overflow-hidden">
+                            <div class="barra-preenchimento h-full rounded-full bg-gradient-to-r from-[#ffffff] to-[#e0e0e0] w-[92%] glow-pulse"></div>
+                        </div>
+                        <p class="status text-[#f0ede8]/70 text-xs mt-2 font-['Josefin_Sans']">Equilíbrio Superior · Conexão Divina</p>
+                    </div>
+
+                    <!-- Chakra 2: Frontal -->
+                    <div class="chakra-card rounded-xl p-5 bg-[#2a1a4a]/20 border border-[#3d1f6e]/30 backdrop-blur-sm">
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 class="text-indigo-200 font-['Cormorant_Garamond'] text-lg">Frontal</h3>
+                            <span class="porcentagem text-[#f0ede8] font-['Josefin_Sans'] font-semibold" data-value="87">87%</span>
+                        </div>
+                        <div class="barra-holografica w-full h-3 rounded-full bg-[#04030a]/70 overflow-hidden">
+                            <div class="barra-preenchimento h-full rounded-full bg-gradient-to-r from-indigo-300 to-indigo-500 w-[87%] glow-pulse"></div>
+                        </div>
+                        <p class="status text-[#f0ede8]/70 text-xs mt-2 font-['Josefin_Sans']">Percepção Clara · Intuição Ativa</p>
+                    </div>
+
+                    <!-- Chakra 3: Laríngeo -->
+                    <div class="chakra-card rounded-xl p-5 bg-[#2a1a4a]/20 border border-[#3d1f6e]/30 backdrop-blur-sm">
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 class="text-sky-200 font-['Cormorant_Garamond'] text-lg">Laríngeo</h3>
+                            <span class="porcentagem text-[#f0ede8] font-['Josefin_Sans'] font-semibold" data-value="79">79%</span>
+                        </div>
+                        <div class="barra-holografica w-full h-3 rounded-full bg-[#04030a]/70 overflow-hidden">
+                            <div class="barra-preenchimento h-full rounded-full bg-gradient-to-r from-sky-300 to-sky-500 w-[79%] glow-pulse"></div>
+                        </div>
+                        <p class="status text-[#f0ede8]/70 text-xs mt-2 font-['Josefin_Sans']">Expressão Autêntica · Comunicação Fluida</p>
+                    </div>
+
+                    <!-- Chakra 4: Cardíaco -->
+                    <div class="chakra-card rounded-xl p-5 bg-[#2a1a4a]/20 border border-[#3d1f6e]/30 backdrop-blur-sm">
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 class="text-pink-200 font-['Cormorant_Garamond'] text-lg">Cardíaco</h3>
+                            <span class="porcentagem text-[#f0ede8] font-['Josefin_Sans'] font-semibold" data-value="94">94%</span>
+                        </div>
+                        <div class="barra-holografica w-full h-3 rounded-full bg-[#04030a]/70 overflow-hidden">
+                            <div class="barra-preenchimento h-full rounded-full bg-gradient-to-r from-pink-300 to-pink-500 w-[94%] glow-pulse"></div>
+                        </div>
+                        <p class="status text-[#f0ede8]/70 text-xs mt-2 font-['Josefin_Sans']">Amor Incondicional · Harmonia Emocional</p>
+                    </div>
+
+                    <!-- Chakra 5: Plexo Solar -->
+                    <div class="chakra-card rounded-xl p-5 bg-[#2a1a4a]/20 border border-[#3d1f6e]/30 backdrop-blur-sm">
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 class="text-yellow-200 font-['Cormorant_Garamond'] text-lg">Plexo Solar</h3>
+                            <span class="porcentagem text-[#f0ede8] font-['Josefin_Sans'] font-semibold" data-value="68">68%</span>
+                        </div>
+                        <div class="barra-holografica w-full h-3 rounded-full bg-[#04030a]/70 overflow-hidden">
+                            <div class="barra-preenchimento h-full rounded-full bg-gradient-to-r from-yellow-300 to-yellow-500 w-[68%] glow-pulse"></div>
+                        </div>
+                        <p class="status text-[#f0ede8]/70 text-xs mt-2 font-['Josefin_Sans']">Vitalidade Moderada · Necessidade de Equilíbrio</p>
+                    </div>
+
+                    <!-- Chakra 6: Sacral -->
+                    <div class="chakra-card rounded-xl p-5 bg-[#2a1a4a]/20 border border-[#3d1f6e]/30 backdrop-blur-sm">
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 class="text-orange-200 font-['Cormorant_Garamond'] text-lg">Sacral</h3>
+                            <span class="porcentagem text-[#f0ede8] font-['Josefin_Sans'] font-semibold" data-value="81">81%</span>
+                        </div>
+                        <div class="barra-holografica w-full h-3 rounded-full bg-[#04030a]/70 overflow-hidden">
+                            <div class="barra-preenchimento h-full rounded-full bg-gradient-to-r from-orange-300 to-orange-500 w-[81%] glow-pulse"></div>
+                        </div>
+                        <p class="status text-[#f0ede8]/70 text-xs mt-2 font-['Josefin_Sans']">Criatividade Ativa · Fluxo Emocional Estável</p>
+                    </div>
+
+                    <!-- Chakra 7: Raiz -->
+                    <div class="chakra-card rounded-xl p-5 bg-[#2a1a4a]/20 border border-[#3d1f6e]/30 backdrop-blur-sm md:col-span-2">
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 class="text-red-200 font-['Cormorant_Garamond'] text-lg">Raiz</h3>
+                            <span class="porcentagem text-[#f0ede8] font-['Josefin_Sans'] font-semibold" data-value="89">89%</span>
+                        </div>
+                        <div class="barra-holografica w-full h-3 rounded-full bg-[#04030a]/70 overflow-hidden">
+                            <div class="barra-preenchimento h-full rounded-full bg-gradient-to-r from-red-300 to-red-500 w-[89%] glow-pulse"></div>
+                        </div>
+                        <p class="status text-[#f0ede8]/70 text-xs mt-2 font-['Josefin_Sans']">Segurança Fundamental · Conexão com a Terra</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gráficos e Medidores -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Medidor Circular: Frequência Vibracional -->
+                <div class="glass-panel rounded-2xl p-6 flex flex-col items-center justify-center">
+                    <h3 class="text-[#e8c96d] font-['Cormorant_Garamond'] text-xl mb-4">Frequência Vibracional</h3>
+                    <div class="medidor-circular relative w-36 h-36 mb-4">
+                        <svg class="w-full h-full" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="45" fill="none" stroke="#2a1a4a" stroke-width="8" />
+                            <circle cx="50" cy="50" r="45" fill="none" stroke="url(#gradDourado)" stroke-width="8" stroke-dasharray="283" stroke-dashoffset="45" transform="rotate(-90 50 50)" class="transition-all duration-1000" />
+                            <defs>
+                                <linearGradient id="gradDourado" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#c9a84c" />
+                                    <stop offset="100%" stop-color="#e8c96d" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+                            <span class="text-[#e8c96d] font-['Josefin_Sans'] text-2xl font-bold">789</span>
+                            <span class="text-[#f0ede8]/70 text-xs block">Hz</span>
+                        </div>
+                    </div>
+                    <p class="text-[#f0ede8]/80 font-['Josefin_Sans'] text-sm text-center">Nível Elevado · Alinhamento Multidimensional</p>
+                </div>
+
+                <!-- Radar Energético -->
+                <div class="glass-panel rounded-2xl p-6">
+                    <h3 class="text-[#e8c96d] font-['Cormorant_Garamond'] text-xl mb-4 text-center">Radar Energético</h3>
+                    <div class="radar-chart w-full h-48 rounded-lg bg-[#04030a]/40 border border-[#3d1f6e]/30 relative overflow-hidden">
+                        <canvas id="radarCanvas" class="w-full h-full"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Painel Direito: Dados Gerais e IA -->
+        <section class="space-y-6">
+            <!-- Indicadores Gerais -->
+            <div class="glass-panel rounded-2xl p-6 space-y-5">
+                <h2 class="text-[#e8c96d] font-['Cormorant_Garamond'] text-xl border-b border-[#2a1a
+...
+                <h2 class="text-[#e8c96d] font-['Cormorant_Garamond'] text-xl border-b border-[#2a1a4a]/40 pb-3">INDICADORES GERAIS</h2>
+
+                <!-- Campo Emocional -->
+                <div class="indicador-item">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-[#f0ede8]/80 font-['Josefin_Sans'] text-sm">Campo Emocional</span>
+                        <span class="text-[#e8c96d] font-semibold text-sm">Estável · 85%</span>
+                    </div>
+                    <div class="barra-holografica w-full h-2 rounded-full bg-[#04030a]/70 overflow-hidden">
+                        <div class="barra-preenchimento h-full rounded-full bg-gradient-to-r from-[#3d1f6e] to-[#c9a84c] w-[85%]"></div>
+                    </div>
+                </div>
+
+                <!-- Campo Mental -->
+                <div class="indicador-item">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-[#f0ede8]/80 font-['Josefin_Sans'] text-sm">Campo Mental</span>
+                        <span class="text-[#e8c96d] font-semibold text-sm">Claro · 91%</span>
+                    </div>
+                    <div class="barra-holografica w-full h-2 rounded-full bg-[#04030a]/70 overflow-hidden">
+                        <div class="barra-preenchimento h-full rounded-full bg-gradient-to-r from-[#3d1f6e] to-[#c9a84c] w-[91%]"></div>
+                    </div>
+                </div>
+
+                <!-- Proteção Áurica -->
+                <div class="indicador-item">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-[#f0ede8]/80 font-['Josefin_Sans'] text-sm">Proteção Áurica</span>
+                        <span class="text-[#e8c96d] font-semibold text-sm">Reforçada · 88%</span>
+                    </div>
+                    <div class="barra-holografica w-full h-2 rounded-full bg-[#04030a]/70 overflow-hidden">
+                        <div class="barra-preenchimento h-full rounded-full bg-gradient-to-r from-[#3d1f6e] to-[#c9a84c] w-[88%]"></div>
+                    </div>
+                </div>
+
+                <!-- Interferências -->
+                <div class="indicador-item">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-[#f0ede8]/80 font-['Josefin_Sans'] text-sm">Interferências</span>
+                        <span class="text-green-400 font-semibold text-sm">Nenhuma Detectada</span>
+                    </div>
+                    <div class="barra-holografica w-full h-2 rounded-full bg-[#04030a]/70 overflow-hidden">
+                        <div class="barra-preenchimento h-full rounded-full bg-green-500 w-[0%]"></div>
+                    </div>
+                </div>
+
+                <!-- Nível Espiritual -->
+                <div class="indicador-item">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-[#f0ede8]/80 font-['Josefin_Sans'] text-sm">Nível Espiritual</span>
+                        <span class="text-[#e8c96d] font-semibold text-sm">Elevado · Nível 7</span>
+                    </div>
+                    <div class="barra-holografica w-full h-2 rounded-full bg-[#04030a]/70 overflow-hidden">
+                        <div class="barra-preenchimento h-full rounded-full bg-gradient-to-r from-[#3d1f6e] to-[#c9a84c] w-[95%]"></div>
+                    </div>
+                </div>
+
+                <!-- Harmonia Energética -->
+                <div class="indicador-item">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-[#f0ede8]/80 font-['Josefin_Sans'] text-sm">Harmonia Energética</span>
+                        <span class="text-[#e8c96d] font-semibold text-sm">Equilíbrio Total · 93%</span>
+                    </div>
+                    <div class="barra-holografica w-full h-2 rounded-full bg-[#04030a]/70 overflow-hidden">
+                        <div class="barra-preenchimento h-full rounded-full bg-gradient-to-r from-[#3d1f6e] to-[#c9a84c] w-[93%]"></div>
+                    </div>
+                </div>
+
+                <!-- Assinatura Energética -->
+                <div class="assinatura-energetica p-3 rounded-lg bg-[#04030a]/50 border border-[#c9a84c]/30">
+                    <span class="text-[#e8c96d] text-xs font-['Josefin_Sans'] block mb-1">ASSINATURA ENERGÉTICA</span>
+                    <p class="text-[#f0ede8]/90 text-sm font-mono">AX-789-DM-CORE-01</p>
+                </div>
+            </div>
+
+            <!-- AXIS Intelligence™ -->
+            <div class="glass-panel rounded-2xl p-6 border-[#c9a84c]/40 border-2 relative overflow-hidden">
+                <div class="absolute -top-10 -right-10 w-20 h-20 bg-[#e8c96d]/10 rounded-full blur-xl"></div>
+                
+                <h2 class="text-[#e8c96d] font-['Cormorant_Garamond'] text-xl mb-4 flex items-center gap-2">
+                    <span>AXIS Intelligence™</span>
+                    <span class="w-2 h-2 bg-[#e8c96d] rounded-full animate-ping"></span>
+                </h2>
+
+                <div class="ia-analise space-y-4 text-[#f0ede8]/90 font-['Josefin_Sans'] text-sm">
+                    <p><strong class="text-[#e8c96d]">Chakra mais afetado:</strong> Plexo Solar · Baixa vitalidade temporária</p>
+                    <p><strong class="text-[#e8c96d]">Padrão recorrente:</strong> Tendência a sobrecarga mental</p>
+                    <p><strong class="text-[#e8c96d]">Nível vibracional:</strong> 789 Hz · Faixa de consciência expandida</p>
+                    <p><strong class="text-[#e8c96d]">Necessidade de limpeza:</strong> Leve · Recomendada uma vez ao dia</p>
+                    <p><strong class="text-[#e8c96d]">Frequência emocional:</strong> 528 Hz · Cura e harmonia</p>
+                    <p><strong class="text-[#e8c96d]">Proteção energética:</strong> Estável · Sem brechas aparentes</p>
+                </div>
+
+                <div class="recomendacoes mt-6 pt-4 border-t border-[#2a1a4a]/40">
+                    <h3 class="text-[#e8c96d] font-['Cormorant_Garamond'] text-lg mb-3">RECOMENDAÇÕES DO SISTEMA</h3>
+                    <ul class="space-y-2 text-sm text-[#f0ede8]/80 font-['Josefin_Sans']">
+                        <li>✅ Mesa de harmonização: Frequência 432 Hz · Alinhamento corporal</li>
+                        <li>✅ Frequência ideal: 639 Hz · Conexão e equilíbrio emocional</li>
+                        <li>✅ Harmonização necessária: Limpeza de plexo solar e raiz</li>
+                        <li>✅ Intensidade energética: Nível 4/10 · Aplicação suave e contínua</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Status do Sistema -->
+            <div class="glass-panel rounded-2xl p-4 bg-gradient-to-r from-[#2a1a4a]/50 to-[#3d1f6e]/30">
+                <div class="flex justify-between items-center">
+                    <span class="text-[#e8c96d] font-['Josefin_Sans'] text-sm">OPERAÇÃO MULTIDIMENSIONAL</span>
+                    <span class="text-green-400 text-xs">100% · ESTÁVEL</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="w-full py-4 px-8 mt-10 border-t border-[#2a1a4a]/40 text-center">
+        <p class="text-[#f0ede8]/50 font-['Josefin_Sans'] text-xs">AXIS™ CORE OPERATIONAL SOFTWARE · BIÔMETRO RADIÔNICO MULTIDIMENSIONAL PREMIUM © 2026 · TODOS OS DIREITOS RESERVADOS</p>
+    </footer>
+
+    <script src="../js/biometro.js"></script>
+</body>
+</html>
