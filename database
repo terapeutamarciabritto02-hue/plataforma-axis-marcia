@@ -1,2 +1,5 @@
+── schema.sql
+│   ├── tables.sql
+│   └── policies.sql
 supabase.sql
  axis-schema.md
