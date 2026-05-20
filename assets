@@ -1,5 +1,9 @@
-  ├── img/
+   ├── img/
    ├── icons/
    ├── symbols/
          audio/
-       
+      ── symbols/
+│   ├── mesas/
+│   ├── backgrounds/
+│   ├── sounds/
+│   └── icons/ 
