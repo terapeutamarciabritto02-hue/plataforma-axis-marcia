@@ -1,5 +1,11 @@
    img/
    icons/
-   symbols/
    audio/
+ ├── style.css
+│   ├── dashboard.css
+│   ├── biometro.css
+│   ├── intelligence.css
+│   ├── symbols.css
+│   └── responsive.css
+│
 biometro.css
