@@ -1,0 +1,8 @@
+const SUPABASE_URL = "https://ekswpfancbmkbxplrvqy.supabase.co"
+
+const SUPABASE_ANON_KEY = "SUA_CHAVE_PUBLICA"
+
+const supabase = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
+)
