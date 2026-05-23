@@ -1,7 +1,7 @@
 const SUPABASE_URL = "https://ekswpfancbmkbxplrvqy.supabase.co";
 const SUPABASE_ANON_KEY =  "sb_publishable_efXUYiYm4WPB42VubJryLQ_ekFUxjql";
 
-const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const client = supabase.createClient(SUPABASE_URL,"https://ekswpfancbmkbxplrvqy.supabase.co"; SUPABASE_ANON_KEY "sb_publishable_efXUYiYm4WPB42VubJryLQ_ekFUxjql");
 
 async function login(email, password) {
   const { data, error } = await client.auth.signInWithPassword({
