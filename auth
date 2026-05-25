@@ -1,17 +1,3 @@
-const SUPABASE_URL = "https://ekswpfancbmkbxplrvqy.supabase.co";
-const SUPABASE_ANON_KEY =  "sb_publishable_efXUYiYm4WPB42VubJryLQ_ekFUxjql";
 
-const client = supabase.createClient(SUPABASE_URL,"https://ekswpfancbmkbxplrvqy.supabase.co"; SUPABASE_ANON_KEY "sb_publishable_efXUYiYm4WPB42VubJryLQ_ekFUxjql");
-
-async function login(email, password) {
-  const { data, error } = await client.auth.signInWithPassword({
-    email,
-    password
-  });
-
-  if (error) {
-    return { success: false, message: error.message };
-  }
-
-  return { success: true, user: data.user };
-}
+NEXT_PUBLIC_SUPABASE_URL=https://pbnxicrnysdngrlyczfu.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_4R-bnKTZgjr9tCw_6qMqiQ_8fNzH-my
