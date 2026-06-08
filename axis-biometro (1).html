@@ -1,0 +1,3706 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AXIS™ BIÔMETRO — Telemetria Energética Multidimensional</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #04030a;
+  --bg2:      #08071a;
+  --bg3:      #0e0c28;
+  --s1:       #141232;
+  --s2:       #1a183c;
+  --bd:       rgba(138,110,255,0.13);
+  --bd2:      rgba(201,168,76,0.22);
+  --v:        #8a6eff;
+  --v2:       #b49dff;
+  --g:        #c9a84c;
+  --g2:       #e8c97a;
+  --t:        #4ecdc4;
+  --t2:       #7eeae3;
+  --r:        #ff6b8a;
+  --r2:       #ffaabc;
+  --tx:       #e8e4f8;
+  --tx2:      #a89fd4;
+  --tx3:      #5a4f8a;
+  --ok:       #4ecb8e;
+  --warn:     #f0a640;
+  --danger:   #ff4f6e;
+  /* chakra colors */
+  --c1:#ff3b3b; --c2:#ff8c3b; --c3:#ffe03b; --c4:#4ecb8e; --c5:#3bb5ff; --c6:#6a4fff; --c7:#d06eff;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+body {
+  font-family:'Syne',sans-serif;
+  background:var(--bg);
+  color:var(--tx);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ── PARTICLE FIELD ── */
+#particles-bg {
+  position:fixed;inset:0;pointer-events:none;z-index:0;
+}
+
+/* ── LAYOUT ── */
+.shell {
+  position:relative;z-index:1;
+  display:grid;
+  grid-template-columns:260px 1fr;
+  min-height:100vh;
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  background:rgba(8,7,26,0.96);
+  border-right:1px solid var(--bd);
+  display:flex;flex-direction:column;
+  backdrop-filter:blur(20px);
+  position:sticky;top:0;height:100vh;
+  overflow:hidden;
+}
+
+.logo-area {
+  padding:28px 24px 22px;
+  border-bottom:1px solid var(--bd);
+  position:relative;
+}
+.logo-area::before {
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--v),var(--g),var(--t));
+}
+.logo-mark {
+  font-family:'Cormorant Garamond',serif;
+  font-size:28px;font-weight:600;
+  background:linear-gradient(135deg,var(--g2),var(--v2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  letter-spacing:0.06em;
+}
+.logo-sub {
+  font-size:8px;letter-spacing:0.35em;text-transform:uppercase;
+  color:var(--tx3);margin-top:3px;
+}
+
+.sidebar-scroll { flex:1;overflow-y:auto;padding:16px 14px; }
+.sidebar-scroll::-webkit-scrollbar{width:3px}
+.sidebar-scroll::-webkit-scrollbar-thumb{background:var(--s2);border-radius:3px}
+
+.sec-label {
+  font-size:8px;letter-spacing:0.3em;text-transform:uppercase;
+  color:var(--tx3);font-weight:700;padding:0 8px;margin:14px 0 6px;
+}
+
+.nav-btn {
+  display:flex;align-items:center;gap:9px;
+  padding:9px 12px;border-radius:8px;
+  cursor:pointer;font-size:12px;font-weight:500;
+  color:var(--tx2);border:1px solid transparent;
+  transition:all .18s;letter-spacing:.02em;
+}
+.nav-btn:hover{background:var(--s1);color:var(--tx)}
+.nav-btn.active {
+  background:linear-gradient(135deg,rgba(138,110,255,.18),rgba(138,110,255,.06));
+  color:var(--v2);border-color:var(--bd2);
+}
+.nav-btn.active::before {
+  content:'';position:absolute;left:14px;
+  width:3px;height:30px;background:var(--v);border-radius:0 2px 2px 0;
+  margin-left:-12px;
+}
+
+.sidebar-status {
+  margin-top:auto;padding:14px 14px 20px;
+  border-top:1px solid var(--bd);
+}
+.status-card {
+  background:var(--s1);border:1px solid var(--bd);
+  border-radius:10px;padding:12px 14px;
+}
+.status-row {
+  display:flex;align-items:center;gap:8px;
+  font-size:11px;color:var(--tx2);
+}
+.pulse-dot {
+  width:8px;height:8px;border-radius:50%;
+  background:var(--ok);
+  box-shadow:0 0 8px var(--ok);
+  animation:pulse-anim 2s ease infinite;
+  flex-shrink:0;
+}
+@keyframes pulse-anim {
+  0%,100%{box-shadow:0 0 6px var(--ok)}
+  50%{box-shadow:0 0 18px var(--ok),0 0 30px rgba(78,203,142,.3)}
+}
+
+/* ── MAIN ── */
+.main {
+  display:flex;flex-direction:column;
+  min-height:100vh;
+  overflow:hidden;
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  height:54px;
+  background:rgba(8,7,26,0.92);
+  border-bottom:1px solid var(--bd);
+  display:flex;align-items:center;padding:0 26px;gap:14px;
+  backdrop-filter:blur(16px);
+  flex-shrink:0;
+  position:sticky;top:0;z-index:50;
+}
+.topbar-title{font-size:13px;font-weight:700;letter-spacing:.03em}
+.topbar-crumb{font-size:10px;color:var(--tx3);font-family:'DM Mono',monospace}
+.topbar-actions{margin-left:auto;display:flex;gap:8px;align-items:center}
+
+/* ── TAB SYSTEM ── */
+.tabs-bar {
+  display:flex;gap:0;
+  background:rgba(8,7,26,0.8);
+  border-bottom:1px solid var(--bd);
+  padding:0 26px;
+  flex-shrink:0;
+}
+.tab-btn {
+  padding:13px 18px;
+  font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--tx3);cursor:pointer;
+  border-bottom:2px solid transparent;
+  transition:all .18s;
+  display:flex;align-items:center;gap:7px;
+}
+.tab-btn:hover{color:var(--tx2)}
+.tab-btn.active{color:var(--v2);border-bottom-color:var(--v)}
+
+/* ── CONTENT ── */
+.content {
+  flex:1;padding:24px;
+  overflow-y:auto;
+  scrollbar-width:thin;scrollbar-color:var(--s2) transparent;
+}
+.content::-webkit-scrollbar{width:4px}
+.content::-webkit-scrollbar-thumb{background:var(--s2);border-radius:4px}
+
+.tab-page{display:none}
+.tab-page.active{display:block;animation:fadeUp .25s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── CARDS ── */
+.card {
+  background:rgba(14,12,40,.85);
+  border:1px solid var(--bd);
+  border-radius:14px;
+  padding:22px;
+  backdrop-filter:blur(8px);
+  position:relative;overflow:hidden;
+  transition:border-color .2s;
+}
+.card:hover{border-color:rgba(138,110,255,.22)}
+
+.card-glow::before {
+  content:'';position:absolute;top:-60px;right:-60px;
+  width:160px;height:160px;border-radius:50%;
+  background:radial-gradient(circle,rgba(138,110,255,.08),transparent 70%);
+  pointer-events:none;
+}
+
+.card-header {
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:18px;
+}
+.card-title {
+  font-size:10px;font-weight:700;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--tx2);
+  display:flex;align-items:center;gap:7px;
+}
+
+/* ── GRID LAYOUTS ── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:14px}
+
+/* ── BTN ── */
+.btn {
+  display:inline-flex;align-items:center;gap:6px;
+  padding:8px 16px;border-radius:8px;font-size:11px;font-weight:700;
+  cursor:pointer;border:1px solid transparent;
+  transition:all .18s;font-family:'Syne',sans-serif;
+  letter-spacing:.04em;text-transform:uppercase;
+  white-space:nowrap;
+}
+.btn-v{background:linear-gradient(135deg,var(--v),#6a4fd4);color:#fff;box-shadow:0 2px 18px rgba(138,110,255,.35)}
+.btn-v:hover{transform:translateY(-1px);box-shadow:0 4px 28px rgba(138,110,255,.5)}
+.btn-g{background:linear-gradient(135deg,var(--g),#9a7020);color:#fff;box-shadow:0 2px 14px rgba(201,168,76,.3)}
+.btn-g:hover{transform:translateY(-1px);box-shadow:0 4px 22px rgba(201,168,76,.45)}
+.btn-ghost{background:transparent;color:var(--tx2);border-color:var(--bd)}
+.btn-ghost:hover{background:var(--s1);color:var(--tx)}
+.btn-t{background:linear-gradient(135deg,var(--t),#2a9a94);color:#000;box-shadow:0 2px 14px rgba(78,205,196,.3)}
+.btn-danger{background:rgba(255,79,110,.15);color:var(--danger);border-color:rgba(255,79,110,.3)}
+.btn-sm{padding:5px 10px;font-size:10px}
+
+/* ── BADGE ── */
+.badge {
+  font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  padding:3px 8px;border-radius:20px;border:1px solid;
+}
+.b-ok{background:rgba(78,203,142,.12);color:var(--ok);border-color:rgba(78,203,142,.3)}
+.b-warn{background:rgba(240,166,64,.12);color:var(--warn);border-color:rgba(240,166,64,.3)}
+.b-v{background:rgba(138,110,255,.12);color:var(--v2);border-color:rgba(138,110,255,.3)}
+.b-g{background:rgba(201,168,76,.12);color:var(--g2);border-color:rgba(201,168,76,.3)}
+.b-t{background:rgba(78,205,196,.12);color:var(--t2);border-color:rgba(78,205,196,.3)}
+.b-danger{background:rgba(255,79,110,.12);color:var(--danger);border-color:rgba(255,79,110,.3)}
+
+/* ── KPI CARDS ── */
+.kpi-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px}
+.kpi {
+  background:rgba(14,12,40,.9);
+  border:1px solid var(--bd);border-radius:12px;
+  padding:16px;position:relative;overflow:hidden;
+  cursor:default;transition:border-color .2s;
+}
+.kpi:hover{border-color:rgba(138,110,255,.25)}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.kpi.kv::before{background:linear-gradient(90deg,var(--v),transparent)}
+.kpi.kg::before{background:linear-gradient(90deg,var(--g),transparent)}
+.kpi.kt::before{background:linear-gradient(90deg,var(--t),transparent)}
+.kpi.kr::before{background:linear-gradient(90deg,var(--r),transparent)}
+.kpi.ko::before{background:linear-gradient(90deg,var(--ok),transparent)}
+.kpi-lbl{font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--tx3);font-weight:700;margin-bottom:8px}
+.kpi-val{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:600;line-height:1}
+.kpi.kv .kpi-val{color:var(--v2)}
+.kpi.kg .kpi-val{color:var(--g2)}
+.kpi.kt .kpi-val{color:var(--t2)}
+.kpi.kr .kpi-val{color:var(--r2)}
+.kpi.ko .kpi-val{color:var(--ok)}
+.kpi-delta{font-size:9px;color:var(--tx3);margin-top:4px;font-family:'DM Mono',monospace}
+.kpi-icon{position:absolute;right:14px;top:14px;font-size:22px;opacity:.1}
+
+/* ── GAUGES ── */
+.gauge-row{display:flex;flex-direction:column;gap:13px}
+.gauge-item{display:flex;flex-direction:column;gap:5px}
+.gauge-h{display:flex;justify-content:space-between;align-items:center}
+.gauge-name{font-size:11px;color:var(--tx2);font-weight:500}
+.gauge-pct{font-size:10px;font-family:'DM Mono',monospace;color:var(--tx3)}
+.gauge-track{height:6px;background:var(--s2);border-radius:6px;overflow:visible;position:relative}
+.gauge-fill{height:100%;border-radius:6px;position:relative;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
+.gauge-fill::after{
+  content:'';position:absolute;right:-1px;top:50%;transform:translateY(-50%);
+  width:10px;height:10px;border-radius:50%;background:inherit;
+  box-shadow:0 0 10px currentColor;
+}
+
+/* ── RADAR ── */
+.radar-wrap {
+  display:flex;justify-content:center;align-items:center;
+  position:relative;
+}
+#radar-canvas{display:block}
+
+/* ── CHAKRA BARS ── */
+.chakra-grid {
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;
+}
+.chakra-item {
+  background:var(--s1);border:1px solid var(--bd);
+  border-radius:10px;padding:12px 14px;
+  display:flex;flex-direction:column;gap:6px;
+  position:relative;overflow:hidden;
+}
+.chakra-item::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  border-radius:3px 0 0 3px;
+}
+.chk-header{display:flex;justify-content:space-between;align-items:center}
+.chk-name{font-size:10px;font-weight:600;color:var(--tx2)}
+.chk-val{font-size:13px;font-family:'Cormorant Garamond',serif;font-weight:600}
+.chk-track{height:4px;background:var(--s2);border-radius:4px;overflow:hidden}
+.chk-fill{height:100%;border-radius:4px;transition:width 1s ease}
+.chk-icon{font-size:18px;opacity:.3;position:absolute;right:10px;top:10px}
+
+/* ── SCAN LINE EFFECT ── */
+.scan-overlay {
+  position:absolute;inset:0;pointer-events:none;border-radius:14px;overflow:hidden;
+}
+.scan-line {
+  position:absolute;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(138,110,255,.5),rgba(201,168,76,.3),transparent);
+  animation:scan 4s linear infinite;top:0;
+}
+@keyframes scan{0%{top:0;opacity:1}90%{top:100%;opacity:.5}100%{top:100%;opacity:0}}
+
+/* ── WAVEFORM ── */
+.waveform-wrap{position:relative;height:80px;overflow:hidden;border-radius:8px;background:rgba(0,0,0,.3)}
+
+/* ── FREQUENCY PLAYER ── */
+.freq-player {
+  background:linear-gradient(135deg,rgba(138,110,255,.08),rgba(201,168,76,.05));
+  border:1px solid var(--bd2);
+  border-radius:14px;padding:20px;
+}
+.freq-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
+.freq-btn {
+  background:var(--s1);border:1px solid var(--bd);
+  border-radius:10px;padding:12px 8px;
+  cursor:pointer;text-align:center;
+  transition:all .2s;
+}
+.freq-btn:hover,.freq-btn.active{
+  border-color:var(--v);
+  background:rgba(138,110,255,.12);
+  box-shadow:0 0 16px rgba(138,110,255,.2);
+}
+.freq-hz{font-size:16px;font-family:'Cormorant Garamond',serif;font-weight:600;color:var(--g2)}
+.freq-name{font-size:9px;color:var(--tx3);letter-spacing:.08em;margin-top:3px}
+.freq-desc{font-size:8px;color:var(--tx3);margin-top:2px;font-style:italic;font-family:'DM Mono',monospace}
+
+/* ── CRYSTAL BOWLS ── */
+.bowl-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+.bowl-item{
+  display:flex;flex-direction:column;align-items:center;gap:5px;
+  cursor:pointer;padding:10px 6px;border-radius:10px;
+  border:1px solid var(--bd);background:var(--s1);
+  transition:all .2s;
+}
+.bowl-item:hover,.bowl-item.active{
+  border-color:var(--bd2);transform:translateY(-2px);
+}
+.bowl-circle{
+  width:36px;height:36px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;color:#000;
+  position:relative;
+}
+.bowl-circle::after{
+  content:'';position:absolute;inset:-3px;border-radius:50%;
+  border:1px solid currentColor;opacity:.4;
+  animation:bowl-ring 3s ease infinite;
+}
+.bowl-item.active .bowl-circle::after{opacity:.8;animation:bowl-ring 1.5s ease infinite}
+@keyframes bowl-ring{0%,100%{transform:scale(1);opacity:.4}50%{transform:scale(1.15);opacity:.8}}
+.bowl-note{font-size:8px;color:var(--tx3);font-family:'DM Mono',monospace}
+.bowl-chakra{font-size:8px;color:var(--tx3)}
+
+/* ── PROGRESS BAR ── */
+.prog-bar{height:4px;background:var(--s2);border-radius:4px;overflow:hidden}
+.prog-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--v),var(--g));transition:width .4s}
+
+/* ── ALERT ── */
+.alert-item {
+  display:flex;align-items:flex-start;gap:12px;
+  padding:12px 14px;border-radius:10px;
+  border:1px solid;margin-bottom:8px;
+}
+.alert-danger{background:rgba(255,79,110,.06);border-color:rgba(255,79,110,.25)}
+.alert-warn{background:rgba(240,166,64,.06);border-color:rgba(240,166,64,.25)}
+.alert-ok{background:rgba(78,203,142,.06);border-color:rgba(78,203,142,.25)}
+.alert-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.alert-title{font-size:12px;font-weight:600;color:var(--tx)}
+.alert-sub{font-size:10px;color:var(--tx3);font-family:'DM Mono',monospace;margin-top:2px}
+
+/* ── TESTEMUNHO FORM ── */
+.form-group{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+label{font-size:10px;font-weight:600;color:var(--tx2);letter-spacing:.05em;text-transform:uppercase}
+input,select,textarea{
+  background:var(--s1);border:1px solid var(--bd);
+  border-radius:8px;padding:10px 14px;
+  font-family:'Syne',sans-serif;font-size:13px;color:var(--tx);
+  outline:none;transition:border-color .18s;width:100%;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--v)}
+select option{background:var(--bg2)}
+textarea{resize:vertical;min-height:80px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+/* ── TOAST ── */
+.toast{
+  position:fixed;bottom:24px;right:24px;
+  background:var(--bg2);border:1px solid var(--bd);
+  border-radius:12px;padding:14px 18px;
+  display:flex;align-items:center;gap:12px;
+  box-shadow:0 8px 40px rgba(0,0,0,.6);
+  transform:translateX(120%);z-index:2000;
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1);
+  min-width:270px;
+}
+.toast.show{transform:translateX(0)}
+.t-icon{font-size:20px;flex-shrink:0}
+.t-title{font-size:13px;color:var(--tx);font-weight:600}
+.t-sub{font-size:10px;color:var(--tx3);font-family:'DM Mono',monospace;margin-top:2px}
+
+/* ── MODAL ── */
+.modal-ov{
+  position:fixed;inset:0;background:rgba(4,3,10,.88);
+  z-index:900;display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .25s;
+  backdrop-filter:blur(6px);
+}
+.modal-ov.open{opacity:1;pointer-events:all}
+.modal{
+  background:var(--bg2);border:1px solid var(--bd);
+  border-radius:16px;width:520px;max-width:95vw;
+  box-shadow:0 24px 80px rgba(0,0,0,.85);
+  transform:translateY(14px);transition:transform .25s;
+  max-height:90vh;overflow-y:auto;
+}
+.modal-ov.open .modal{transform:translateY(0)}
+.modal-hd{
+  padding:22px 26px 16px;border-bottom:1px solid var(--bd);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.modal-title{font-size:16px;font-weight:700;color:var(--tx)}
+.modal-sub{font-size:10px;color:var(--tx3);font-family:'DM Mono',monospace;margin-top:2px}
+.modal-close{
+  width:28px;height:28px;border-radius:7px;background:var(--s1);
+  border:1px solid var(--bd);display:flex;align-items:center;
+  justify-content:center;cursor:pointer;font-size:13px;color:var(--tx2);
+  transition:all .15s;
+}
+.modal-close:hover{background:var(--s2);color:var(--tx)}
+.modal-bd{padding:22px 26px}
+.modal-ft{padding:16px 26px;border-top:1px solid var(--bd);display:flex;justify-content:flex-end;gap:10px}
+
+/* ── HISTORY TABLE ── */
+.hist-row {
+  display:grid;grid-template-columns:80px 100px 1fr 1fr 1fr 70px;
+  padding:11px 14px;border-bottom:1px solid var(--bd);
+  align-items:center;gap:10px;font-size:11px;
+  transition:background .15s;
+}
+.hist-row:hover{background:var(--s1)}
+.hist-row.head{
+  font-size:8px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--tx3);font-weight:700;background:var(--s1);border-radius:8px 8px 0 0;
+}
+
+/* ── BROADCAST STATUS ── */
+.broadcast-ring {
+  width:120px;height:120px;border-radius:50%;
+  border:2px solid rgba(138,110,255,.2);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;margin:0 auto 16px;
+}
+.broadcast-ring::before,.broadcast-ring::after{
+  content:'';position:absolute;border-radius:50%;
+  border:1px solid rgba(201,168,76,.15);
+  animation:expand 3s ease infinite;
+}
+.broadcast-ring::before{width:150%;height:150%;animation-delay:0s}
+.broadcast-ring::after{width:200%;height:200%;animation-delay:1s}
+@keyframes expand{
+  0%{transform:scale(.8);opacity:.8}
+  100%{transform:scale(1.3);opacity:0}
+}
+.broadcast-core{
+  width:70px;height:70px;border-radius:50%;
+  background:linear-gradient(135deg,rgba(138,110,255,.3),rgba(201,168,76,.2));
+  border:1px solid var(--bd);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--g2);
+}
+
+/* ── UPLOAD ZONE ── */
+.upload-zone {
+  border:2px dashed var(--bd);border-radius:12px;
+  padding:28px;text-align:center;cursor:pointer;
+  transition:all .2s;
+}
+.upload-zone:hover{border-color:var(--v);background:rgba(138,110,255,.04)}
+.upload-icon{font-size:32px;margin-bottom:8px;opacity:.6}
+.upload-text{font-size:12px;color:var(--tx2)}
+.upload-sub{font-size:10px;color:var(--tx3);margin-top:4px;font-family:'DM Mono',monospace}
+
+/* ── SCAN PROGRESS ── */
+.scan-ring-wrap{display:flex;justify-content:center;padding:20px 0}
+.scan-circle{
+  width:80px;height:80px;border-radius:50%;
+  border:3px solid var(--s2);
+  border-top-color:var(--v);
+  border-right-color:var(--g);
+  display:none;align-items:center;justify-content:center;
+  animation:spin 1.2s linear infinite;
+}
+.scan-circle.active{display:flex}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Responsive */
+@media(max-width:900px){
+  .shell{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .kpi-strip{grid-template-columns:1fr 1fr}
+  .g4{grid-template-columns:1fr 1fr}
+  .bowl-grid{grid-template-columns:repeat(4,1fr)}
+}
+
+/* ── LOGIN SCREEN ── */
+#login-screen {
+  position:fixed;inset:0;z-index:9000;
+  background:var(--bg);
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;
+}
+#login-screen.hidden {
+  animation:loginOut .55s cubic-bezier(.7,0,.3,1) forwards;
+  pointer-events:none;
+}
+@keyframes loginOut {
+  0%{opacity:1;transform:scale(1)}
+  100%{opacity:0;transform:scale(1.04)}
+}
+
+.login-particles {
+  position:absolute;inset:0;pointer-events:none;z-index:0;
+}
+
+.login-box {
+  position:relative;z-index:1;
+  width:420px;max-width:94vw;
+  background:rgba(8,7,26,.92);
+  border:1px solid var(--bd2);
+  border-radius:20px;
+  padding:48px 40px 40px;
+  backdrop-filter:blur(24px);
+  box-shadow:0 32px 80px rgba(0,0,0,.7), 0 0 60px rgba(138,110,255,.08);
+}
+
+.login-box::before {
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--v),var(--g),var(--t));
+  border-radius:20px 20px 0 0;
+}
+
+.login-geo {
+  position:absolute;
+  top:-60px;left:50%;transform:translateX(-50%);
+  width:120px;height:120px;
+  display:flex;align-items:center;justify-content:center;
+}
+.login-geo canvas { display:block; }
+
+.login-logo {
+  text-align:center;margin-bottom:8px;
+  font-family:'Cormorant Garamond',serif;
+  font-size:38px;font-weight:600;letter-spacing:.06em;
+  background:linear-gradient(135deg,var(--g2),var(--v2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.login-tagline {
+  text-align:center;
+  font-size:9px;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--tx3);margin-bottom:36px;
+}
+
+.login-field {
+  position:relative;margin-bottom:16px;
+}
+.login-field label {
+  display:block;font-size:9px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--tx3);font-weight:700;margin-bottom:7px;
+}
+.login-field input {
+  width:100%;background:var(--s1);
+  border:1px solid var(--bd);border-radius:10px;
+  padding:13px 16px 13px 44px;
+  font-family:'Syne',sans-serif;font-size:13px;color:var(--tx);
+  outline:none;transition:border-color .2s,box-shadow .2s;
+}
+.login-field input:focus {
+  border-color:var(--v);
+  box-shadow:0 0 0 3px rgba(138,110,255,.12);
+}
+.login-field .field-icon {
+  position:absolute;left:14px;bottom:13px;
+  font-size:16px;color:var(--tx3);pointer-events:none;
+}
+.login-field .toggle-pw {
+  position:absolute;right:14px;bottom:13px;
+  font-size:14px;color:var(--tx3);cursor:pointer;
+  transition:color .15s;
+}
+.login-field .toggle-pw:hover{color:var(--tx)}
+
+.login-btn {
+  width:100%;padding:14px;
+  background:linear-gradient(135deg,var(--v),#6a4fd4);
+  color:#fff;border:none;border-radius:10px;
+  font-family:'Syne',sans-serif;font-size:13px;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;
+  cursor:pointer;
+  box-shadow:0 4px 24px rgba(138,110,255,.4);
+  transition:all .2s;
+  margin-top:6px;
+  position:relative;overflow:hidden;
+}
+.login-btn::before {
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.08),transparent);
+}
+.login-btn:hover {transform:translateY(-1px);box-shadow:0 6px 32px rgba(138,110,255,.55)}
+.login-btn:active {transform:translateY(0)}
+.login-btn:disabled {opacity:.6;cursor:not-allowed;transform:none}
+
+.login-error {
+  background:rgba(255,79,110,.1);border:1px solid rgba(255,79,110,.3);
+  border-radius:8px;padding:10px 14px;
+  font-size:11px;color:#ff8fa8;
+  text-align:center;margin-bottom:14px;
+  display:none;
+}
+.login-error.show{display:block;animation:shake .3s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
+.login-divider {
+  display:flex;align-items:center;gap:12px;margin:20px 0 16px;
+}
+.login-divider::before,.login-divider::after{
+  content:'';flex:1;height:1px;background:var(--bd);
+}
+.login-divider span{font-size:9px;color:var(--tx3);letter-spacing:.1em;text-transform:uppercase}
+
+.login-hint {
+  text-align:center;
+  font-size:10px;color:var(--tx3);
+  font-family:'DM Mono',monospace;
+  margin-top:20px;line-height:1.6;
+}
+.login-hint strong{color:var(--v2)}
+
+.login-loading {
+  display:none;
+  flex-direction:column;align-items:center;gap:14px;
+  position:absolute;inset:0;background:rgba(8,7,26,.92);
+  border-radius:20px;justify-content:center;
+  z-index:10;
+}
+.login-loading.show{display:flex}
+.login-spinner {
+  width:48px;height:48px;border-radius:50%;
+  border:3px solid var(--s2);
+  border-top-color:var(--v);border-right-color:var(--g);
+  animation:spin 1s linear infinite;
+}
+.login-loading-text {
+  font-size:11px;font-family:'DM Mono',monospace;color:var(--tx3);
+  letter-spacing:.1em;
+}
+.login-loading-steps {
+  display:flex;flex-direction:column;gap:4px;align-items:center;
+}
+.login-step {
+  font-size:10px;color:var(--tx3);font-family:'DM Mono',monospace;
+  opacity:0;transition:opacity .3s;
+}
+.login-step.visible{opacity:1;color:var(--ok)}
+
+.login-footer {
+  position:absolute;bottom:24px;left:0;right:0;
+  text-align:center;
+  font-size:8px;letter-spacing:.15em;color:var(--tx3);
+  text-transform:uppercase;
+}
+
+/* Session badge */
+.session-info {
+  display:flex;align-items:center;gap:8px;
+  margin-top:16px;padding:10px 14px;
+  background:rgba(78,203,142,.06);border:1px solid rgba(78,203,142,.15);
+  border-radius:8px;
+}
+.session-info .s-dot{width:6px;height:6px;border-radius:50%;background:var(--ok);box-shadow:0 0 6px var(--ok);flex-shrink:0}
+.session-info span{font-size:10px;color:var(--tx3);font-family:'DM Mono',monospace;flex:1}
+.session-info .s-time{font-size:10px;color:var(--ok);font-family:'DM Mono',monospace}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════ -->
+<!--  LOGIN SCREEN                      -->
+<!-- ══════════════════════════════════ -->
+<div id="login-screen">
+  <canvas class="login-particles" id="login-particles"></canvas>
+
+  <div class="login-box">
+
+    <!-- Loading overlay -->
+    <div class="login-loading" id="login-loading">
+      <div class="login-spinner"></div>
+      <div class="login-loading-text">Autenticando…</div>
+      <div class="login-loading-steps">
+        <div class="login-step" id="ls1">◎ Verificando credenciais</div>
+        <div class="login-step" id="ls2">⟡ Conectando ao campo energético</div>
+        <div class="login-step" id="ls3">✦ Carregando perfil terapêutico</div>
+        <div class="login-step" id="ls4">⬡ Iniciando telemetria</div>
+      </div>
+    </div>
+
+    <!-- Geometry ornament -->
+    <div class="login-geo">
+      <canvas id="geo-canvas" width="120" height="120"></canvas>
+    </div>
+
+    <div class="login-logo">AXIS™</div>
+    <div class="login-tagline">Biômetro Radiônico · Telemetria Multidimensional</div>
+
+    <div class="login-error" id="login-error">
+      ⚠ Credenciais inválidas. Verifique e tente novamente.
+    </div>
+
+    <div class="login-field">
+      <label>Usuário</label>
+      <span class="field-icon">◈</span>
+      <input type="text" id="login-user" placeholder="seu@email.com ou usuário"
+        autocomplete="username" onkeydown="if(event.key==='Enter')document.getElementById('login-pw').focus()">
+    </div>
+
+    <div class="login-field">
+      <label>Senha</label>
+      <span class="field-icon">⟡</span>
+      <input type="password" id="login-pw" placeholder="••••••••"
+        autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+      <span class="toggle-pw" id="toggle-pw" onclick="togglePw()" title="Mostrar/ocultar">👁</span>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <label style="display:flex;align-items:center;gap:7px;cursor:pointer;font-size:11px;color:var(--tx2);text-transform:none;letter-spacing:0">
+        <input type="checkbox" id="remember-me" style="width:auto;padding:0;margin:0">
+        Manter conectado
+      </label>
+      <span style="font-size:11px;color:var(--v2);cursor:pointer" onclick="showForgot()">Esqueceu a senha?</span>
+    </div>
+
+    <button class="login-btn" id="login-btn" onclick="doLogin()">
+      ⟡ Acessar AXIS™
+    </button>
+
+    <div class="login-divider"><span>ou acesso rápido</span></div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <button class="btn btn-ghost" style="justify-content:center;width:100%;font-size:11px" onclick="quickLogin('marcia','mb2026')">
+        ◈ Márcia Britto
+      </button>
+      <button class="btn btn-ghost" style="justify-content:center;width:100%;font-size:11px" onclick="quickLogin('admin','axis2026')">
+        ⬡ Admin
+      </button>
+    </div>
+
+    <div class="login-hint">
+      Credenciais padrão: <strong>marcia</strong> / <strong>mb2026</strong><br>
+      Sistema protegido · AXIS™ Método MB · v1.0
+    </div>
+
+  </div>
+
+  <div class="login-footer">AXIS™ CORE · Terapias Mandala da Alma · Método MB · Márcia Britto</div>
+</div>
+
+<!-- Particle canvas background -->
+<canvas id="particles-bg"></canvas>
+
+<div class="shell" id="app-shell" style="display:none">
+
+<!-- ══════ SIDEBAR ══════ -->
+<nav class="sidebar">
+  <div class="logo-area">
+    <div class="logo-mark">AXIS™</div>
+    <div class="logo-sub">Biômetro Radiônico · Telemetria</div>
+  </div>
+
+  <div class="sidebar-scroll">
+    <div class="sec-label">Módulos</div>
+    <div class="nav-btn active" onclick="navTab('scan',this)"><span>◎</span> Scanner Holográfico</div>
+    <div class="nav-btn" onclick="navTab('realtime',this)"><span>⟡</span> Telemetria ao Vivo</div>
+    <div class="nav-btn" onclick="navTab('broadcast',this)"><span>◉</span> Broadcast de Frequências</div>
+    <div class="nav-btn" onclick="navTab('historico',this)"><span>⬡</span> Histórico Vibracional</div>
+    <div class="nav-btn" onclick="navTab('alertas',this)"><span>⚠</span> Alertas AXIS Intelligence™</div>
+    <div class="nav-btn" onclick="navTab('cristais',this)"><span>✦</span> Cristais Sônicos</div>
+    <div class="nav-btn" onclick="navTab('global',this)"><span>⬡</span> Painel Global</div>
+    <div class="nav-btn" onclick="navTab('remoto',this)"><span>◈</span> Sessão Remota</div>
+    <div class="nav-btn" onclick="navTab('aurico',this)"><span>◎</span> Mapa Áurico</div>
+    <div class="nav-btn" onclick="navTab('relatorio',this)"><span>📄</span> Relatório Holográfico</div>
+
+    <div class="sec-label" style="margin-top:18px">Cliente Ativo</div>
+    <div style="background:var(--s1);border:1px solid var(--bd);border-radius:10px;padding:12px 14px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--v),var(--g));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">FL</div>
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--tx)">Fernanda Luz</div>
+          <div style="font-size:9px;color:var(--tx3);font-family:'DM Mono',monospace">SES-2026-0147</div>
+        </div>
+      </div>
+      <div class="gauge-row" style="gap:7px">
+        <div class="gauge-item">
+          <div class="gauge-h"><span class="gauge-name" style="font-size:9px">Campo</span><span class="gauge-pct" id="sb-campo">83%</span></div>
+          <div class="gauge-track"><div class="gauge-fill" id="sb-campo-bar" style="width:83%;background:linear-gradient(90deg,var(--t),var(--t2))"></div></div>
+        </div>
+        <div class="gauge-item">
+          <div class="gauge-h"><span class="gauge-name" style="font-size:9px">Freq</span><span class="gauge-pct" id="sb-freq">742 Hz</span></div>
+          <div class="gauge-track"><div class="gauge-fill" id="sb-freq-bar" style="width:74%;background:linear-gradient(90deg,var(--v),var(--v2))"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sidebar-status">
+    <div class="status-card">
+      <div class="status-row">
+        <div class="pulse-dot"></div>
+        <span>Telemetria Ativa</span>
+      </div>
+      <div style="font-size:9px;color:var(--tx3);font-family:'DM Mono',monospace;margin-top:6px" id="sys-clock">—</div>
+      <div style="font-size:9px;color:var(--tx3);font-family:'DM Mono',monospace;margin-top:2px">Sessão: <span id="sys-elapsed">00:27:14</span></div>
+    </div>
+
+    <!-- User card + logout -->
+    <div style="display:flex;align-items:center;gap:9px;margin-top:10px;padding:10px 12px;background:var(--s1);border:1px solid var(--bd);border-radius:10px;cursor:default">
+      <div id="sidebar-avatar" style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--v),var(--g));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0">MB</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:12px;font-weight:600;color:var(--tx);overflow:hidden;text-overflow:ellipsis;white-space:nowrap" id="sidebar-username">Márcia Britto</div>
+        <div style="font-size:9px;color:var(--tx3);font-family:'DM Mono',monospace" id="sidebar-userrole">Terapeuta Principal</div>
+      </div>
+      <div title="Sair" onclick="doLogout()" style="font-size:14px;color:var(--tx3);cursor:pointer;transition:color .15s;flex-shrink:0" onmouseenter="this.style.color='var(--danger)'" onmouseleave="this.style.color='var(--tx3)'">⏻</div>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════ MAIN ══════ -->
+<div class="main">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div>
+      <div class="topbar-title" id="topbar-title">Scanner Holográfico</div>
+      <div class="topbar-crumb">AXIS™ BIÔMETRO › <span id="topbar-crumb">Análise Radiônica Multidimensional</span></div>
+    </div>
+    <div class="topbar-actions">
+      <div class="pulse-dot"></div>
+      <span style="font-size:10px;color:var(--ok);font-family:'DM Mono',monospace">SISTEMA ONLINE</span>
+      <button class="btn btn-ghost btn-sm" onclick="openModal('testemunho')">📎 Testemunho</button>
+      <button class="btn btn-v btn-sm" onclick="toast('⟡','Snapshot salvo','Leitura registrada no histórico')">📸 Snapshot</button>
+    </div>
+  </div>
+
+  <!-- TAB BAR -->
+  <div class="tabs-bar">
+    <div class="tab-btn active" onclick="navTab('scan',this)">◎ Scanner</div>
+    <div class="tab-btn" onclick="navTab('realtime',this)">⟡ Tempo Real</div>
+    <div class="tab-btn" onclick="navTab('broadcast',this)">◉ Broadcast</div>
+    <div class="tab-btn" onclick="navTab('historico',this)">⬡ Histórico</div>
+    <div class="tab-btn" onclick="navTab('alertas',this)">⚠ Alertas</div>
+    <div class="tab-btn" onclick="navTab('cristais',this)">✦ Cristais</div>
+    <div class="tab-btn" onclick="navTab('global',this)">⬡ Global</div>
+    <div class="tab-btn" onclick="navTab('remoto',this)">◈ Remoto</div>
+    <div class="tab-btn" onclick="navTab('aurico',this)">◎ Áurico</div>
+    <div class="tab-btn" onclick="navTab('relatorio',this)">📄 Relatório</div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- ══ TAB: SCANNER HOLOGRÁFICO ══ -->
+    <div class="tab-page active" id="tab-scan">
+
+      <div class="kpi-strip">
+        <div class="kpi kv">
+          <div class="kpi-lbl">Frequência Vibracional</div>
+          <div class="kpi-val"><span id="kpi-freq">742</span><span style="font-size:16px"> Hz</span></div>
+          <div class="kpi-delta" id="kpi-freq-d">↑ Zona elevada (700–900)</div>
+          <div class="kpi-icon">〜</div>
+        </div>
+        <div class="kpi kt">
+          <div class="kpi-lbl">Campo Energético</div>
+          <div class="kpi-val"><span id="kpi-campo">83</span><span style="font-size:16px">%</span></div>
+          <div class="kpi-delta">↑ Expandido</div>
+          <div class="kpi-icon">◎</div>
+        </div>
+        <div class="kpi kg">
+          <div class="kpi-lbl">Coerência Chakras</div>
+          <div class="kpi-val"><span id="kpi-chak">71</span><span style="font-size:16px">%</span></div>
+          <div class="kpi-delta">● Coerente</div>
+          <div class="kpi-icon">✦</div>
+        </div>
+        <div class="kpi kr">
+          <div class="kpi-lbl">Bloqueios Etéricos</div>
+          <div class="kpi-val"><span id="kpi-bloq">24</span><span style="font-size:16px">%</span></div>
+          <div class="kpi-delta">↓ Em dissolução</div>
+          <div class="kpi-icon">◈</div>
+        </div>
+        <div class="kpi ko">
+          <div class="kpi-lbl">Score Bioenergético</div>
+          <div class="kpi-val"><span id="kpi-score">78</span></div>
+          <div class="kpi-delta" id="kpi-score-lbl" style="color:var(--ok)">CAMPO ELEVADO</div>
+          <div class="kpi-icon">⬡</div>
+        </div>
+      </div>
+
+      <div class="g2" style="margin-bottom:14px">
+
+        <!-- RADAR ENERGÉTICO -->
+        <div class="card card-glow">
+          <div class="scan-overlay"><div class="scan-line"></div></div>
+          <div class="card-header">
+            <span class="card-title">⟡ Radar Energético Holográfico</span>
+            <span class="badge b-ok">● ao vivo</span>
+          </div>
+          <div class="radar-wrap">
+            <canvas id="radar-canvas" width="340" height="280"></canvas>
+          </div>
+          <div style="display:flex;justify-content:center;gap:16px;margin-top:10px;flex-wrap:wrap">
+            <div style="display:flex;align-items:center;gap:5px"><div style="width:10px;height:10px;border-radius:50%;background:var(--v2);opacity:.8"></div><span style="font-size:9px;color:var(--tx3)">Campo Geral</span></div>
+            <div style="display:flex;align-items:center;gap:5px"><div style="width:10px;height:10px;border-radius:50%;background:var(--g2);opacity:.8"></div><span style="font-size:9px;color:var(--tx3)">Chakras</span></div>
+            <div style="display:flex;align-items:center;gap:5px"><div style="width:10px;height:10px;border-radius:50%;background:var(--t2);opacity:.8"></div><span style="font-size:9px;color:var(--tx3)">Conexão Mesa</span></div>
+          </div>
+        </div>
+
+        <!-- CHAKRAS -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">✦ Chakras — Leitura Multidimensional</span>
+            <button class="btn btn-ghost btn-sm" onclick="randomizeChakras()">↻ Scan</button>
+          </div>
+          <div class="chakra-grid" id="chakra-grid"></div>
+        </div>
+
+      </div>
+
+      <!-- BIÔMETRO DETALHADO -->
+      <div class="card" style="margin-bottom:14px">
+        <div class="card-header">
+          <span class="card-title">◎ Biômetro Radiônico — Leituras Detalhadas</span>
+          <div style="display:flex;gap:8px;align-items:center">
+            <span style="font-size:9px;color:var(--tx3);font-family:'DM Mono',monospace">Atualização: <span id="update-interval-label">3s</span></span>
+            <div style="display:flex;gap:5px">
+              <div class="btn btn-ghost btn-sm" onclick="setInterval2(3,this)" style="padding:4px 8px;font-size:9px;border-color:var(--v)">3s</div>
+              <div class="btn btn-ghost btn-sm" onclick="setInterval2(5,this)" style="padding:4px 8px;font-size:9px">5s</div>
+              <div class="btn btn-ghost btn-sm" onclick="setInterval2(0,this)" style="padding:4px 8px;font-size:9px">⏸</div>
+            </div>
+          </div>
+        </div>
+        <div id="bio-detailed-gauges" class="gauge-row"></div>
+      </div>
+
+      <!-- WAVEFORM + SCORE -->
+      <div class="g2">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">〜 Onda Vibracional — Linha do Tempo</span>
+            <span style="font-size:9px;color:var(--tx3);font-family:'DM Mono',monospace" id="wave-elapsed">00:27:14</span>
+          </div>
+          <div class="waveform-wrap">
+            <canvas id="wave-canvas" style="width:100%;height:80px;display:block"></canvas>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-top:6px">
+            <span style="font-size:8px;color:var(--tx3);font-family:'DM Mono',monospace">−27 min</span>
+            <span style="font-size:8px;color:var(--tx3);font-family:'DM Mono',monospace">agora</span>
+          </div>
+        </div>
+
+        <div class="card" style="text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(138,110,255,.08),rgba(201,168,76,.05));border-color:var(--bd2)">
+          <div style="font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--tx3);margin-bottom:10px;font-weight:700">Score Bioenergético Global</div>
+          <div style="font-size:72px;font-family:'Cormorant Garamond',serif;font-weight:600;line-height:1;background:linear-gradient(135deg,var(--v2),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent" id="score-big">78</div>
+          <div style="font-size:11px;letter-spacing:.12em;margin:8px 0 14px;color:var(--t2)" id="score-label-big">CAMPO ELEVADO</div>
+          <div class="prog-bar" style="width:100%;height:6px">
+            <div class="prog-fill" id="score-prog" style="width:78%"></div>
+          </div>
+          <div style="font-size:9px;color:var(--tx3);margin-top:8px;font-family:'DM Mono',monospace">Faixa ideal: 75–100</div>
+        </div>
+      </div>
+
+    </div><!-- /tab-scan -->
+
+    <!-- ══ TAB: TELEMETRIA TEMPO REAL ══ -->
+    <div class="tab-page" id="tab-realtime">
+
+      <!-- Cliente info -->
+      <div class="card" style="margin-bottom:14px;padding:16px 22px">
+        <div style="display:flex;align-items:center;gap:14px">
+          <div style="width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--v),var(--g));display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex-shrink:0">FL</div>
+          <div style="flex:1">
+            <div style="font-size:16px;font-weight:700;color:var(--tx);margin-bottom:3px">Fernanda Luz</div>
+            <div style="font-size:10px;color:var(--tx3);font-family:'DM Mono',monospace">SES-2026-0147 · Mesa Arcturiana – Puxão Quântico · Ciclo 2 de 4</div>
+          </div>
+          <div style="text-align:right">
+            <div style="display:flex;align-items:center;gap:7px;justify-content:flex-end;margin-bottom:4px">
+              <div class="pulse-dot"></div>
+              <span style="font-size:11px;color:var(--ok);font-weight:600;letter-spacing:.05em">TELEMETRIA ATIVA</span>
+            </div>
+            <div style="font-size:10px;color:var(--tx3);font-family:'DM Mono',monospace" id="tele-clock2">14:03:27</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="g2" style="margin-bottom:14px">
+        <!-- Gráfico em tempo real grande -->
+        <div class="card" style="grid-column:1/-1">
+          <div class="card-header">
+            <span class="card-title">⟡ Telemetria Multidimensional — Últimos 27 minutos</span>
+            <div style="display:flex;gap:10px;align-items:center">
+              <div style="display:flex;gap:8px">
+                <span style="display:flex;align-items:center;gap:4px;font-size:9px;color:var(--tx3)"><span style="display:inline-block;width:14px;height:2px;background:var(--v2);border-radius:2px"></span>Freq. Hz/10</span>
+                <span style="display:flex;align-items:center;gap:4px;font-size:9px;color:var(--tx3)"><span style="display:inline-block;width:14px;height:2px;background:var(--t2);border-radius:2px"></span>Campo %</span>
+                <span style="display:flex;align-items:center;gap:4px;font-size:9px;color:var(--tx3)"><span style="display:inline-block;width:14px;height:2px;background:var(--g2);border-radius:2px"></span>Coerência %</span>
+                <span style="display:flex;align-items:center;gap:4px;font-size:9px;color:var(--tx3)"><span style="display:inline-block;width:14px;height:2px;background:var(--r2);border-radius:2px;border-style:dashed"></span>Bloqueios %</span>
+              </div>
+            </div>
+          </div>
+          <div style="position:relative;height:200px;background:rgba(0,0,0,.3);border-radius:8px;overflow:hidden">
+            <canvas id="tele-main-canvas" style="width:100%;height:200px;display:block"></canvas>
+            <div class="scan-overlay"><div class="scan-line" style="animation-duration:6s"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="g4" style="margin-bottom:14px">
+        <div class="card" style="padding:14px;text-align:center">
+          <div class="kpi-lbl">Freq. Atual</div>
+          <div style="font-size:30px;font-family:'Cormorant Garamond',serif;font-weight:600;color:var(--v2)" id="rt-freq">742 Hz</div>
+          <div style="font-size:9px;color:var(--tx3);font-family:'DM Mono',monospace;margin-top:3px">Δ <span id="rt-freq-d">+12 Hz</span> última leitura</div>
+        </div>
+        <div class="card" style="padding:14px;text-align:center">
+          <div class="kpi-lbl">Campo</div>
+          <div style="font-size:30px;font-family:'Cormorant Garamond',serif;font-weight:600;color:var(--t2)" id="rt-campo">83%</div>
+          <div style="font-size:9px;color:var(--ok);font-family:'DM Mono',monospace;margin-top:3px">↑ Expansão ativa</div>
+        </div>
+        <div class="card" style="padding:14px;text-align:center">
+          <div class="kpi-lbl">Bloqueios</div>
+          <div style="font-size:30px;font-family:'Cormorant Garamond',serif;font-weight:600;color:var(--warn)" id="rt-bloq">24%</div>
+          <div style="font-size:9px;color:var(--ok);font-family:'DM Mono',monospace;margin-top:3px">↓ Dissolução em curso</div>
+        </div>
+        <div class="card" style="padding:14px;text-align:center">
+          <div class="kpi-lbl">Conexão Mesa</div>
+          <div style="font-size:30px;font-family:'Cormorant Garamond',serif;font-weight:600;color:var(--r2)" id="rt-mesa">91%</div>
+          <div style="font-size:9px;color:var(--ok);font-family:'DM Mono',monospace;margin-top:3px">● Alta coerência</div>
+        </div>
+      </div>
+
+      <div class="g2">
+        <!-- Log de eventos -->
+        <div class="card">
+          <div class="card-header"><span class="card-title">Log de Eventos Energéticos</span></div>
+          <div id="event-log" style="display:flex;flex-direction:column;gap:6px;max-height:220px;overflow-y:auto"></div>
+        </div>
+        <!-- Proteção áurica -->
+        <div class="card" style="text-align:center;background:linear-gradient(135deg,rgba(201,168,76,.06),rgba(138,110,255,.05));border-color:var(--bd2)">
+          <div class="card-header" style="justify-content:center"><span class="card-title">⟡ Escudo Áurico AXIS™</span></div>
+          <div class="broadcast-ring" id="auric-ring">
+            <div class="broadcast-core" id="auric-core">⟡</div>
+          </div>
+          <div style="font-size:12px;font-weight:600;color:var(--g2);margin-bottom:6px" id="shield-status">Escudo Dourado Ativo</div>
+          <div style="font-size:10px;color:var(--tx3);font-family:'DM Mono',monospace;margin-bottom:14px">Proteção áurica automática durante o scan radiônico</div>
+          <button class="btn btn-g" style="width:100%;justify-content:center" onclick="toggleShield()">⟡ Reforçar Escudo</button>
+        </div>
+      </div>
+
+    </div><!-- /tab-realtime -->
+
+    <!-- ══ TAB: BROADCAST ══ -->
+    <div class="tab-page" id="tab-broadcast">
+
+      <div class="freq-player" style="margin-bottom:14px">
+        <div class="card-header" style="margin-bottom:14px">
+          <span class="card-title">◉ Broadcast de Frequências Solfeggio</span>
+          <div style="display:flex;gap:8px;align-items:center">
+            <span class="badge b-ok" id="broadcast-status">● Standby</span>
+            <button class="btn btn-v btn-sm" onclick="toggleBroadcast()">▶ Iniciar Broadcast</button>
+          </div>
+        </div>
+
+        <div class="freq-grid">
+          <div class="freq-btn" onclick="selectFreq(this,174,'Fundamento')">
+            <div class="freq-hz">174 Hz</div>
+            <div class="freq-name">Alívio da Dor</div>
+            <div class="freq-desc">Base de segurança</div>
+          </div>
+          <div class="freq-btn" onclick="selectFreq(this,285,'Restauração')">
+            <div class="freq-hz">285 Hz</div>
+            <div class="freq-name">Restauração Etérica</div>
+            <div class="freq-desc">Recuperação tecidos</div>
+          </div>
+          <div class="freq-btn" onclick="selectFreq(this,396,'Libertação')">
+            <div class="freq-hz">396 Hz</div>
+            <div class="freq-name">Libertação do Medo</div>
+            <div class="freq-desc">Dissolução de culpa</div>
+          </div>
+          <div class="freq-btn" onclick="selectFreq(this,417,'Mudança')">
+            <div class="freq-hz">417 Hz</div>
+            <div class="freq-name">Facilitação da Mudança</div>
+            <div class="freq-desc">Remoção de bloqueios</div>
+          </div>
+          <div class="freq-btn active" onclick="selectFreq(this,528,'DNA')">
+            <div class="freq-hz">528 Hz</div>
+            <div class="freq-name">Transformação do DNA</div>
+            <div class="freq-desc">Milagres & reparação</div>
+          </div>
+          <div class="freq-btn" onclick="selectFreq(this,639,'Relacionamentos')">
+            <div class="freq-hz">639 Hz</div>
+            <div class="freq-name">Harmonização</div>
+            <div class="freq-desc">Vínculos & conexão</div>
+          </div>
+          <div class="freq-btn" onclick="selectFreq(this,741,'Despertar')">
+            <div class="freq-hz">741 Hz</div>
+            <div class="freq-name">Despertar Intuitivo</div>
+            <div class="freq-desc">Expressão & soluções</div>
+          </div>
+          <div class="freq-btn" onclick="selectFreq(this,852,'Retorno')">
+            <div class="freq-hz">852 Hz</div>
+            <div class="freq-name">Retorno à Ordem</div>
+            <div class="freq-desc">Intuição espiritual</div>
+          </div>
+          <div class="freq-btn" onclick="selectFreq(this,963,'Iluminação')">
+            <div class="freq-hz">963 Hz</div>
+            <div class="freq-name">Iluminação Divina</div>
+            <div class="freq-desc">Consciência superior</div>
+          </div>
+          <div class="freq-btn" onclick="selectFreq(this,432,'Universo')">
+            <div class="freq-hz">432 Hz</div>
+            <div class="freq-name">Harmonia Universal</div>
+            <div class="freq-desc">Sintonização natural</div>
+          </div>
+          <div class="freq-btn" onclick="selectFreq(this,111,'Celular')">
+            <div class="freq-hz">111 Hz</div>
+            <div class="freq-name">Regeneração Celular</div>
+            <div class="freq-desc">Beta endorfinas</div>
+          </div>
+          <div class="freq-btn" onclick="selectFreq(this,888,'Abundância')">
+            <div class="freq-hz">888 Hz</div>
+            <div class="freq-name">Abundância & Fluxo</div>
+            <div class="freq-desc">Magnetismo quântico</div>
+          </div>
+        </div>
+
+        <!-- Player visual -->
+        <div style="background:rgba(0,0,0,.4);border-radius:12px;padding:16px;border:1px solid var(--bd)">
+          <div style="display:flex;align-items:center;gap:14px;margin-bottom:12px">
+            <div style="flex:1">
+              <div style="font-size:14px;font-weight:700;color:var(--tx)">Transmitindo: <span id="player-freq" style="color:var(--g2)">528 Hz</span></div>
+              <div style="font-size:10px;color:var(--tx3);font-family:'DM Mono',monospace;margin-top:2px" id="player-name">Transformação do DNA · Reparação & Milagres</div>
+            </div>
+            <div id="player-status" style="font-size:10px;color:var(--tx3);font-family:'DM Mono',monospace">00:00:00</div>
+          </div>
+          <!-- Waveform broadcast -->
+          <div style="height:50px;background:rgba(0,0,0,.3);border-radius:8px;overflow:hidden;margin-bottom:10px">
+            <canvas id="broadcast-wave" style="width:100%;height:50px;display:block"></canvas>
+          </div>
+          <div class="prog-bar">
+            <div class="prog-fill" id="broadcast-prog" style="width:0%"></div>
+          </div>
+          <div style="font-size:9px;color:var(--tx3);text-align:center;margin-top:6px;font-family:'DM Mono',monospace" id="broadcast-intent">Intenção: Dissolução de bloqueios kármicos e restauração do DNA sagrado</div>
+        </div>
+      </div>
+
+      <div class="g2">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Protocolo Integrado</span></div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div class="alert-item alert-ok">
+              <span class="alert-icon">✦</span>
+              <div>
+                <div class="alert-title">Telemetria + 528 Hz + Cristal Quartzo Rosa</div>
+                <div class="alert-sub">Cura emocional profunda · 45 minutos</div>
+              </div>
+              <button class="btn btn-v btn-sm" style="margin-left:auto" onclick="toast('◉','Protocolo iniciado','528 Hz + Quartzo Rosa ativo')">▶</button>
+            </div>
+            <div class="alert-item alert-ok">
+              <span class="alert-icon">⟡</span>
+              <div>
+                <div class="alert-title">Telemetria + Tigela 639 Hz + 432 Hz</div>
+                <div class="alert-sub">Harmonização de relacionamentos · 30 min</div>
+              </div>
+              <button class="btn btn-v btn-sm" style="margin-left:auto" onclick="toast('◉','Protocolo iniciado','639 Hz + 432 Hz transmitindo')">▶</button>
+            </div>
+            <div class="alert-item alert-ok">
+              <span class="alert-icon">◉</span>
+              <div>
+                <div class="alert-title">Limpeza Radiônica + 417 Hz</div>
+                <div class="alert-sub">Remoção de interferências e entidades · 21 min</div>
+              </div>
+              <button class="btn btn-v btn-sm" style="margin-left:auto" onclick="toast('◉','Limpeza radiônica iniciada','417 Hz transmitindo')">▶</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><span class="card-title">Intenção Radiônica</span></div>
+          <div class="form-group">
+            <label>Cliente</label>
+            <input type="text" value="Fernanda Luz">
+          </div>
+          <div class="form-group">
+            <label>Intenção</label>
+            <textarea rows="3" placeholder="Declare a intenção energética para esta transmissão…">Dissolução completa de todos os bloqueios kármicos e etéricos que impedem a prosperidade e a resolução judicial de Fernanda Luz</textarea>
+          </div>
+          <div class="form-group">
+            <label>Duração</label>
+            <select><option>21 minutos</option><option>30 minutos</option><option>45 minutos</option><option selected>60 minutos</option><option>Contínuo</option></select>
+          </div>
+          <button class="btn btn-g" style="width:100%;justify-content:center" onclick="toast('◉','Broadcast programado','Intenção radiônica ativada')">⟡ Programar Broadcast</button>
+        </div>
+      </div>
+
+    </div><!-- /tab-broadcast -->
+
+    <!-- ══ TAB: HISTÓRICO ══ -->
+    <div class="tab-page" id="tab-historico">
+      <div class="g2" style="margin-bottom:14px">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">⬡ Histórico Vibracional — Fernanda Luz</span>
+            <span class="badge b-v">8 sessões</span>
+          </div>
+          <div style="height:180px;background:rgba(0,0,0,.25);border-radius:8px;overflow:hidden">
+            <canvas id="hist-big-canvas" style="width:100%;height:180px;display:block"></canvas>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap">
+            <span style="display:flex;align-items:center;gap:5px;font-size:9px;color:var(--tx3)"><span style="display:inline-block;width:14px;height:2px;background:var(--v2);border-radius:2px"></span>Freq. Hz/10</span>
+            <span style="display:flex;align-items:center;gap:5px;font-size:9px;color:var(--tx3)"><span style="display:inline-block;width:14px;height:2px;background:var(--t2);border-radius:2px"></span>Campo %</span>
+            <span style="display:flex;align-items:center;gap:5px;font-size:9px;color:var(--tx3)"><span style="display:inline-block;width:14px;height:2px;background:var(--g2);border-radius:2px"></span>Score</span>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div class="g2">
+            <div class="card" style="padding:14px;text-align:center">
+              <div class="kpi-lbl">Evolução Freq.</div>
+              <div style="font-size:28px;font-family:'Cormorant Garamond',serif;color:var(--v2)">+18%</div>
+              <div style="font-size:9px;color:var(--ok);margin-top:3px">↑ S1→S8</div>
+            </div>
+            <div class="card" style="padding:14px;text-align:center">
+              <div class="kpi-lbl">Bloqueios</div>
+              <div style="font-size:28px;font-family:'Cormorant Garamond',serif;color:var(--warn)">−31%</div>
+              <div style="font-size:9px;color:var(--ok);margin-top:3px">↓ Dissolução</div>
+            </div>
+            <div class="card" style="padding:14px;text-align:center">
+              <div class="kpi-lbl">Score Inicial</div>
+              <div style="font-size:28px;font-family:'Cormorant Garamond',serif;color:var(--tx2)">57</div>
+              <div style="font-size:9px;color:var(--tx3);margin-top:3px">Sessão 1</div>
+            </div>
+            <div class="card" style="padding:14px;text-align:center">
+              <div class="kpi-lbl">Score Atual</div>
+              <div style="font-size:28px;font-family:'Cormorant Garamond',serif;color:var(--ok)">78</div>
+              <div style="font-size:9px;color:var(--ok);margin-top:3px">+21 pts</div>
+            </div>
+          </div>
+          <div class="card" style="padding:14px">
+            <div class="card-header" style="margin-bottom:10px"><span class="card-title">Chakras — Evolução</span></div>
+            <div id="hist-chakra-evo" class="gauge-row" style="gap:8px"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabela de sessões -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Registro por Sessão</span>
+          <button class="btn btn-g btn-sm" onclick="toast('📄','Relatório exportado','PDF gerado com sucesso')">📄 Exportar</button>
+        </div>
+        <div style="border-radius:8px;overflow:hidden;border:1px solid var(--bd)">
+          <div class="hist-row head">
+            <span>Sessão</span><span>Data</span><span>Freq. Hz</span><span>Campo %</span><span>Bloqueios %</span><span>Score</span>
+          </div>
+          <div id="hist-table-rows"></div>
+        </div>
+      </div>
+    </div><!-- /tab-historico -->
+
+    <!-- ══ TAB: ALERTAS ══ -->
+    <div class="tab-page" id="tab-alertas">
+      <div class="card" style="margin-bottom:14px">
+        <div class="card-header">
+          <span class="card-title">⚠ AXIS Intelligence™ — Alertas Automáticos</span>
+          <span class="badge b-ok">Sistema Ativo</span>
+        </div>
+        <div id="alerts-list"></div>
+      </div>
+
+      <div class="g2">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Recomendações de Frequência</span></div>
+          <div style="display:flex;flex-direction:column;gap:8px" id="freq-recs"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><span class="card-title">Configurar Alertas</span></div>
+          <div class="gauge-row" style="gap:14px">
+            <div class="form-group" style="margin-bottom:0">
+              <label>Alerta de Chakra abaixo de</label>
+              <input type="number" value="60" min="10" max="90" id="alert-threshold">
+            </div>
+            <div class="form-group" style="margin-bottom:0">
+              <label>Frequência mínima aceitável (Hz)</label>
+              <input type="number" value="500" min="100" max="900" id="alert-freq-min">
+            </div>
+            <div class="form-group" style="margin-bottom:0">
+              <label>Bloqueios — Alerta acima de (%)</label>
+              <input type="number" value="40" min="10" max="80" id="alert-bloq-max">
+            </div>
+            <button class="btn btn-v" onclick="toast('⚙️','Alertas configurados','AXIS Intelligence™ atualizada')">Salvar Configuração</button>
+          </div>
+        </div>
+      </div>
+    </div><!-- /tab-alertas -->
+
+    <!-- ══ TAB: CRISTAIS SÔNICOS ══ -->
+    <div class="tab-page" id="tab-cristais">
+      <div class="card" style="margin-bottom:14px">
+        <div class="card-header">
+          <span class="card-title">✦ Cristais Sônicos Virtuais — Tigelas de Quartzo</span>
+          <span class="badge b-g">7 Tigelas Ativas</span>
+        </div>
+        <div class="bowl-grid" id="bowl-grid"></div>
+      </div>
+
+      <div class="g2" style="margin-bottom:14px">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Visualizador de Vibração</span></div>
+          <div style="height:120px;background:rgba(0,0,0,.4);border-radius:8px;overflow:hidden;position:relative">
+            <canvas id="crystal-canvas" style="width:100%;height:120px;display:block"></canvas>
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none">
+              <span style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,168,76,.4);font-weight:700" id="crystal-freq-label">● 528 Hz ATIVO</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:10px">
+            <button class="btn btn-ghost btn-sm" style="flex:1;justify-content:center" onclick="stopBowl()">⏹ Parar</button>
+            <button class="btn btn-v btn-sm" style="flex:1;justify-content:center" onclick="toast('◉','Transmissão ativada','Assinatura vibracional enviada ao cliente')">◉ Transmitir ao Cliente</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><span class="card-title">Scanner Holográfico por Testemunho</span></div>
+          <div class="upload-zone" onclick="toast('📎','Testemunho carregado','Scan iniciando…')" style="margin-bottom:14px">
+            <div class="upload-icon">📎</div>
+            <div class="upload-text">Arraste foto, PDF ou vídeo do cliente</div>
+            <div class="upload-sub">Nome · Data de nascimento · Foto · Áudio</div>
+          </div>
+          <div class="form-group" style="margin-bottom:8px">
+            <label>Nome Completo</label>
+            <input type="text" placeholder="Nome do cliente para scan remoto">
+          </div>
+          <div class="form-group" style="margin-bottom:10px">
+            <label>Data de Nascimento</label>
+            <input type="date">
+          </div>
+          <button class="btn btn-g" style="width:100%;justify-content:center" onclick="startRemoteScan()">◎ Iniciar Scan Remoto</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><span class="card-title">Protocolo Cristais Sônicos + Telemetria</span></div>
+        <div class="g3">
+          <div class="alert-item alert-ok" style="flex-direction:column;gap:8px">
+            <div style="font-size:10px;font-weight:700;color:var(--g2)">✦ Protocolo Básico · 30 min</div>
+            <div class="alert-sub">Scan → 7 Chakras → Tigela 528 Hz → Relatório</div>
+            <button class="btn btn-v btn-sm" onclick="toast('✦','Protocolo iniciado','30 min · Scan + 528 Hz')">Iniciar</button>
+          </div>
+          <div class="alert-item alert-warn" style="flex-direction:column;gap:8px">
+            <div style="font-size:10px;font-weight:700;color:var(--g2)">◉ Protocolo Completo · 60 min</div>
+            <div class="alert-sub">Scan → Broadcast 528+963 Hz → Tigelas 1–7 → Relatório PDF</div>
+            <button class="btn btn-v btn-sm" onclick="toast('◉','Protocolo completo iniciado','60 min em andamento')">Iniciar</button>
+          </div>
+          <div class="alert-item alert-ok" style="flex-direction:column;gap:8px">
+            <div style="font-size:10px;font-weight:700;color:var(--g2)">⟡ Limpeza Radiônica · 21 min</div>
+            <div class="alert-sub">417 Hz + Limpeza etérica + Escudo dourado + Decreto</div>
+            <button class="btn btn-v btn-sm" onclick="toast('⟡','Limpeza radiônica ativa','21 min · 417 Hz')">Iniciar</button>
+          </div>
+        </div>
+      </div>
+    </div><!-- /tab-cristais -->
+
+    <!-- ══ TAB: PAINEL GLOBAL ══ -->
+    <div class="tab-page" id="tab-global">
+
+      <div class="kpi-strip" style="margin-bottom:20px">
+        <div class="kpi kv">
+          <div class="kpi-lbl">Freq. Média — Todos</div>
+          <div class="kpi-val"><span id="g-freq">718</span><span style="font-size:16px"> Hz</span></div>
+          <div class="kpi-delta">↑ +42 Hz este mês</div>
+          <div class="kpi-icon">〜</div>
+        </div>
+        <div class="kpi kt">
+          <div class="kpi-lbl">Campo Médio Global</div>
+          <div class="kpi-val"><span id="g-campo">74</span><span style="font-size:16px">%</span></div>
+          <div class="kpi-delta">↑ Acima da média</div>
+          <div class="kpi-icon">◎</div>
+        </div>
+        <div class="kpi kg">
+          <div class="kpi-lbl">Score Médio</div>
+          <div class="kpi-val"><span id="g-score">71</span></div>
+          <div class="kpi-delta">↑ +8 pts vs mês ant.</div>
+          <div class="kpi-icon">⬡</div>
+        </div>
+        <div class="kpi kr">
+          <div class="kpi-lbl">Bloqueios Médios</div>
+          <div class="kpi-val"><span id="g-bloq">28</span><span style="font-size:16px">%</span></div>
+          <div class="kpi-delta">↓ −12% dissolução</div>
+          <div class="kpi-icon">◈</div>
+        </div>
+        <div class="kpi ko">
+          <div class="kpi-lbl">Clientes Monitorados</div>
+          <div class="kpi-val">8</div>
+          <div class="kpi-delta">● Telemetria ativa</div>
+          <div class="kpi-icon">◉</div>
+        </div>
+      </div>
+
+      <!-- Tabela global -->
+      <div class="card" style="margin-bottom:14px">
+        <div class="card-header">
+          <span class="card-title">⬡ Painel Global — Telemetria de Todos os Clientes</span>
+          <div style="display:flex;gap:8px">
+            <span class="badge b-ok" id="global-live-badge">● Ao vivo</span>
+            <button class="btn btn-g btn-sm" onclick="toast('📄','Relatório global exportado','PDF com todos os clientes gerado')">📄 Exportar Tudo</button>
+          </div>
+        </div>
+        <div style="border:1px solid var(--bd);border-radius:10px;overflow:hidden">
+          <div style="display:grid;grid-template-columns:180px 90px 90px 80px 80px 80px 1fr 90px;padding:10px 16px;background:var(--s1);font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--tx3);font-weight:700;gap:8px">
+            <span>Cliente</span><span>Freq. Hz</span><span>Campo %</span><span>Bloq %</span><span>Chakra</span><span>Mesa %</span><span>Score</span><span>Status</span>
+          </div>
+          <div id="global-rows"></div>
+        </div>
+      </div>
+
+      <!-- Comparativo visual -->
+      <div class="g2">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Distribuição de Scores</span></div>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px" id="score-dist"></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Campo Energético — Comparativo</span></div>
+          <div style="height:160px;background:rgba(0,0,0,.25);border-radius:8px;overflow:hidden">
+            <canvas id="global-compare-canvas" style="width:100%;height:160px;display:block"></canvas>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /tab-global -->
+
+    <!-- ══ TAB: SESSÃO REMOTA ══ -->
+    <div class="tab-page" id="tab-remoto">
+
+      <div class="g2" style="margin-bottom:14px">
+
+        <!-- Configurar sessão remota -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">◈ Configurar Sessão Remota</span>
+            <span class="badge b-warn" id="remote-status-badge">● Aguardando</span>
+          </div>
+
+          <div class="form-group">
+            <label>Cliente</label>
+            <select id="remote-client">
+              <option>Fernanda Luz — SES-2026-0147</option>
+              <option>Renata Souza — SES-2026-0142</option>
+              <option>Claudia Menezes — SES-2026-0138</option>
+              <option>Ana Clara Rocha — SES-2026-0135</option>
+              <option>Beatriz Fonseca — SES-2026-0131</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Mesa Terapêutica</label>
+              <select id="remote-mesa">
+                <option>Arcturiana – Puxão Quântico</option>
+                <option>Soberania Etérica</option>
+                <option>Arcanjo Miguel</option>
+                <option>Processos Judiciais</option>
+                <option>Metatron – Geometria Sagrada</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Frequência de Broadcast</label>
+              <select id="remote-freq-sel">
+                <option>528 Hz — DNA & Milagres</option>
+                <option>417 Hz — Liberação de Bloqueios</option>
+                <option>639 Hz — Harmonização</option>
+                <option>963 Hz — Iluminação</option>
+                <option>432 Hz — Harmonia Universal</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Intenção Radiônica</label>
+            <textarea rows="3" id="remote-intent" placeholder="Declare a intenção energética completa para esta sessão remota…">Dissolução de todos os bloqueios que impedem a manifestação plena do bem maior de [NOME], em todos os planos e dimensões, agora e para sempre.</textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Duração</label>
+              <select><option>21 min</option><option selected>30 min</option><option>45 min</option><option>60 min</option></select>
+            </div>
+            <div class="form-group">
+              <label>Ciclo da Sessão</label>
+              <select><option>Ciclo 1</option><option selected>Ciclo 2</option><option>Ciclo 3</option><option>Ciclo 4</option></select>
+            </div>
+          </div>
+
+          <!-- Consentimento -->
+          <div style="background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:12px;margin-bottom:14px">
+            <div style="font-size:10px;color:var(--g2);font-weight:700;margin-bottom:6px">⟡ Diretriz Ética AXIS™</div>
+            <div style="font-size:10px;color:var(--tx3);line-height:1.6">"Não fazer sem permissão expressa." O scan e a sessão remota exigem consentimento explícito do cliente, previamente registrado.</div>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:8px">
+              <input type="checkbox" id="consent-check" style="width:auto;padding:0;margin:0">
+              <label for="consent-check" style="font-size:10px;color:var(--tx2);text-transform:none;letter-spacing:0;cursor:pointer">Confirmo que o cliente forneceu consentimento explícito</label>
+            </div>
+          </div>
+
+          <button class="btn btn-v" style="width:100%;justify-content:center;font-size:12px;padding:12px" onclick="startRemoteSession()">◈ Iniciar Sessão Remota</button>
+        </div>
+
+        <!-- Painel de execução -->
+        <div style="display:flex;flex-direction:column;gap:14px">
+
+          <!-- Status da sessão -->
+          <div class="card" style="background:linear-gradient(135deg,rgba(138,110,255,.08),rgba(201,168,76,.05));border-color:var(--bd2)">
+            <div class="card-header">
+              <span class="card-title">Status da Sessão Remota</span>
+              <span class="badge" id="remote-run-badge" style="background:rgba(107,95,160,.1);color:var(--tx3);border-color:var(--bd)">Inativa</span>
+            </div>
+            <div style="text-align:center;padding:14px 0">
+              <div class="broadcast-ring" id="remote-ring" style="opacity:.4">
+                <div class="broadcast-core" style="background:linear-gradient(135deg,rgba(138,110,255,.2),rgba(201,168,76,.15))">◈</div>
+              </div>
+              <div style="font-size:20px;font-family:'Cormorant Garamond',serif;font-weight:600;color:var(--tx2)" id="remote-timer">00:00:00</div>
+              <div style="font-size:10px;color:var(--tx3);font-family:'DM Mono',monospace;margin-top:4px" id="remote-client-display">Nenhum cliente selecionado</div>
+            </div>
+            <div class="prog-bar" style="margin-bottom:10px">
+              <div class="prog-fill" id="remote-prog" style="width:0%"></div>
+            </div>
+            <div style="display:flex;gap:8px">
+              <button class="btn btn-ghost btn-sm" style="flex:1;justify-content:center" id="remote-pause-btn" onclick="pauseRemoteSession()" disabled>⏸ Pausar</button>
+              <button class="btn btn-danger btn-sm" style="flex:1;justify-content:center" id="remote-stop-btn" onclick="stopRemoteSession()" disabled>⏹ Encerrar</button>
+            </div>
+          </div>
+
+          <!-- Leituras ao vivo da sessão remota -->
+          <div class="card">
+            <div class="card-header"><span class="card-title">Leituras Remotas — ao vivo</span></div>
+            <div class="gauge-row" style="gap:10px">
+              <div class="gauge-item">
+                <div class="gauge-h"><span class="gauge-name" style="font-size:10px">Recepção do Campo</span><span class="gauge-pct" id="rem-recepcao">—</span></div>
+                <div class="gauge-track"><div class="gauge-fill" id="rem-recepcao-bar" style="width:0%;background:linear-gradient(90deg,var(--t),var(--t2))"></div></div>
+              </div>
+              <div class="gauge-item">
+                <div class="gauge-h"><span class="gauge-name" style="font-size:10px">Transmissão Freq.</span><span class="gauge-pct" id="rem-transmissao">—</span></div>
+                <div class="gauge-track"><div class="gauge-fill" id="rem-transmissao-bar" style="width:0%;background:linear-gradient(90deg,var(--v),var(--v2))"></div></div>
+              </div>
+              <div class="gauge-item">
+                <div class="gauge-h"><span class="gauge-name" style="font-size:10px">Resposta Energética</span><span class="gauge-pct" id="rem-resposta">—</span></div>
+                <div class="gauge-track"><div class="gauge-fill" id="rem-resposta-bar" style="width:0%;background:linear-gradient(90deg,var(--g),var(--g2))"></div></div>
+              </div>
+              <div class="gauge-item">
+                <div class="gauge-h"><span class="gauge-name" style="font-size:10px">Dissolução de Bloqueios</span><span class="gauge-pct" id="rem-dissolucao">—</span></div>
+                <div class="gauge-track"><div class="gauge-fill" id="rem-dissolucao-bar" style="width:0%;background:linear-gradient(90deg,var(--ok),#8eefc4)"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Etapas do protocolo remoto -->
+          <div class="card">
+            <div class="card-header"><span class="card-title">Protocolo Remoto — Etapas</span></div>
+            <div id="remote-steps" style="display:flex;flex-direction:column;gap:0"></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Log da sessão remota -->
+      <div class="card">
+        <div class="card-header"><span class="card-title">Log da Sessão Remota</span><span style="font-size:10px;color:var(--tx3);font-family:'DM Mono',monospace" id="remote-log-count">0 eventos</span></div>
+        <div id="remote-log" style="display:flex;flex-direction:column;gap:6px;max-height:180px;overflow-y:auto"></div>
+      </div>
+
+    </div><!-- /tab-remoto -->
+
+    <!-- ══ TAB: MAPA ÁURICO ══ -->
+    <div class="tab-page" id="tab-aurico">
+
+      <div class="g2" style="margin-bottom:14px">
+
+        <!-- Mapa áurico canvas -->
+        <div class="card" style="display:flex;flex-direction:column;align-items:center">
+          <div class="card-header" style="width:100%">
+            <span class="card-title">◎ Mapa Áurico Holográfico</span>
+            <div style="display:flex;gap:8px">
+              <select id="aurico-client" style="font-size:10px;padding:4px 8px;width:auto" onchange="updateAuricClient()">
+                <option>Fernanda Luz</option>
+                <option>Renata Souza</option>
+                <option>Claudia Menezes</option>
+                <option>Ana Clara Rocha</option>
+              </select>
+              <span class="badge b-ok">● ao vivo</span>
+            </div>
+          </div>
+          <canvas id="auric-canvas" width="340" height="380" style="display:block;max-width:100%"></canvas>
+          <div style="display:flex;gap:12px;margin-top:12px;flex-wrap:wrap;justify-content:center">
+            <span style="font-size:9px;color:var(--tx3);display:flex;align-items:center;gap:4px"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--v2)"></span>Campo Mental</span>
+            <span style="font-size:9px;color:var(--tx3);display:flex;align-items:center;gap:4px"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--t2)"></span>Campo Emocional</span>
+            <span style="font-size:9px;color:var(--tx3);display:flex;align-items:center;gap:4px"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--g2)"></span>Campo Etérico</span>
+            <span style="font-size:9px;color:var(--tx3);display:flex;align-items:center;gap:4px"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--r2)"></span>Campo Astral</span>
+          </div>
+        </div>
+
+        <!-- Leituras do campo áurico -->
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div class="card">
+            <div class="card-header"><span class="card-title">Corpos Sutis</span></div>
+            <div class="gauge-row" id="auric-bodies-gauges"></div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><span class="card-title">Interferências Detectadas</span></div>
+            <div id="interference-list" style="display:flex;flex-direction:column;gap:6px"></div>
+          </div>
+
+          <div class="card" style="padding:16px;text-align:center;background:linear-gradient(135deg,rgba(138,110,255,.08),rgba(201,168,76,.05));border-color:var(--bd2)">
+            <div style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--tx3);margin-bottom:8px">Integridade Áurica Global</div>
+            <div style="font-size:52px;font-family:'Cormorant Garamond',serif;font-weight:600;background:linear-gradient(135deg,var(--v2),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent" id="auric-integrity">84%</div>
+            <div style="font-size:10px;color:var(--t2);margin-top:4px;letter-spacing:.1em" id="auric-label">CAMPO ÍNTEGRO</div>
+            <div class="prog-bar" style="margin-top:12px;height:5px">
+              <div class="prog-fill" id="auric-prog" style="width:84%"></div>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:12px">
+              <button class="btn btn-v btn-sm" style="flex:1;justify-content:center" onclick="toast('⟡','Limpeza iniciada','Campo áurico em restauração')">⟡ Limpar Campo</button>
+              <button class="btn btn-g btn-sm" style="flex:1;justify-content:center" onclick="toast('✦','Escudo ativado','Campo dourado expandido')">✦ Escudo Áurico</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Camadas áuricas detalhadas -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Camadas Áuricas — Leitura Multidimensional Completa</span>
+          <button class="btn btn-ghost btn-sm" onclick="randomAuricScan()">↻ Novo Scan</button>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:4px" id="auric-layers-grid"></div>
+      </div>
+
+    </div><!-- /tab-aurico -->
+
+    <!-- ══ TAB: RELATÓRIO HOLOGRÁFICO ══ -->
+    <div class="tab-page" id="tab-relatorio">
+
+      <!-- Seletor de cliente e período -->
+      <div class="card" style="margin-bottom:14px;padding:16px 22px">
+        <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+          <div style="display:flex;flex-direction:column;gap:5px;flex:1;min-width:160px">
+            <label>Cliente</label>
+            <select style="font-size:12px" id="rep-client-sel" onchange="renderReport()">
+              <option>Fernanda Luz</option>
+              <option>Renata Souza</option>
+              <option>Claudia Menezes</option>
+              <option>Ana Clara Rocha</option>
+              <option>Beatriz Fonseca</option>
+            </select>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:5px;min-width:130px">
+            <label>Período</label>
+            <select style="font-size:12px">
+              <option>Última sessão</option>
+              <option selected>Último ciclo</option>
+              <option>Último mês</option>
+              <option>Histórico completo</option>
+            </select>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:5px;min-width:130px">
+            <label>Formato</label>
+            <select style="font-size:12px">
+              <option>Resumo executivo</option>
+              <option selected>Relatório completo</option>
+              <option>Técnico-radiônico</option>
+            </select>
+          </div>
+          <button class="btn btn-g" onclick="toast('📄','Relatório PDF gerado','Exportado com sucesso — pronto para download')" style="margin-top:16px">📄 Gerar PDF</button>
+          <button class="btn btn-ghost" onclick="toast('📤','Relatório enviado','WhatsApp da cliente notificado')" style="margin-top:16px">📲 Enviar WhatsApp</button>
+        </div>
+      </div>
+
+      <!-- Relatório visual -->
+      <div id="report-content">
+
+        <!-- Header do relatório -->
+        <div class="card" style="margin-bottom:14px;background:linear-gradient(135deg,rgba(138,110,255,.1),rgba(201,168,76,.07));border-color:var(--bd2);position:relative;overflow:hidden">
+          <div style="position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.08),transparent 70%);pointer-events:none"></div>
+          <div style="display:flex;align-items:flex-start;gap:20px">
+            <div style="width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--v),var(--g));display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;flex-shrink:0" id="rep-avatar">FL</div>
+            <div style="flex:1">
+              <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--tx3);margin-bottom:4px">RELATÓRIO HOLOGRÁFICO AXIS™</div>
+              <div style="font-size:24px;font-family:'Cormorant Garamond',serif;font-weight:600;color:var(--tx);margin-bottom:4px" id="rep-name">Fernanda Luz</div>
+              <div style="font-size:11px;color:var(--tx3);font-family:'DM Mono',monospace" id="rep-meta">SES-2026-0147 · Mesa Arcturiana – Puxão Quântico · Ciclo 2 de 4 · 19 Mai 2026</div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--tx3)">Score Bioenergético</div>
+              <div style="font-size:48px;font-family:'Cormorant Garamond',serif;font-weight:600;line-height:1;background:linear-gradient(135deg,var(--v2),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent" id="rep-score">78</div>
+              <div style="font-size:10px;color:var(--ok)" id="rep-score-lbl">CAMPO ELEVADO</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="g4" style="margin-bottom:14px">
+          <div class="card" style="padding:14px;text-align:center">
+            <div style="font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--tx3);margin-bottom:6px">Freq. Inicial</div>
+            <div style="font-size:26px;font-family:'Cormorant Garamond',serif;color:var(--tx2)">620 Hz</div>
+          </div>
+          <div class="card" style="padding:14px;text-align:center">
+            <div style="font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--tx3);margin-bottom:6px">Freq. Atual</div>
+            <div style="font-size:26px;font-family:'Cormorant Garamond',serif;color:var(--v2)" id="rep-freq">742 Hz</div>
+          </div>
+          <div class="card" style="padding:14px;text-align:center">
+            <div style="font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--tx3);margin-bottom:6px">Evolução</div>
+            <div style="font-size:26px;font-family:'Cormorant Garamond',serif;color:var(--ok)">+20%</div>
+          </div>
+          <div class="card" style="padding:14px;text-align:center">
+            <div style="font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--tx3);margin-bottom:6px">Sessões</div>
+            <div style="font-size:26px;font-family:'Cormorant Garamond',serif;color:var(--g2)">8</div>
+          </div>
+        </div>
+
+        <div class="g2" style="margin-bottom:14px">
+          <!-- Evolução gráfica -->
+          <div class="card">
+            <div class="card-header"><span class="card-title">Evolução Vibracional — 8 Sessões</span></div>
+            <div style="height:150px;background:rgba(0,0,0,.25);border-radius:8px;overflow:hidden">
+              <canvas id="rep-canvas" style="width:100%;height:150px;display:block"></canvas>
+            </div>
+          </div>
+          <!-- Chakras finais -->
+          <div class="card">
+            <div class="card-header"><span class="card-title">Estado Atual dos Chakras</span></div>
+            <div class="gauge-row" id="rep-chakras" style="gap:8px"></div>
+          </div>
+        </div>
+
+        <!-- Análise textual AXIS Intelligence™ -->
+        <div class="card" style="margin-bottom:14px;border-color:var(--bd2)">
+          <div class="card-header">
+            <span class="card-title">◎ Análise AXIS Intelligence™</span>
+            <span class="badge b-v">Gerado automaticamente</span>
+          </div>
+          <div id="rep-analysis" style="display:flex;flex-direction:column;gap:10px"></div>
+        </div>
+
+        <!-- Recomendações para próxima sessão -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">✦ Recomendações — Próxima Sessão</span>
+          </div>
+          <div id="rep-recs" style="display:flex;flex-direction:column;gap:8px"></div>
+        </div>
+
+      </div>
+    </div><!-- /tab-relatorio -->
+
+  </div><!-- /content -->
+</div><!-- /main -->
+</div><!-- /shell -->
+
+<!-- MODAL: Testemunho -->
+<div class="modal-ov" id="modal-testemunho">
+  <div class="modal">
+    <div class="modal-hd">
+      <div><div class="modal-title">Novo Testemunho Digital</div><div class="modal-sub">Scanner Holográfico Radiônico · AXIS™</div></div>
+      <div class="modal-close" onclick="closeModal('testemunho')">✕</div>
+    </div>
+    <div class="modal-bd">
+      <div class="form-row">
+        <div class="form-group"><label>Nome Completo</label><input type="text" placeholder="Nome do cliente"></div>
+        <div class="form-group"><label>Data de Nascimento</label><input type="date"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Local de Nascimento</label><input type="text" placeholder="Cidade, Estado"></div>
+        <div class="form-group"><label>Protocolo / Caso</label><input type="text" placeholder="Nº do processo (opcional)"></div>
+      </div>
+      <div class="form-group">
+        <label>Demanda Principal</label>
+        <textarea rows="3" placeholder="Descreva a intenção e a demanda para este scan remoto…"></textarea>
+      </div>
+      <div class="upload-zone">
+        <div class="upload-icon">📷</div>
+        <div class="upload-text">Upload de foto (testemunho energético)</div>
+        <div class="upload-sub">JPG · PNG · PDF · MP3</div>
+      </div>
+      <div style="margin-top:14px;padding:12px 14px;background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.2);border-radius:8px;font-size:10px;color:var(--g2);line-height:1.6">
+        ⟡ <strong>Ética AXIS™:</strong> O scan energético remoto só deve ser realizado com consentimento explícito do cliente. Diretriz: "Não fazer sem permissão expressa."
+      </div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn btn-ghost" onclick="closeModal('testemunho')">Cancelar</button>
+      <button class="btn btn-v" onclick="closeModal('testemunho');toast('◎','Testemunho carregado','Scan iniciando em 3s…')">◎ Iniciar Scan</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast-el">
+  <div class="t-icon" id="t-icon">✅</div>
+  <div><div class="t-title" id="t-title">Ação concluída</div><div class="t-sub" id="t-sub">Sistema atualizado</div></div>
+</div>
+
+<script>
+// ══════════════════════════════════
+//  AXIS™ LOGIN ENGINE
+// ══════════════════════════════════
+
+// Usuários cadastrados — { user, pw, name, role, avatar }
+const AXIS_USERS = [
+  { user:'marcia',     pw:'mb2026',   name:'Márcia Britto',  role:'Terapeuta Principal', avatar:'MB', color:'#8a6eff' },
+  { user:'admin',      pw:'axis2026', name:'Administrador',  role:'Acesso Total',         avatar:'AD', color:'#c9a84c' },
+  { user:'assistente', pw:'asst2026', name:'Assistente MB',  role:'Visualização',         avatar:'AS', color:'#4ecdc4' },
+];
+
+let loginAttempts = 0;
+let currentUser = null;
+
+// ── Geometric ornament animation ──
+(function geoAnim(){
+  const c = document.getElementById('geo-canvas');
+  if(!c) return;
+  const ctx = c.getContext('2d');
+  const W=120, H=120, cx=60, cy=60;
+  let angle=0;
+  function frame(){
+    ctx.clearRect(0,0,W,H);
+    angle += 0.008;
+    // Outer hexagon
+    ctx.save(); ctx.translate(cx,cy); ctx.rotate(angle);
+    ctx.beginPath();
+    for(let i=0;i<6;i++){
+      const a=i/6*Math.PI*2; const r=52;
+      i===0?ctx.moveTo(Math.cos(a)*r,Math.sin(a)*r):ctx.lineTo(Math.cos(a)*r,Math.sin(a)*r);
+    }
+    ctx.closePath();
+    ctx.strokeStyle='rgba(138,110,255,.35)'; ctx.lineWidth=1; ctx.stroke();
+    ctx.restore();
+
+    // Middle hexagon (counter-rotate)
+    ctx.save(); ctx.translate(cx,cy); ctx.rotate(-angle*1.5);
+    ctx.beginPath();
+    for(let i=0;i<6;i++){
+      const a=i/6*Math.PI*2+Math.PI/6; const r=36;
+      i===0?ctx.moveTo(Math.cos(a)*r,Math.sin(a)*r):ctx.lineTo(Math.cos(a)*r,Math.sin(a)*r);
+    }
+    ctx.closePath();
+    ctx.strokeStyle='rgba(201,168,76,.4)'; ctx.lineWidth=1; ctx.stroke();
+    ctx.restore();
+
+    // Inner star / asterisk
+    ctx.save(); ctx.translate(cx,cy); ctx.rotate(angle*2);
+    for(let i=0;i<6;i++){
+      const a=i/6*Math.PI*2;
+      ctx.beginPath(); ctx.moveTo(0,0);
+      ctx.lineTo(Math.cos(a)*22, Math.sin(a)*22);
+      ctx.strokeStyle='rgba(126,234,227,.3)'; ctx.lineWidth=1; ctx.stroke();
+    }
+    ctx.restore();
+
+    // Center dot
+    const grd=ctx.createRadialGradient(cx,cy,0,cx,cy,10);
+    grd.addColorStop(0,'rgba(201,168,76,.8)'); grd.addColorStop(1,'transparent');
+    ctx.beginPath(); ctx.arc(cx,cy,10,0,Math.PI*2);
+    ctx.fillStyle=grd; ctx.fill();
+
+    // Orbiting particles
+    for(let i=0;i<4;i++){
+      const a=angle*1.2+i/4*Math.PI*2;
+      const r=44;
+      const px=cx+Math.cos(a)*r, py=cy+Math.sin(a)*r;
+      ctx.beginPath(); ctx.arc(px,py,2.5,0,Math.PI*2);
+      ctx.fillStyle=i%2===0?'rgba(138,110,255,.7)':'rgba(201,168,76,.6)';
+      ctx.fill();
+    }
+
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+// ── Login particles ──
+(function loginParticles(){
+  const c=document.getElementById('login-particles');
+  if(!c) return;
+  const ctx=c.getContext('2d');
+  let W,H,pts=[];
+  function resize(){ W=c.width=window.innerWidth; H=c.height=window.innerHeight; }
+  resize(); window.addEventListener('resize',resize);
+  for(let i=0;i<70;i++) pts.push({
+    x:Math.random()*1920, y:Math.random()*1080,
+    vx:(Math.random()-.5)*.15, vy:(Math.random()-.5)*.1,
+    r:Math.random()*1.2+.3,
+    col:Math.random()>.5?'138,110,255':'201,168,76',
+    a:Math.random()*.3+.04,
+  });
+  function frame(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0)p.x=W; if(p.x>W)p.x=0;
+      if(p.y<0)p.y=H; if(p.y>H)p.y=0;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(${p.col},${p.a})`; ctx.fill();
+    });
+    // Connections
+    for(let i=0;i<pts.length;i++){
+      for(let j=i+1;j<pts.length;j++){
+        const dx=pts[i].x-pts[j].x, dy=pts[i].y-pts[j].y;
+        const d=Math.sqrt(dx*dx+dy*dy);
+        if(d<110){
+          ctx.beginPath(); ctx.moveTo(pts[i].x,pts[i].y); ctx.lineTo(pts[j].x,pts[j].y);
+          ctx.strokeStyle=`rgba(138,110,255,${.04*(1-d/110)})`; ctx.lineWidth=.5; ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+// ── Toggle password ──
+function togglePw(){
+  const inp=document.getElementById('login-pw');
+  const ico=document.getElementById('toggle-pw');
+  if(inp.type==='password'){ inp.type='text'; ico.textContent='🙈'; }
+  else { inp.type='password'; ico.textContent='👁'; }
+}
+
+// ── Quick login ──
+function quickLogin(user, pw){
+  document.getElementById('login-user').value=user;
+  document.getElementById('login-pw').value=pw;
+  setTimeout(doLogin, 120);
+}
+
+// ── Forgot password ──
+function showForgot(){
+  const err=document.getElementById('login-error');
+  err.textContent='Entre em contato com a administração do sistema AXIS™ para redefinição.';
+  err.classList.add('show');
+  setTimeout(()=>err.classList.remove('show'),4000);
+}
+
+// ── Main login function ──
+function doLogin(){
+  const userVal = document.getElementById('login-user').value.trim().toLowerCase();
+  const pwVal   = document.getElementById('login-pw').value;
+  const errEl   = document.getElementById('login-error');
+  const btn     = document.getElementById('login-btn');
+  const loading = document.getElementById('login-loading');
+
+  // Clear previous error
+  errEl.classList.remove('show');
+
+  // Validate fields
+  if(!userVal || !pwVal){
+    errEl.textContent='⚠ Preencha usuário e senha para continuar.';
+    errEl.classList.add('show'); return;
+  }
+
+  // Throttle after 3 failed attempts
+  if(loginAttempts>=3){
+    errEl.textContent='⚠ Muitas tentativas. Aguarde 30 segundos.';
+    errEl.classList.add('show');
+    btn.disabled=true;
+    setTimeout(()=>{ loginAttempts=0; btn.disabled=false; errEl.classList.remove('show'); },30000);
+    return;
+  }
+
+  // Find user
+  const found=AXIS_USERS.find(u=>
+    (u.user===userVal || u.user+'@axis.mb'===userVal) && u.pw===pwVal
+  );
+
+  if(!found){
+    loginAttempts++;
+    const left=3-loginAttempts;
+    errEl.textContent=`⚠ Credenciais inválidas.${left>0?' '+left+' tentativa(s) restante(s).':' Acesso bloqueado temporariamente.'}`;
+    errEl.classList.add('show');
+    document.getElementById('login-pw').value='';
+    document.getElementById('login-pw').focus();
+    // Shake the box
+    document.querySelector('.login-box').style.animation='shake .3s ease';
+    setTimeout(()=>document.querySelector('.login-box').style.animation='',350);
+    return;
+  }
+
+  // SUCCESS — show loading sequence
+  loginAttempts=0;
+  currentUser=found;
+  btn.disabled=true;
+  loading.classList.add('show');
+
+  const steps=['ls1','ls2','ls3','ls4'];
+  const messages=[
+    '◎ Verificando credenciais…',
+    '⟡ Conectando ao campo energético…',
+    '✦ Carregando perfil — '+found.name,
+    '⬡ Iniciando telemetria AXIS™…'
+  ];
+
+  steps.forEach((id,i)=>{
+    setTimeout(()=>{
+      const el=document.getElementById(id);
+      if(el){ el.textContent=messages[i]; el.classList.add('visible'); }
+    }, i*520);
+  });
+
+  // Enter app after sequence
+  setTimeout(()=>{
+    enterApp(found);
+  }, steps.length*520+400);
+}
+
+// ── Enter the app ──
+function enterApp(user){
+  // If "remember me" checked, store session
+  if(document.getElementById('remember-me').checked){
+    try{ sessionStorage.setItem('axis_session',JSON.stringify({user:user.user,name:user.name,ts:Date.now()})); }catch(e){}
+  }
+
+  // Update sidebar user info
+  const nm=document.getElementById('sidebar-username');
+  const rl=document.getElementById('sidebar-userrole');
+  const av=document.getElementById('sidebar-avatar');
+  if(nm) nm.textContent=user.name;
+  if(rl) rl.textContent=user.role;
+  if(av){ av.textContent=user.avatar; av.style.background=`linear-gradient(135deg,${user.color},var(--g))`; }
+
+  // Show app
+  const shell=document.getElementById('app-shell');
+  if(shell){ shell.style.display='grid'; shell.style.animation='fadeIn .5s ease'; }
+
+  // Hide login
+  const login=document.getElementById('login-screen');
+  login.classList.add('hidden');
+  setTimeout(()=>login.style.display='none',600);
+}
+
+// ── Logout ──
+function doLogout(){
+  try{ sessionStorage.removeItem('axis_session'); }catch(e){}
+  currentUser=null;
+  const login=document.getElementById('login-screen');
+  const shell=document.getElementById('app-shell');
+  login.style.display='flex';
+  login.classList.remove('hidden');
+  if(shell) shell.style.display='none';
+  document.getElementById('login-user').value='';
+  document.getElementById('login-pw').value='';
+  document.getElementById('login-btn').disabled=false;
+  document.getElementById('login-loading').classList.remove('show');
+  document.querySelectorAll('.login-step').forEach(s=>s.classList.remove('visible'));
+}
+
+// ── Check existing session on load ──
+(function checkSession(){
+  try{
+    const s=sessionStorage.getItem('axis_session');
+    if(s){
+      const sess=JSON.parse(s);
+      // Valid for 8 hours
+      if(Date.now()-sess.ts<8*3600*1000){
+        const user=AXIS_USERS.find(u=>u.user===sess.user);
+        if(user){ setTimeout(()=>enterApp(user),300); return; }
+      }
+    }
+  }catch(e){}
+  // Focus user field
+  setTimeout(()=>{ const u=document.getElementById('login-user'); if(u)u.focus(); },200);
+})();
+</script>
+
+<script>
+// ═══════════════════════════════════════════
+//  AXIS™ BIÔMETRO — Engine Radiônica
+// ═══════════════════════════════════════════
+
+// ── STATE ──
+const state = {
+  freq: 742, campo: 83, chak: 71, bloq: 24, mesa: 91,
+  score: 78,
+  chakras: [72, 65, 74, 80, 58, 69, 77],  // raiz→coroa
+  broadcasting: false, broadcastFreq: 528,
+  shieldActive: true,
+  activeBowl: 4,  // índice 0-6
+  elapsed: 27*60+14,
+  intervalId: null, intervalMs: 3000,
+  histFreq: [], histCampo: [], histChak: [], histBloq: [],
+  eventLog: [],
+};
+
+// Seed 54 pontos de histórico
+(function seed(){
+  for(let i=54;i>=0;i--){
+    const t=i/54;
+    state.histFreq.push(Math.round(620+(742-620)*(1-t)+(Math.random()-.5)*28));
+    state.histCampo.push(Math.round(60+(83-60)*(1-t)+(Math.random()-.5)*6));
+    state.histChak.push(Math.round(55+(71-55)*(1-t)+(Math.random()-.5)*7));
+    state.histBloq.push(Math.round(45+(24-45)*(1-t)+(Math.random()-.5)*5));
+  }
+})();
+
+const chakraDef = [
+  {name:'Raiz',sanskrit:'Muladhara',color:'#ff3b3b',note:'C',sym:'●'},
+  {name:'Sacral',sanskrit:'Svadhisthana',color:'#ff8c3b',note:'D',sym:'◎'},
+  {name:'Plexo Solar',sanskrit:'Manipura',color:'#ffe03b',note:'E',sym:'◈'},
+  {name:'Cardíaco',sanskrit:'Anahata',color:'#4ecb8e',note:'F',sym:'♥'},
+  {name:'Laríngeo',sanskrit:'Vishuddha',color:'#3bb5ff',note:'G',sym:'◉'},
+  {name:'Frontal',sanskrit:'Ajna',color:'#6a4fff',note:'A',sym:'⟡'},
+  {name:'Coronal',sanskrit:'Sahasrara',color:'#d06eff',note:'B',sym:'✦'},
+];
+
+const bowlFreqs = [256,288,320,341.3,384,426.7,480];
+const bowlNotes = ['C','D','E','F','G','A','B'];
+
+// ── NAVIGATION ──
+function navTab(id, el) {
+  document.querySelectorAll('.tab-page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn, .nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  document.querySelectorAll(`[onclick*="navTab('${id}"]`).forEach(b=>b.classList.add('active'));
+
+  const titles = {
+    scan:['Scanner Holográfico','Análise Radiônica Multidimensional'],
+    realtime:['Telemetria ao Vivo','Monitoramento em Tempo Real'],
+    broadcast:['Broadcast de Frequências','Envio Solfeggio & Intenção Radiônica'],
+    historico:['Histórico Vibracional','Evolução Energética por Sessão'],
+    alertas:['Alertas AXIS Intelligence™','Notificações Automáticas'],
+    cristais:['Cristais Sônicos','Tigelas de Quartzo Virtual'],
+  };
+  if(titles[id]){
+    document.getElementById('topbar-title').textContent=titles[id][0];
+    document.getElementById('topbar-crumb').textContent=titles[id][1];
+  }
+
+  if(id==='historico') setTimeout(drawHistBig,100);
+  if(id==='cristais') setTimeout(animCrystal,100);
+}
+
+// ── TOAST ──
+let toastTO;
+function toast(icon,title,sub){
+  document.getElementById('t-icon').textContent=icon;
+  document.getElementById('t-title').textContent=title;
+  document.getElementById('t-sub').textContent=sub;
+  const el=document.getElementById('toast-el');
+  el.classList.add('show');
+  clearTimeout(toastTO);
+  toastTO=setTimeout(()=>el.classList.remove('show'),3200);
+}
+
+// ── MODAL ──
+function openModal(id){document.getElementById('modal-'+id).classList.add('open')}
+function closeModal(id){document.getElementById('modal-'+id).classList.remove('open')}
+document.querySelectorAll('.modal-ov').forEach(o=>{
+  o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open')});
+});
+
+// ── PARTICLES ──
+(function initParticles(){
+  const c=document.getElementById('particles-bg');
+  const ctx=c.getContext('2d');
+  let W,H,pts=[];
+  function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight}
+  resize();window.addEventListener('resize',resize);
+  for(let i=0;i<90;i++) pts.push({
+    x:Math.random()*1920,y:Math.random()*1080,
+    vx:(Math.random()-.5)*.18,vy:(Math.random()-.5)*.12,
+    r:Math.random()*1.5+.3,
+    col:Math.random()>.5?'rgba(138,110,255,':'rgba(201,168,76,',
+    a:Math.random()*.4+.05,
+  });
+  function frame(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0)p.x=W;if(p.x>W)p.x=0;
+      if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=p.col+p.a+')';ctx.fill();
+    });
+    // Connect nearby
+    for(let i=0;i<pts.length;i++){
+      for(let j=i+1;j<pts.length;j++){
+        const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y;
+        const d=Math.sqrt(dx*dx+dy*dy);
+        if(d<100){
+          ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);
+          ctx.strokeStyle=`rgba(138,110,255,${.04*(1-d/100)})`;ctx.lineWidth=.5;ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+// ── RADAR ──
+let radarAngle=0;
+function drawRadar(){
+  const c=document.getElementById('radar-canvas');
+  if(!c)return;
+  const W=c.width,H=c.height;
+  const ctx=c.getContext('2d');
+  const cx=W/2,cy=H/2,R=Math.min(W,H)/2-20;
+
+  ctx.clearRect(0,0,W,H);
+
+  // Rings
+  [.25,.5,.75,1].forEach(f=>{
+    ctx.beginPath();ctx.arc(cx,cy,R*f,0,Math.PI*2);
+    ctx.strokeStyle=`rgba(138,110,255,${.08+f*.05})`;ctx.lineWidth=1;ctx.stroke();
+  });
+
+  // Grid lines 8
+  for(let i=0;i<8;i++){
+    const a=i/8*Math.PI*2;
+    ctx.beginPath();ctx.moveTo(cx,cy);
+    ctx.lineTo(cx+Math.cos(a)*R,cy+Math.sin(a)*R);
+    ctx.strokeStyle='rgba(138,110,255,.06)';ctx.lineWidth=1;ctx.stroke();
+  }
+
+  // Sweep line
+  radarAngle=(radarAngle+.008)%(Math.PI*2);
+  const grad=ctx.createConicalGradient?null:null;
+  ctx.beginPath();
+  ctx.moveTo(cx,cy);
+  for(let i=0;i<60;i++){
+    const a=radarAngle-i*.025;
+    const opacity=Math.max(0,.18-i*.003);
+    ctx.beginPath();ctx.moveTo(cx,cy);
+    ctx.lineTo(cx+Math.cos(a)*R,cy+Math.sin(a)*R);
+    ctx.strokeStyle=`rgba(138,110,255,${opacity})`;ctx.lineWidth=2;ctx.stroke();
+  }
+  // Sweep tip
+  ctx.beginPath();ctx.moveTo(cx,cy);
+  ctx.lineTo(cx+Math.cos(radarAngle)*R,cy+Math.sin(radarAngle)*R);
+  ctx.strokeStyle='rgba(180,157,255,.7)';ctx.lineWidth=2;ctx.stroke();
+
+  // Data polygon (7 chakras)
+  const axes=chakraDef.length;
+  ctx.beginPath();
+  chakraDef.forEach((ch,i)=>{
+    const a=i/axes*Math.PI*2-Math.PI/2;
+    const v=state.chakras[i]/100;
+    const x=cx+Math.cos(a)*R*v,y=cy+Math.sin(a)*R*v;
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  });
+  ctx.closePath();
+  ctx.fillStyle='rgba(138,110,255,.12)';ctx.fill();
+  ctx.strokeStyle='rgba(180,157,255,.5)';ctx.lineWidth=1.5;ctx.stroke();
+
+  // Outer ring (campo geral)
+  ctx.beginPath();
+  const campoR=R*(state.campo/100)*.98;
+  ctx.arc(cx,cy,campoR,0,Math.PI*2);
+  ctx.strokeStyle='rgba(126,234,227,.15)';ctx.lineWidth=1;ctx.stroke();
+
+  // Chakra dots
+  chakraDef.forEach((ch,i)=>{
+    const a=i/axes*Math.PI*2-Math.PI/2;
+    const v=state.chakras[i]/100;
+    const x=cx+Math.cos(a)*R*v,y=cy+Math.sin(a)*R*v;
+    ctx.beginPath();ctx.arc(x,y,5,0,Math.PI*2);
+    ctx.fillStyle=ch.color;ctx.fill();
+    ctx.strokeStyle='rgba(255,255,255,.4)';ctx.lineWidth=1;ctx.stroke();
+    // Glow
+    const grd=ctx.createRadialGradient(x,y,0,x,y,10);
+    grd.addColorStop(0,ch.color.replace(')',',0.4)').replace('rgb','rgba'));
+    grd.addColorStop(1,'transparent');
+    ctx.beginPath();ctx.arc(x,y,10,0,Math.PI*2);
+    ctx.fillStyle=grd;ctx.fill();
+    // Label
+    const lx=cx+Math.cos(a)*(R+14),ly=cy+Math.sin(a)*(R+14);
+    ctx.fillStyle=ch.color;ctx.font='bold 9px Syne, sans-serif';
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(ch.sym,lx,ly);
+  });
+
+  // Center AXIS mark
+  ctx.beginPath();ctx.arc(cx,cy,8,0,Math.PI*2);
+  ctx.fillStyle='rgba(201,168,76,.3)';ctx.fill();
+  ctx.strokeStyle='rgba(201,168,76,.6)';ctx.lineWidth=1;ctx.stroke();
+  ctx.fillStyle='rgba(232,201,122,.9)';ctx.font='bold 9px Syne,sans-serif';
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('A',cx,cy);
+
+  requestAnimationFrame(drawRadar);
+}
+
+// ── CHAKRA GRID ──
+function renderChakraGrid(){
+  const el=document.getElementById('chakra-grid');
+  if(!el)return;
+  el.innerHTML=chakraDef.map((ch,i)=>{
+    const v=state.chakras[i];
+    const cls=v>=75?'b-ok':v>=60?'b-v':'b-danger';
+    const lbl=v>=75?'Harmonioso':v>=60?'Ativo':'Atenção';
+    return `<div class="chakra-item" style="border-color:${ch.color}22">
+      <div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:${ch.color};border-radius:3px 0 0 3px;opacity:.7"></div>
+      <div style="font-size:18px;opacity:.25;position:absolute;right:10px;top:8px">${ch.sym}</div>
+      <div class="chk-header">
+        <span class="chk-name">${ch.name}</span>
+        <span class="chk-val" style="color:${ch.color}">${v}%</span>
+      </div>
+      <div style="font-size:8px;color:var(--tx3);font-family:'DM Mono',monospace;margin-bottom:4px">${ch.sanskrit}</div>
+      <div class="chk-track"><div class="chk-fill" style="width:${v}%;background:${ch.color}"></div></div>
+      <div style="margin-top:4px"><span class="badge ${cls}" style="font-size:7px">${lbl}</span></div>
+    </div>`;
+  }).join('');
+}
+
+function randomizeChakras(){
+  chakraDef.forEach((_,i)=>{
+    state.chakras[i]=Math.max(35,Math.min(100,state.chakras[i]+(Math.random()-.4)*12));
+  });
+  renderChakraGrid();
+  checkAlerts();
+}
+
+// ── DETAILED GAUGES ──
+function renderDetailedGauges(){
+  const el=document.getElementById('bio-detailed-gauges');
+  if(!el)return;
+  const items=[
+    {label:'Frequência Vibracional',val:state.freq,unit:'Hz',pct:state.freq/10,color:'linear-gradient(90deg,var(--v),var(--v2))',range:'Ideal: 700–900 Hz'},
+    {label:'Abertura do Campo Energético',val:state.campo,unit:'%',pct:state.campo,color:'linear-gradient(90deg,var(--t),var(--t2))',range:'Ideal: acima de 70%'},
+    {label:'Densidade de Bloqueios Etéricos',val:state.bloq,unit:'%',pct:state.bloq,color:'linear-gradient(90deg,var(--warn),#ffcf80)',range:'Ideal: abaixo de 20%'},
+    {label:'Coerência entre Chakras',val:state.chak,unit:'%',pct:state.chak,color:'linear-gradient(90deg,var(--g),var(--g2))',range:'Ideal: acima de 70%'},
+    {label:'Intensidade de Conexão com a Mesa',val:state.mesa,unit:'%',pct:state.mesa,color:'linear-gradient(90deg,var(--r),var(--r2))',range:'Ideal: acima de 80%'},
+  ];
+  el.innerHTML=items.map(it=>`
+    <div class="gauge-item">
+      <div class="gauge-h">
+        <span class="gauge-name">${it.label}</span>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="font-size:9px;color:var(--tx3);font-family:'DM Mono',monospace">${it.range}</span>
+          <span class="gauge-pct" style="font-size:13px;font-family:'Cormorant Garamond',serif;font-weight:600">${Math.round(it.val)} ${it.unit}</span>
+        </div>
+      </div>
+      <div class="gauge-track" style="height:8px">
+        <div class="gauge-fill" style="width:${Math.min(100,it.pct)}%;background:${it.color};height:8px"></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── WAVEFORM ──
+let wavePhase=0;
+function drawWave(){
+  const c=document.getElementById('wave-canvas');
+  if(!c)return;
+  const W=c.parentElement.offsetWidth||500;
+  const H=80;
+  c.width=W;c.height=H;
+  const ctx=c.getContext('2d');
+  ctx.clearRect(0,0,W,H);
+
+  // Grid
+  ctx.strokeStyle='rgba(138,110,255,.05)';ctx.lineWidth=1;
+  for(let i=0;i<=3;i++){ctx.beginPath();ctx.moveTo(0,i*H/3);ctx.lineTo(W,i*H/3);ctx.stroke()}
+
+  const drawSeries=(data,color)=>{
+    if(data.length<2)return;
+    const n=Math.min(data.length,55);
+    const sl=data.slice(-n);
+    ctx.beginPath();ctx.strokeStyle=color;ctx.lineWidth=1.5;
+    ctx.shadowColor=color;ctx.shadowBlur=6;
+    sl.forEach((v,i)=>{
+      const x=(i/(n-1))*W;
+      const y=H-4-Math.max(2,Math.min(H-4,(v/100)*(H-8)));
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    });
+    ctx.stroke();ctx.shadowBlur=0;
+    // Live dot
+    const lv=sl[sl.length-1];
+    const ly=H-4-Math.max(2,Math.min(H-4,(lv/100)*(H-8)));
+    ctx.beginPath();ctx.arc(W-2,ly,3.5,0,Math.PI*2);
+    ctx.fillStyle=color;ctx.fill();
+    ctx.strokeStyle='#fff';ctx.lineWidth=1;ctx.stroke();
+  };
+
+  drawSeries(state.histFreq.map(v=>v/10),'#b49dff');
+  drawSeries(state.histCampo,'#7eeae3');
+  drawSeries(state.histChak,'#e8c97a');
+}
+
+// ── TELEMETRIA MAIN CANVAS ──
+function drawTeleMain(){
+  const c=document.getElementById('tele-main-canvas');
+  if(!c)return;
+  const W=c.parentElement.offsetWidth||600;
+  const H=200;
+  c.width=W;c.height=H;
+  const ctx=c.getContext('2d');
+  ctx.clearRect(0,0,W,H);
+
+  // Grid
+  ctx.strokeStyle='rgba(138,110,255,.06)';ctx.lineWidth=1;
+  for(let i=0;i<=4;i++){ctx.beginPath();ctx.moveTo(0,i*H/4);ctx.lineTo(W,i*H/4);ctx.stroke()}
+  // Y labels
+  ctx.fillStyle='rgba(107,95,160,.6)';ctx.font='8px DM Mono,monospace';
+  ['100','75','50','25','0'].forEach((l,i)=>{ctx.fillText(l,4,i*H/4+10)});
+
+  const drawLine=(data,color,scale=1)=>{
+    if(data.length<2)return;
+    const n=Math.min(data.length,55);
+    const sl=data.slice(-n);
+    ctx.beginPath();ctx.strokeStyle=color;ctx.lineWidth=2;
+    ctx.shadowColor=color;ctx.shadowBlur=8;
+    sl.forEach((v,i)=>{
+      const x=20+(i/(n-1))*(W-24);
+      const y=H-4-Math.max(2,Math.min(H-4,(v*scale/100)*(H-8)));
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    });
+    ctx.stroke();ctx.shadowBlur=0;
+    // Fill
+    ctx.lineTo(W-4,H);ctx.lineTo(20,H);ctx.closePath();
+    const grd=ctx.createLinearGradient(0,0,0,H);
+    grd.addColorStop(0,color.replace(')',',0.12)').replace('#','rgba(').replace(/rgba\(([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})/i,(m,r,g,b)=>`rgba(${parseInt(r,16)},${parseInt(g,16)},${parseInt(b,16)}`));
+    grd.addColorStop(1,'transparent');
+    ctx.fillStyle=color+'22';ctx.fill();
+  };
+
+  drawLine(state.histFreq.map(v=>v/10),'#b49dff');
+  drawLine(state.histCampo,'#7eeae3');
+  drawLine(state.histChak,'#e8c97a');
+  drawLine(state.histBloq,'#ff6b8a');
+}
+
+// ── HISTÓRICO BIG ──
+const histData={
+  freq:[62,65,68,70,71,74,75,74],
+  campo:[55,60,63,68,70,74,78,83],
+  score:[57,62,65,68,70,73,76,78],
+};
+function drawHistBig(){
+  const c=document.getElementById('hist-big-canvas');
+  if(!c)return;
+  const W=c.parentElement.offsetWidth||500;
+  const H=180;
+  c.width=W;c.height=H;
+  const ctx=c.getContext('2d');
+  ctx.clearRect(0,0,W,H);
+
+  // Grid
+  ctx.strokeStyle='rgba(138,110,255,.06)';ctx.lineWidth=1;
+  for(let i=0;i<=4;i++){ctx.beginPath();ctx.moveTo(30,i*(H-30)/4+10);ctx.lineTo(W,i*(H-30)/4+10);ctx.stroke()}
+
+  const drawS=(data,color)=>{
+    const n=data.length;
+    ctx.beginPath();ctx.strokeStyle=color;ctx.lineWidth=2;ctx.shadowColor=color;ctx.shadowBlur=8;
+    data.forEach((v,i)=>{
+      const x=30+(i/(n-1))*(W-36);
+      const y=10+((1-v/100)*(H-40));
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    });
+    ctx.stroke();ctx.shadowBlur=0;
+    data.forEach((v,i)=>{
+      const x=30+(i/(n-1))*(W-36);
+      const y=10+((1-v/100)*(H-40));
+      ctx.beginPath();ctx.arc(x,y,4,0,Math.PI*2);
+      ctx.fillStyle=color;ctx.fill();
+      ctx.strokeStyle='var(--bg2)';ctx.lineWidth=1.5;ctx.stroke();
+      // Value label
+      ctx.fillStyle=color;ctx.font='bold 9px Syne,sans-serif';
+      ctx.textAlign='center';ctx.textBaseline='bottom';
+      ctx.fillText(v,x,y-6);
+    });
+    // X labels
+    data.forEach((_,i)=>{
+      const x=30+(i/(n-1))*(W-36);
+      ctx.fillStyle='rgba(107,95,160,.7)';ctx.font='9px DM Mono,monospace';
+      ctx.textAlign='center';ctx.textBaseline='top';
+      ctx.fillText('S'+(i+1),x,H-18);
+    });
+  };
+
+  drawS(histData.freq,'#b49dff');
+  drawS(histData.campo,'#7eeae3');
+  drawS(histData.score,'#e8c97a');
+  renderHistTable();
+  renderHistChakraEvo();
+}
+
+function renderHistTable(){
+  const sessDates=['02 Mar','16 Mar','02 Abr','16 Abr','30 Abr','07 Mai','14 Mai','19 Mai'];
+  const bloqs=[55,50,46,40,36,31,28,24];
+  document.getElementById('hist-table-rows').innerHTML=histData.freq.map((f,i)=>{
+    const sc=histData.score[i];
+    const col=sc>=75?'var(--ok)':sc>=60?'var(--v2)':'var(--warn)';
+    return `<div class="hist-row">
+      <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--tx3)">S${i+1}</span>
+      <span style="font-size:10px;color:var(--tx2)">${sessDates[i]}</span>
+      <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--v2)">${f*10} Hz</span>
+      <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--t2)">${histData.campo[i]}%</span>
+      <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--warn)">${bloqs[i]}%</span>
+      <span style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:${col}">${sc}</span>
+    </div>`;
+  }).join('');
+}
+
+function renderHistChakraEvo(){
+  const el=document.getElementById('hist-chakra-evo');
+  if(!el)return;
+  const initial=[55,48,60,65,40,52,58];
+  el.innerHTML=chakraDef.map((ch,i)=>`
+    <div class="gauge-item">
+      <div class="gauge-h">
+        <span class="gauge-name" style="font-size:10px;color:${ch.color}">${ch.sym} ${ch.name}</span>
+        <span style="font-size:10px;font-family:'DM Mono',monospace;color:var(--ok)">+${state.chakras[i]-initial[i]}% ↑</span>
+      </div>
+      <div class="gauge-track">
+        <div class="gauge-fill" style="width:${state.chakras[i]}%;background:${ch.color}90"></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── ALERTS ──
+function checkAlerts(){
+  const alerts=[];
+  chakraDef.forEach((ch,i)=>{
+    const v=state.chakras[i];
+    if(v<60) alerts.push({
+      type:'danger',
+      icon:'⚠',
+      title:`Chakra ${ch.name} em ${Math.round(v)}% — Abaixo do limiar`,
+      sub:`Ação recomendada: Telemetria + ${[396,417,528,639,741,852,963][i]} Hz + Tigela de Quartzo ${ch.note}`,
+    });
+    else if(v<70) alerts.push({
+      type:'warn',
+      icon:'●',
+      title:`Chakra ${ch.name} em ${Math.round(v)}% — Atenção`,
+      sub:`Monitorar próximas 2 leituras. Frequência sugerida: ${[396,417,528,639,741,852,963][i]} Hz`,
+    });
+  });
+  if(state.freq<600) alerts.push({type:'danger',icon:'〜',title:`Frequência baixa: ${Math.round(state.freq)} Hz`,sub:'Recomendado: Broadcast 528 Hz imediato + Escudo áurico reforçado'});
+  if(state.bloq>40) alerts.push({type:'warn',icon:'◈',title:`Bloqueios etéricos elevados: ${Math.round(state.bloq)}%`,sub:'Protocolo: Limpeza radiônica + 417 Hz + Visualização de Luz Violeta'});
+  if(state.campo>80&&state.freq>700) alerts.push({type:'ok',icon:'✦',title:'Campo energético excelente — Manutenção recomendada',sub:'Score acima de 75. Frequência 963 Hz semanal para sustentação'});
+
+  const el=document.getElementById('alerts-list');
+  if(el) el.innerHTML=alerts.length===0
+    ?'<div style="text-align:center;padding:24px;color:var(--tx3);font-size:12px">Nenhum alerta ativo. Campo energético estável.</div>'
+    :alerts.map(a=>`<div class="alert-item alert-${a.type}">
+        <span class="alert-icon">${a.icon}</span>
+        <div style="flex:1"><div class="alert-title">${a.title}</div><div class="alert-sub">${a.sub}</div></div>
+        <button class="btn btn-v btn-sm" onclick="toast('◉','Ação iniciada','Protocolo ativado')">▶</button>
+      </div>`).join('');
+
+  // Freq recommendations
+  const recs=[];
+  if(state.chakras[4]<60) recs.push({hz:741,desc:'Chakra Laríngeo — Despertar Intuitivo'});
+  if(state.bloq>35) recs.push({hz:417,desc:'Dissolução de bloqueios etéricos'});
+  if(state.campo>80) recs.push({hz:963,desc:'Manutenção — Consciência superior'});
+  if(!recs.length) recs.push({hz:528,desc:'Protocolo padrão — Transformação & reparação'});
+  const recEl=document.getElementById('freq-recs');
+  if(recEl) recEl.innerHTML=recs.map(r=>`<div class="alert-item alert-ok">
+    <span class="alert-icon">〜</span>
+    <div style="flex:1"><div class="alert-title">${r.hz} Hz</div><div class="alert-sub">${r.desc}</div></div>
+    <button class="btn btn-v btn-sm" onclick="selectFreq(this,${r.hz},'Recomendação AXIS™');navTab('broadcast',document.querySelector('[onclick*=broadcast]'))">Ativar</button>
+  </div>`).join('');
+}
+
+// ── BOWL GRID ──
+function renderBowls(){
+  const el=document.getElementById('bowl-grid');
+  if(!el)return;
+  el.innerHTML=chakraDef.map((ch,i)=>`
+    <div class="bowl-item ${i===state.activeBowl?'active':''}" onclick="selectBowl(${i},this)">
+      <div class="bowl-circle" style="background:${ch.color};color:#000">
+        <span>${ch.note}</span>
+      </div>
+      <div class="bowl-note">${bowlFreqs[i]} Hz</div>
+      <div class="bowl-chakra" style="color:${ch.color}">${ch.name}</div>
+    </div>
+  `).join('');
+}
+
+function selectBowl(idx, el){
+  state.activeBowl=idx;
+  document.querySelectorAll('.bowl-item').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  const ch=chakraDef[idx];
+  const el2=document.getElementById('crystal-freq-label');
+  if(el2) el2.textContent=`● ${bowlFreqs[idx]} Hz — ${ch.name} ATIVO`;
+  toast('✦',`Tigela ${ch.name} ativada`,`${bowlFreqs[idx]} Hz · ${ch.sanskrit}`);
+}
+
+function stopBowl(){
+  document.querySelectorAll('.bowl-item').forEach(b=>b.classList.remove('active'));
+  state.activeBowl=-1;
+  toast('⏹','Tigela desativada','Vibração encerrada');
+}
+
+// Crystal canvas animation
+let crystalPhase=0;
+function animCrystal(){
+  const c=document.getElementById('crystal-canvas');
+  if(!c)return;
+  const W=c.parentElement.offsetWidth||400;
+  const H=120;
+  c.width=W;c.height=H;
+  const ctx=c.getContext('2d');
+
+  function frame(){
+    ctx.clearRect(0,0,W,H);
+    if(state.activeBowl<0){ctx.fillStyle='rgba(107,95,160,.2)';ctx.font='11px Syne,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('Nenhuma tigela ativa',W/2,H/2);requestAnimationFrame(frame);return}
+    const ch=chakraDef[state.activeBowl];
+    const freq=bowlFreqs[state.activeBowl];
+    const t=Date.now()/1000;
+    crystalPhase+=.04;
+
+    // Standing wave
+    for(let x=0;x<W;x++){
+      const y=H/2+Math.sin(x/W*Math.PI*6+crystalPhase)*22*Math.sin(t*.5+x*.01)+
+              Math.sin(x/W*Math.PI*10-crystalPhase*.7)*10*Math.cos(t*.3);
+      ctx.beginPath();ctx.arc(x,y,1.2,0,Math.PI*2);
+      const hue=crystalPhase*20%360;
+      ctx.fillStyle=ch.color+'cc';ctx.fill();
+    }
+
+    // Glow center
+    const grd=ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,80);
+    grd.addColorStop(0,ch.color+'22');grd.addColorStop(1,'transparent');
+    ctx.fillStyle=grd;ctx.fillRect(0,0,W,H);
+
+    requestAnimationFrame(frame);
+  }
+  frame();
+}
+
+// ── BROADCAST WAVE ──
+let broadcastPhase=0;
+let broadcastActive=false;
+let broadcastSec=0;
+function drawBroadcastWave(){
+  const c=document.getElementById('broadcast-wave');
+  if(!c)return;
+  const W=c.parentElement.offsetWidth||400,H=50;
+  c.width=W;c.height=H;
+  const ctx=c.getContext('2d');
+  broadcastPhase+=broadcastActive?.06:.01;
+  ctx.clearRect(0,0,W,H);
+  const amp=broadcastActive?18:4;
+  ctx.beginPath();ctx.strokeStyle=broadcastActive?'rgba(201,168,76,.8)':'rgba(107,95,160,.3)';ctx.lineWidth=1.5;
+  for(let x=0;x<W;x++){
+    const y=H/2+Math.sin(x/W*Math.PI*8+broadcastPhase)*amp*Math.sin(x*.02);
+    x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  }
+  ctx.stroke();
+  requestAnimationFrame(drawBroadcastWave);
+}
+
+function toggleBroadcast(){
+  broadcastActive=!broadcastActive;
+  const btn=document.querySelector('[onclick="toggleBroadcast()"]');
+  const stat=document.getElementById('broadcast-status');
+  if(broadcastActive){
+    btn.textContent='⏹ Parar Broadcast';btn.className='btn btn-danger btn-sm';
+    stat.textContent='● Transmitindo';stat.className='badge b-ok';
+    toast('◉','Broadcast iniciado',`${state.broadcastFreq} Hz transmitindo para Fernanda Luz`);
+    const start=Date.now();
+    broadcastSec=0;
+    const tick=()=>{
+      if(!broadcastActive)return;
+      broadcastSec=Math.floor((Date.now()-start)/1000);
+      const h=String(Math.floor(broadcastSec/3600)).padStart(2,'0');
+      const m=String(Math.floor(broadcastSec%3600/60)).padStart(2,'0');
+      const s=String(broadcastSec%60).padStart(2,'0');
+      const el=document.getElementById('player-status');if(el)el.textContent=h+':'+m+':'+s;
+      const prog=document.getElementById('broadcast-prog');if(prog)prog.style.width=Math.min(100,broadcastSec/3600*100)+'%';
+      setTimeout(tick,1000);
+    };tick();
+  } else {
+    btn.textContent='▶ Iniciar Broadcast';btn.className='btn btn-v btn-sm';
+    stat.textContent='● Standby';stat.className='badge b-warn';
+    toast('⏹','Broadcast encerrado',`${broadcastSec}s transmitidos`);
+  }
+}
+
+function selectFreq(el, hz, name){
+  document.querySelectorAll('.freq-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  state.broadcastFreq=hz;
+  const names={174:'Alívio da Dor · Base de Segurança',285:'Restauração Etérica',396:'Libertação do Medo',417:'Facilitação da Mudança',528:'Transformação do DNA · Reparação & Milagres',639:'Harmonização · Vínculos',741:'Despertar Intuitivo',852:'Retorno à Ordem',963:'Iluminação Divina',432:'Harmonia Universal',111:'Regeneração Celular',888:'Abundância & Fluxo'};
+  const el2=document.getElementById('player-freq');if(el2)el2.textContent=hz+' Hz';
+  const el3=document.getElementById('player-name');if(el3)el3.textContent=names[hz]||name||'';
+}
+
+// ── SHIELD ──
+function toggleShield(){
+  state.shieldActive=!state.shieldActive;
+  const el=document.getElementById('shield-status');
+  if(el) el.textContent=state.shieldActive?'Escudo Dourado Ativo':'Escudo Desativado';
+  toast('⟡',state.shieldActive?'Escudo reforçado':'Escudo suspenso',state.shieldActive?'Proteção áurica máxima ativa':'Campo de proteção encerrado');
+}
+
+// ── REMOTE SCAN ──
+let scanRunning=false;
+function startRemoteScan(){
+  toast('◎','Scan remoto iniciado','Analisando campo multidimensional…');
+  setTimeout(()=>toast('✦','Scan concluído','7 chakras + campo geral mapeados'),3500);
+}
+
+// ── EVENT LOG ──
+const logMessages=[
+  {icon:'↑',text:'Frequência estabilizada em zona elevada',col:'var(--ok)'},
+  {icon:'◈',text:'Bloqueio etérico detectado — dissolução em curso',col:'var(--warn)'},
+  {icon:'✦',text:'Chakra Cardíaco expandindo (+3%)',col:'var(--g2)'},
+  {icon:'⟡',text:'Conexão com a Mesa Arcturiana: 91%',col:'var(--v2)'},
+  {icon:'●',text:'Campo energético em expansão',col:'var(--ok)'},
+  {icon:'◉',text:'Escudo áurico ativo — proteção estável',col:'var(--t2)'},
+];
+let logIdx=0;
+function addLogEvent(){
+  const el=document.getElementById('event-log');
+  if(!el)return;
+  const msg=logMessages[logIdx%logMessages.length];logIdx++;
+  const now=new Date();
+  const time=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0')+':'+String(now.getSeconds()).padStart(2,'0');
+  const div=document.createElement('div');
+  div.style.cssText='display:flex;align-items:flex-start;gap:8px;padding:7px 10px;background:var(--s1);border-radius:7px;border:1px solid var(--bd);animation:fadeUp .2s ease';
+  div.innerHTML=`<span style="color:${msg.col};flex-shrink:0;font-size:13px">${msg.icon}</span><span style="font-size:11px;color:var(--tx2);flex:1">${msg.text}</span><span style="font-size:9px;color:var(--tx3);font-family:'DM Mono',monospace;white-space:nowrap">${time}</span>`;
+  el.insertBefore(div,el.firstChild);
+  if(el.children.length>8)el.removeChild(el.lastChild);
+}
+
+// ── MAIN TICK ──
+function mainTick(){
+  const drift={freq:1.5,campo:.4,chak:.6,bloq:-.25,mesa:.15};
+  const noise={freq:15,campo:3,chak:4,bloq:2.5,mesa:2};
+  state.freq=Math.max(400,Math.min(999,state.freq+drift.freq+(Math.random()-.5)*noise.freq));
+  state.campo=Math.max(40,Math.min(100,state.campo+drift.campo+(Math.random()-.5)*noise.campo));
+  state.chak=Math.max(30,Math.min(100,state.chak+drift.chak+(Math.random()-.5)*noise.chak));
+  state.bloq=Math.max(0,Math.min(70,state.bloq+drift.bloq+(Math.random()-.5)*noise.bloq));
+  state.mesa=Math.max(50,Math.min(100,state.mesa+drift.mesa+(Math.random()-.5)*noise.mesa));
+
+  // Chakras drift
+  chakraDef.forEach((_,i)=>{
+    state.chakras[i]=Math.max(35,Math.min(100,state.chakras[i]+(Math.random()-.45)*.8));
+  });
+
+  state.score=Math.round(Math.max(0,Math.min(100,state.campo*.3+state.chak*.25+(100-state.bloq)*.2+state.mesa*.15+state.freq/10*.1)));
+
+  // History
+  state.histFreq.push(Math.round(state.freq));state.histCampo.push(Math.round(state.campo));
+  state.histChak.push(Math.round(state.chak));state.histBloq.push(Math.round(state.bloq));
+  if(state.histFreq.length>60){state.histFreq.shift();state.histCampo.shift();state.histChak.shift();state.histBloq.shift()}
+
+  // Update KPIs
+  const scoreLabels=[[90,'TRANSCENDENTE','var(--g2)'],[75,'CAMPO ELEVADO','var(--ok)'],[55,'CAMPO ATIVO','var(--v2)'],[35,'MODERADO','var(--warn)'],[0,'CAMPO DENSO','var(--danger)']];
+  const [,slbl,scol]=scoreLabels.find(([min])=>state.score>=min)||scoreLabels[scoreLabels.length-1];
+  const setT=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v};
+  setT('kpi-freq',Math.round(state.freq));setT('kpi-campo',Math.round(state.campo));
+  setT('kpi-chak',Math.round(state.chak));setT('kpi-bloq',Math.round(state.bloq));
+  setT('kpi-score',state.score);setT('score-big',state.score);
+  const ksl=document.getElementById('kpi-score-lbl');if(ksl){ksl.textContent=slbl;ksl.style.color=scol}
+  const sbl=document.getElementById('score-label-big');if(sbl){sbl.textContent=slbl;sbl.style.color=scol}
+  const sp=document.getElementById('score-prog');if(sp)sp.style.width=state.score+'%';
+
+  setT('rt-freq',Math.round(state.freq)+' Hz');setT('rt-campo',Math.round(state.campo)+'%');
+  setT('rt-bloq',Math.round(state.bloq)+'%');setT('rt-mesa',Math.round(state.mesa)+'%');
+
+  // Sidebar
+  setT('sb-campo',Math.round(state.campo)+'%');setT('sb-freq',Math.round(state.freq)+' Hz');
+  const sbcb=document.getElementById('sb-campo-bar');if(sbcb)sbcb.style.width=state.campo+'%';
+  const sbfb=document.getElementById('sb-freq-bar');if(sbfb)sbfb.style.width=(state.freq/10)+'%';
+
+  drawWave();drawTeleMain();
+  renderDetailedGauges();renderChakraGrid();
+  checkAlerts();
+}
+
+function setInterval2(sec, el){
+  document.querySelectorAll('[onclick*="setInterval2"]').forEach(b=>b.style.borderColor='var(--bd)');
+  if(el)el.style.borderColor='var(--v)';
+  clearInterval(state.intervalId);
+  const label=document.getElementById('update-interval-label');
+  if(sec===0){if(label)label.textContent='Pausado';return}
+  state.intervalMs=sec*1000;
+  if(label)label.textContent=sec+'s';
+  state.intervalId=setInterval(mainTick,state.intervalMs);
+}
+
+// ── CLOCK ──
+function updateClock(){
+  const now=new Date();
+  const t=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0')+':'+String(now.getSeconds()).padStart(2,'0');
+  ['sys-clock','tele-clock2'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=t});
+
+  state.elapsed++;
+  const h=Math.floor(state.elapsed/3600),m=Math.floor(state.elapsed%3600/60),s=state.elapsed%60;
+  const te=String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  ['sys-elapsed','wave-elapsed'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=te});
+}
+
+// ══════════════════════════════════
+// PAINEL GLOBAL
+// ══════════════════════════════════
+const globalClients = [
+  {ini:'FL',name:'Fernanda Luz',  col:'#8a6eff',freq:742,campo:83,bloq:24,chak:71,mesa:91,score:78,trend:'↑',status:'active'},
+  {ini:'RS',name:'Renata Souza',  col:'#c9a84c',freq:680,campo:74,bloq:31,chak:65,mesa:82,score:71,trend:'↑',status:'active'},
+  {ini:'CM',name:'Claudia Menezes',col:'#4ecdc4',freq:812,campo:88,bloq:13,chak:84,mesa:94,score:88,trend:'↑',status:'active'},
+  {ini:'AC',name:'Ana Clara Rocha',col:'#ff6b8a',freq:590,campo:62,bloq:44,chak:55,mesa:76,score:60,trend:'↓',status:'warn'},
+  {ini:'BF',name:'Beatriz Fonseca',col:'#7eb8ff',freq:703,campo:79,bloq:27,chak:72,mesa:85,score:74,trend:'↑',status:'active'},
+  {ini:'PM',name:'Patricia Moura', col:'#4ecb8e',freq:648,campo:70,bloq:35,chak:62,mesa:80,score:67,trend:'→',status:'active'},
+  {ini:'JC',name:'Juliana Correia',col:'#c97aff',freq:520,campo:55,bloq:51,chak:48,mesa:70,score:52,trend:'↓',status:'danger'},
+  {ini:'SA',name:'Sônia Alves',   col:'#ff9e6b',freq:731,campo:81,bloq:22,chak:76,mesa:88,score:79,trend:'↑',status:'paused'},
+];
+
+function renderGlobalPanel(){
+  const el=document.getElementById('global-rows');
+  if(!el)return;
+
+  el.innerHTML=globalClients.map((c,i)=>{
+    const sc=c.score;
+    const scCol=sc>=80?'var(--ok)':sc>=65?'var(--v2)':sc>=50?'var(--warn)':'var(--danger)';
+    const stBadge=c.status==='active'?'b-ok':c.status==='warn'?'b-warn':c.status==='danger'?'b-danger':'b-v';
+    const stLabel=c.status==='active'?'Ativo':c.status==='warn'?'Atenção':c.status==='danger'?'Crítico':'Pausado';
+    const bloqCol=c.bloq>40?'var(--danger)':c.bloq>25?'var(--warn)':'var(--ok)';
+    return `<div style="display:grid;grid-template-columns:180px 90px 90px 80px 80px 80px 1fr 90px;padding:11px 16px;border-bottom:1px solid var(--bd);align-items:center;gap:8px;transition:background .15s;cursor:pointer" onmouseenter="this.style.background='var(--s1)'" onmouseleave="this.style.background=''">
+      <div style="display:flex;align-items:center;gap:9px">
+        <div style="width:28px;height:28px;border-radius:50%;background:${c.col};display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0">${c.ini}</div>
+        <span style="font-size:12px;font-weight:600;color:var(--tx)">${c.name}</span>
+      </div>
+      <span style="font-size:11px;font-family:'DM Mono',monospace;color:var(--v2)">${c.freq} Hz</span>
+      <span style="font-size:11px;font-family:'DM Mono',monospace;color:var(--t2)">${c.campo}%</span>
+      <span style="font-size:11px;font-family:'DM Mono',monospace;color:${bloqCol}">${c.bloq}%</span>
+      <span style="font-size:11px;font-family:'DM Mono',monospace;color:var(--g2)">${c.chak}%</span>
+      <span style="font-size:11px;font-family:'DM Mono',monospace;color:var(--r2)">${c.mesa}%</span>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="flex:1;height:5px;background:var(--s2);border-radius:5px;overflow:hidden">
+          <div style="height:100%;width:${sc}%;background:${scCol};border-radius:5px;transition:width 1s ease"></div>
+        </div>
+        <span style="font-size:14px;font-family:'Cormorant Garamond',serif;font-weight:700;color:${scCol};min-width:28px;text-align:right">${sc}</span>
+        <span style="font-size:11px;color:${c.trend==='↑'?'var(--ok)':c.trend==='↓'?'var(--danger)':'var(--tx3)'}">${c.trend}</span>
+      </div>
+      <span class="badge ${stBadge}">${stLabel}</span>
+    </div>`;
+  }).join('');
+
+  // Score distribution
+  const distEl=document.getElementById('score-dist');
+  if(distEl){
+    const ranges=[{lbl:'Excelente (80–100)',min:80,col:'var(--ok)'},{lbl:'Elevado (65–79)',min:65,col:'var(--v2)'},{lbl:'Moderado (50–64)',min:50,col:'var(--warn)'},{lbl:'Crítico (<50)',min:0,col:'var(--danger)'}];
+    distEl.innerHTML=ranges.map(r=>{
+      const cnt=globalClients.filter(c=>c.score>=r.min&&(r.min===0||c.score<r.min+15+1)).length;
+      const pct=Math.round(cnt/globalClients.length*100);
+      return `<div style="display:flex;flex-direction:column;gap:5px">
+        <div style="display:flex;justify-content:space-between">
+          <span style="font-size:10px;color:var(--tx2)">${r.lbl}</span>
+          <span style="font-size:10px;font-family:'DM Mono',monospace;color:${r.col}">${cnt} cliente${cnt!==1?'s':''}</span>
+        </div>
+        <div class="gauge-track"><div class="gauge-fill" style="width:${pct}%;background:${r.col}"></div></div>
+      </div>`;
+    }).join('');
+  }
+
+  // Comparativo canvas
+  drawGlobalCompare();
+}
+
+function drawGlobalCompare(){
+  const c=document.getElementById('global-compare-canvas');
+  if(!c)return;
+  const W=c.parentElement.offsetWidth||400, H=160;
+  c.width=W; c.height=H;
+  const ctx=c.getContext('2d');
+  ctx.clearRect(0,0,W,H);
+
+  const pad=30, bw=Math.floor((W-pad*2)/globalClients.length)-4;
+  // Grid
+  [25,50,75,100].forEach(v=>{
+    const y=H-pad-(v/100)*(H-pad*1.5);
+    ctx.strokeStyle='rgba(138,110,255,.06)'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(pad,y); ctx.lineTo(W-4,y); ctx.stroke();
+    ctx.fillStyle='rgba(107,95,160,.5)'; ctx.font='8px DM Mono,monospace';
+    ctx.textAlign='right'; ctx.fillText(v,pad-4,y+3);
+  });
+
+  globalClients.forEach((cl,i)=>{
+    const x=pad+i*(bw+4);
+    const bh=Math.max(4,(cl.score/100)*(H-pad*1.5));
+    const y=H-pad-bh;
+    // Bar gradient
+    const grd=ctx.createLinearGradient(0,y,0,H-pad);
+    grd.addColorStop(0,cl.col+'cc'); grd.addColorStop(1,cl.col+'44');
+    ctx.fillStyle=grd;
+    ctx.beginPath();
+    ctx.roundRect?ctx.roundRect(x,y,bw,bh,3):ctx.rect(x,y,bw,bh);
+    ctx.fill();
+    // Score label
+    ctx.fillStyle=cl.col; ctx.font='bold 9px Syne,sans-serif';
+    ctx.textAlign='center'; ctx.textBaseline='bottom';
+    ctx.fillText(cl.score,x+bw/2,y-2);
+    // Name label
+    ctx.fillStyle='rgba(107,95,160,.8)'; ctx.font='8px Syne,sans-serif';
+    ctx.textBaseline='top'; ctx.fillText(cl.ini,x+bw/2,H-pad+3);
+  });
+}
+
+// Atualizar KPIs globais com live data
+function updateGlobalKPIs(){
+  const avgFreq=Math.round(globalClients.reduce((a,c)=>a+c.freq,0)/globalClients.length);
+  const avgCampo=Math.round(globalClients.reduce((a,c)=>a+c.campo,0)/globalClients.length);
+  const avgScore=Math.round(globalClients.reduce((a,c)=>a+c.score,0)/globalClients.length);
+  const avgBloq=Math.round(globalClients.reduce((a,c)=>a+c.bloq,0)/globalClients.length);
+  const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v};
+  set('g-freq',avgFreq); set('g-campo',avgCampo); set('g-score',avgScore); set('g-bloq',avgBloq);
+}
+
+// ══════════════════════════════════
+// SESSÃO REMOTA
+// ══════════════════════════════════
+let remoteActive=false, remotePaused=false, remoteSec=0, remoteDurSec=30*60;
+let remoteIntervalId=null, remoteStepIdx=0;
+
+const remoteProtocol=[
+  {icon:'⟡',title:'Abertura do Campo Remoto',desc:'Invocar presença Arcturiana e estabelecer conexão com o testemunho do cliente.',dur:180},
+  {icon:'◈',title:'Ancoragem Vibracional à Distância',desc:'Sintonizar o biômetro com o campo energético do cliente via testemunho digital.',dur:300},
+  {icon:'✦',title:'Scan Multidimensional dos Chakras',desc:'Leitura radiônica dos 7 chakras. Identificar bloqueios e desequilíbrios.',dur:360},
+  {icon:'◉',title:'Broadcast de Frequências Corretivas',desc:'Envio da frequência selecionada (528 Hz) com intenção programada.',dur:600},
+  {icon:'⬡',title:'Cristais Sônicos Virtuais',desc:'Ativação das tigelas de quartzo virtualmente sintonizadas com os chakras deficientes.',dur:300},
+  {icon:'⟡',title:'Limpeza Radiônica & Escudo Áurico',desc:'Varredura final de interferências. Ativação do escudo dourado AXIS™.',dur:240},
+  {icon:'✓',title:'Encerramento & Gratidão',desc:'Encerrar o campo com gratidão. Salvar relatório e registrar leituras finais.',dur:120},
+];
+
+function renderRemoteSteps(){
+  const el=document.getElementById('remote-steps');
+  if(!el)return;
+  el.innerHTML=remoteProtocol.map((s,i)=>{
+    const done=i<remoteStepIdx, active=i===remoteStepIdx;
+    const col=done?'var(--ok)':active?'var(--v2)':'var(--tx3)';
+    const bg=active?'rgba(138,110,255,.08)':'transparent';
+    return `<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-bottom:1px solid var(--bd);background:${bg};transition:background .2s">
+      <div style="width:22px;height:22px;border-radius:50%;border:1.5px solid ${col};display:flex;align-items:center;justify-content:center;font-size:10px;color:${col};flex-shrink:0;background:${done?'rgba(78,203,142,.12)':active?'rgba(138,110,255,.12)':'transparent'}">${done?'✓':active?'●':i+1}</div>
+      <div style="flex:1">
+        <div style="font-size:11px;font-weight:600;color:${active?'var(--tx)':'var(--tx2)'}">${s.icon} ${s.title}</div>
+        ${active?`<div style="font-size:9px;color:var(--tx3);margin-top:2px">${s.desc}</div>`:''}
+      </div>
+      <span style="font-size:9px;font-family:'DM Mono',monospace;color:var(--tx3)">${Math.floor(s.dur/60)}:${String(s.dur%60).padStart(2,'0')}</span>
+    </div>`;
+  }).join('');
+}
+
+function startRemoteSession(){
+  const consent=document.getElementById('consent-check');
+  if(!consent||!consent.checked){toast('⚠️','Consentimento necessário','Marque a confirmação de consentimento antes de iniciar');return}
+  if(remoteActive)return;
+  remoteActive=true; remotePaused=false; remoteSec=0; remoteStepIdx=0;
+  const client=document.getElementById('remote-client')?.value||'Cliente';
+  document.getElementById('remote-client-display').textContent=client;
+  document.getElementById('remote-run-badge').textContent='● Em curso';
+  document.getElementById('remote-run-badge').className='badge b-ok';
+  document.getElementById('remote-status-badge').textContent='● Ativo';
+  document.getElementById('remote-status-badge').className='badge b-ok';
+  document.getElementById('remote-ring').style.opacity='1';
+  document.getElementById('remote-pause-btn').disabled=false;
+  document.getElementById('remote-stop-btn').disabled=false;
+  renderRemoteSteps();
+  addRemoteLog('◈','Sessão remota iniciada','Campo estabelecido com sucesso');
+  toast('◈','Sessão remota iniciada','Campo energético transmitindo…');
+
+  remoteIntervalId=setInterval(()=>{
+    if(remotePaused)return;
+    remoteSec++;
+    // Timer display
+    const h=Math.floor(remoteSec/3600),m=Math.floor(remoteSec%3600/60),s=remoteSec%60;
+    const el=document.getElementById('remote-timer');
+    if(el)el.textContent=String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+    // Progress
+    const pct=Math.min(100,remoteSec/remoteDurSec*100);
+    const pp=document.getElementById('remote-prog');if(pp)pp.style.width=pct+'%';
+    // Step advance
+    const cumDur=remoteProtocol.slice(0,remoteStepIdx+1).reduce((a,s)=>a+s.dur,0);
+    if(remoteSec>=cumDur&&remoteStepIdx<remoteProtocol.length-1){
+      remoteStepIdx++;
+      renderRemoteSteps();
+      addRemoteLog(remoteProtocol[remoteStepIdx].icon,'Etapa avançada',remoteProtocol[remoteStepIdx].title);
+    }
+    // Live readings
+    const rBase={recepcao:78,transmissao:85,resposta:72,dissolucao:61};
+    const osc=(base,amp)=>Math.round(Math.max(0,Math.min(100,base+(Math.sin(remoteSec*.05+Math.random()*.2)*amp)+(remoteSec/remoteDurSec*8))));
+    const vals={recepcao:osc(rBase.recepcao,4),transmissao:osc(rBase.transmissao,3),resposta:osc(rBase.resposta,5),dissolucao:osc(rBase.dissolucao,6)};
+    Object.entries(vals).forEach(([k,v])=>{
+      const el=document.getElementById('rem-'+k);if(el)el.textContent=v+'%';
+      const bar=document.getElementById('rem-'+k+'-bar');if(bar)bar.style.width=v+'%';
+    });
+    // Auto-complete
+    if(remoteSec>=remoteDurSec)stopRemoteSession();
+  },1000);
+}
+
+function pauseRemoteSession(){
+  remotePaused=!remotePaused;
+  const btn=document.getElementById('remote-pause-btn');
+  if(btn)btn.textContent=remotePaused?'▶ Retomar':'⏸ Pausar';
+  addRemoteLog(remotePaused?'⏸':'▶',remotePaused?'Sessão pausada':'Sessão retomada','Campo mantido');
+  toast(remotePaused?'⏸':'▶',remotePaused?'Sessão pausada':'Sessão retomada',remotePaused?'Campo energético mantido':'Transmissão retomada');
+}
+
+function stopRemoteSession(){
+  clearInterval(remoteIntervalId);
+  remoteActive=false; remotePaused=false;
+  document.getElementById('remote-run-badge').textContent='Encerrada';
+  document.getElementById('remote-run-badge').className='badge b-v';
+  document.getElementById('remote-status-badge').textContent='● Concluída';
+  document.getElementById('remote-status-badge').className='badge b-v';
+  document.getElementById('remote-ring').style.opacity='.3';
+  document.getElementById('remote-pause-btn').disabled=true;
+  document.getElementById('remote-stop-btn').disabled=true;
+  remoteStepIdx=remoteProtocol.length;
+  renderRemoteSteps();
+  addRemoteLog('✓','Sessão remota encerrada','Relatório salvo automaticamente');
+  toast('✓','Sessão encerrada com sucesso','Relatório holográfico gerado');
+}
+
+let remoteLogCount=0;
+function addRemoteLog(icon,title,sub){
+  const el=document.getElementById('remote-log');
+  if(!el)return;
+  remoteLogCount++;
+  const cnt=document.getElementById('remote-log-count');
+  if(cnt)cnt.textContent=remoteLogCount+' evento'+(remoteLogCount!==1?'s':'');
+  const now=new Date();
+  const t=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0')+':'+String(now.getSeconds()).padStart(2,'0');
+  const div=document.createElement('div');
+  div.style.cssText='display:flex;gap:8px;align-items:flex-start;padding:7px 10px;background:var(--s1);border-radius:7px;border:1px solid var(--bd)';
+  div.innerHTML=`<span style="font-size:13px;flex-shrink:0">${icon}</span><div style="flex:1"><div style="font-size:11px;color:var(--tx);font-weight:600">${title}</div><div style="font-size:9px;color:var(--tx3);font-family:'DM Mono',monospace">${sub}</div></div><span style="font-size:9px;color:var(--tx3);font-family:'DM Mono',monospace;white-space:nowrap">${t}</span>`;
+  el.insertBefore(div,el.firstChild);
+  if(el.children.length>12)el.removeChild(el.lastChild);
+}
+
+// ══════════════════════════════════
+// MAPA ÁURICO
+// ══════════════════════════════════
+const auricBodies=[
+  {name:'Corpo Etérico',desc:'1ª camada — vitalidade física',color:'#4ecdc4',val:88},
+  {name:'Corpo Emocional',desc:'2ª camada — estados afetivos',color:'#ff6b8a',val:74},
+  {name:'Corpo Mental',desc:'3ª camada — padrões de pensamento',color:'#8a6eff',val:71},
+  {name:'Corpo Astral',desc:'4ª camada — conexões & vínculos',color:'#c9a84c',val:79},
+  {name:'Corpo Etérico-Plantão',desc:'5ª camada — padrões saúde',color:'#3bb5ff',val:83},
+  {name:'Corpo Celestial',desc:'6ª camada — intuição & amor divino',color:'#d06eff',val:68},
+  {name:'Corpo Kéthérico',desc:'7ª camada — integração espiritual',color:'#ffe03b',val:77},
+];
+
+const auricLayers=[
+  {name:'Etérico',num:1,col:'#4ecdc4',desc:'Molde energético do corpo físico. Vitalidade, força vital, prana.',val:88},
+  {name:'Emocional',num:2,col:'#ff6b8a',desc:'Sentimentos e estados emocionais. Relações e vínculos afetivos.',val:74},
+  {name:'Mental',num:3,col:'#8a6eff',desc:'Pensamentos, crenças e padrões mentais. Estruturas cognitivas.',val:71},
+  {name:'Astral',num:4,col:'#c9a84c',desc:'Ponte entre o físico e o espiritual. Amor e conexão universal.',val:79},
+  {name:'Etérico-Plantão',num:5,col:'#3bb5ff',desc:'Padrões de saúde e doença no plano espiritual. Memória celular.',val:83},
+  {name:'Celestial',num:6,col:'#d06eff',desc:'Amor divino, intuição elevada, conexão com guias e mestres.',val:68},
+  {name:'Kéthérico',num:7,col:'#ffe03b',desc:'Integração de todos os corpos. Conexão com o Eu Superior.',val:77},
+];
+
+const interferenceTypes=[
+  {icon:'◈',label:'Entidade de baixa vibração',severity:'warn',chakra:'Plexo Solar',action:'Limpeza radiônica + 417 Hz'},
+  {icon:'〜',label:'Padrão de pensamento limitante',severity:'warn',chakra:'Frontal',action:'Broadcast 852 Hz + Meditação guiada'},
+];
+
+let auricAnimFrame=null;
+let auricPhase=0;
+let auricVals=[...auricLayers.map(l=>l.val)];
+
+function drawAuricMap(){
+  const c=document.getElementById('auric-canvas');
+  if(!c)return;
+  const W=340, H=380;
+  const ctx=c.getContext('2d');
+  ctx.clearRect(0,0,W,H);
+  auricPhase+=0.012;
+
+  const cx=W/2, cy=H/2+10;
+
+  // Draw aura layers (outermost to innermost)
+  auricLayers.slice().reverse().forEach((layer,ri)=>{
+    const i=auricLayers.length-1-ri;
+    const baseR=30+(i+1)*26;
+    const wobble=Math.sin(auricPhase+i*0.7)*4*(layer.val/100);
+    const r=baseR+wobble;
+    const alpha=0.08+(layer.val/100)*0.18;
+
+    // Glow
+    const grd=ctx.createRadialGradient(cx,cy,r*.3,cx,cy,r);
+    grd.addColorStop(0,layer.col+(Math.round(alpha*255).toString(16).padStart(2,'0')));
+    grd.addColorStop(0.6,layer.col+(Math.round(alpha*.5*255).toString(16).padStart(2,'0')));
+    grd.addColorStop(1,'transparent');
+    ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2);
+    ctx.fillStyle=grd; ctx.fill();
+
+    // Ring
+    ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2);
+    ctx.strokeStyle=layer.col+(Math.round(0.25*255).toString(16).padStart(2,'0'));
+    ctx.lineWidth=1; ctx.stroke();
+  });
+
+  // Silhouette (body shape)
+  ctx.save();
+  ctx.globalAlpha=0.15;
+  // Head
+  ctx.beginPath(); ctx.arc(cx,cy-80,28,0,Math.PI*2);
+  ctx.fillStyle='rgba(180,157,255,0.4)'; ctx.fill();
+  // Body
+  ctx.beginPath();
+  ctx.ellipse(cx,cy+20,18,55,0,0,Math.PI*2);
+  ctx.fillStyle='rgba(180,157,255,0.3)'; ctx.fill();
+  ctx.restore();
+
+  // Chakra dots on body
+  chakraDef.forEach((ch,i)=>{
+    const yPos=[cy-80,cy-55,cy-30,cy-5,cy+22,cy+45,cy+65][i]||cy;
+    const v=state.chakras[i]/100;
+    const pulseR=7+Math.sin(auricPhase*2+i)*2*v;
+    // Glow
+    const grd2=ctx.createRadialGradient(cx,yPos,0,cx,yPos,pulseR*2.5);
+    grd2.addColorStop(0,ch.color+'cc'); grd2.addColorStop(1,'transparent');
+    ctx.beginPath(); ctx.arc(cx,yPos,pulseR*2.5,0,Math.PI*2);
+    ctx.fillStyle=grd2; ctx.fill();
+    // Core
+    ctx.beginPath(); ctx.arc(cx,yPos,pulseR,0,Math.PI*2);
+    ctx.fillStyle=ch.color; ctx.fill();
+    ctx.strokeStyle='rgba(255,255,255,.4)'; ctx.lineWidth=1; ctx.stroke();
+    // Label
+    ctx.fillStyle=ch.color; ctx.font='bold 8px Syne,sans-serif';
+    ctx.textAlign='left'; ctx.textBaseline='middle';
+    ctx.fillText(ch.name,cx+pulseR+6,yPos);
+    ctx.fillStyle='rgba(180,157,255,.5)'; ctx.font='8px DM Mono,monospace';
+    ctx.fillText(Math.round(state.chakras[i])+'%',cx+pulseR+6+ctx.measureText(ch.name).width+4,yPos);
+  });
+
+  // Interference zones
+  interferenceTypes.forEach((inf,i)=>{
+    const iy=cy-30+i*30;
+    const ix=cx-40+Math.sin(auricPhase+i)*8;
+    ctx.beginPath(); ctx.arc(ix,iy,6,0,Math.PI*2);
+    ctx.fillStyle='rgba(240,166,64,.6)'; ctx.fill();
+    ctx.strokeStyle='rgba(240,166,64,.9)'; ctx.lineWidth=1.5; ctx.stroke();
+  });
+
+  // Rotating scan ring
+  ctx.save();
+  ctx.translate(cx,cy);
+  ctx.rotate(auricPhase*.4);
+  ctx.beginPath();
+  ctx.arc(0,0,160,0,Math.PI*.3);
+  ctx.strokeStyle='rgba(201,168,76,.25)'; ctx.lineWidth=1; ctx.stroke();
+  ctx.restore();
+
+  // Center AXIS mark
+  ctx.beginPath(); ctx.arc(cx,cy-5,5,0,Math.PI*2);
+  ctx.fillStyle='rgba(201,168,76,.5)'; ctx.fill();
+
+  auricAnimFrame=requestAnimationFrame(drawAuricMap);
+}
+
+function renderAuricBodiesGauges(){
+  const el=document.getElementById('auric-bodies-gauges');
+  if(!el)return;
+  el.innerHTML=auricBodies.map(b=>`
+    <div class="gauge-item">
+      <div class="gauge-h">
+        <span class="gauge-name" style="color:${b.color};font-size:10px">◉ ${b.name}</span>
+        <span class="gauge-pct" style="color:${b.color}">${b.val}%</span>
+      </div>
+      <div style="font-size:8px;color:var(--tx3);margin-bottom:3px;font-style:italic">${b.desc}</div>
+      <div class="gauge-track"><div class="gauge-fill" style="width:${b.val}%;background:${b.color}99"></div></div>
+    </div>`).join('');
+}
+
+function renderInterferences(){
+  const el=document.getElementById('interference-list');
+  if(!el)return;
+  if(interferenceTypes.length===0){
+    el.innerHTML='<div style="text-align:center;padding:12px;color:var(--ok);font-size:11px">✓ Nenhuma interferência detectada</div>';
+    return;
+  }
+  el.innerHTML=interferenceTypes.map(inf=>`
+    <div class="alert-item alert-${inf.severity}" style="flex-direction:column;gap:4px">
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="alert-icon">${inf.icon}</span>
+        <div class="alert-title">${inf.label}</div>
+      </div>
+      <div class="alert-sub">Chakra: ${inf.chakra} · Ação: ${inf.action}</div>
+      <button class="btn btn-v btn-sm" style="align-self:flex-start;margin-top:4px" onclick="toast('◉','Protocolo ativado','${inf.action}')">▶ Corrigir</button>
+    </div>`).join('');
+}
+
+function renderAuricLayers(){
+  const el=document.getElementById('auric-layers-grid');
+  if(!el)return;
+  el.innerHTML=auricLayers.map(l=>`
+    <div style="background:var(--s1);border:1px solid ${l.col}30;border-radius:10px;padding:12px;position:relative;overflow:hidden">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:${l.col}"></div>
+      <div style="font-size:10px;font-weight:700;color:${l.col};margin-bottom:4px">${l.num}ª Camada · ${l.name}</div>
+      <div style="font-size:8px;color:var(--tx3);line-height:1.5;margin-bottom:8px;font-style:italic">${l.desc}</div>
+      <div style="font-size:22px;font-family:'Cormorant Garamond',serif;font-weight:600;color:${l.col};margin-bottom:6px">${l.val}%</div>
+      <div style="height:3px;background:var(--s2);border-radius:3px;overflow:hidden">
+        <div style="height:100%;width:${l.val}%;background:${l.col};border-radius:3px"></div>
+      </div>
+    </div>`).join('');
+}
+
+function updateAuricClient(){
+  const v=Math.round(70+Math.random()*20);
+  document.getElementById('auric-integrity').textContent=v+'%';
+  document.getElementById('auric-prog').style.width=v+'%';
+  const lbl=v>=85?'CAMPO TRANSCENDENTE':v>=75?'CAMPO ÍNTEGRO':v>=60?'CAMPO ATIVO':'CAMPO FRAGILIZADO';
+  document.getElementById('auric-label').textContent=lbl;
+  auricBodies.forEach(b=>{b.val=Math.round(50+Math.random()*48)});
+  renderAuricBodiesGauges();
+  toast('◎','Scan áurico atualizado','Campo remapeado com sucesso');
+}
+
+function randomAuricScan(){
+  auricLayers.forEach(l=>{l.val=Math.round(50+Math.random()*48)});
+  renderAuricLayers();
+  const avg=Math.round(auricLayers.reduce((a,l)=>a+l.val,0)/auricLayers.length);
+  document.getElementById('auric-integrity').textContent=avg+'%';
+  document.getElementById('auric-prog').style.width=avg+'%';
+  toast('◎','Novo scan áurico realizado','Mapa atualizado em tempo real');
+}
+
+// ══════════════════════════════════
+// RELATÓRIO HOLOGRÁFICO
+// ══════════════════════════════════
+const repClients={
+  'Fernanda Luz':    {ini:'FL',meta:'SES-2026-0147 · Mesa Arcturiana – Puxão Quântico · Ciclo 2 de 4 · 19 Mai 2026',freq:'742 Hz',score:78,slbl:'CAMPO ELEVADO',evolution:'+20%'},
+  'Renata Souza':    {ini:'RS',meta:'SES-2026-0142 · Soberania Etérica · Ciclo 1 de 4 · 17 Mai 2026',freq:'680 Hz',score:71,slbl:'CAMPO ATIVO',evolution:'+14%'},
+  'Claudia Menezes': {ini:'CM',meta:'SES-2026-0138 · Arcanjo Miguel · Ciclo 4 de 4 · 15 Mai 2026',freq:'812 Hz',score:88,slbl:'CAMPO EXCELENTE',evolution:'+28%'},
+  'Ana Clara Rocha': {ini:'AC',meta:'SES-2026-0135 · Mesa de Metatron · Ciclo 3 de 4 · 14 Mai 2026',freq:'590 Hz',score:60,slbl:'CAMPO MODERADO',evolution:'+8%'},
+  'Beatriz Fonseca': {ini:'BF',meta:'SES-2026-0131 · Karma & Contratos de Alma · Ciclo 2 de 3 · 13 Mai 2026',freq:'703 Hz',score:74,slbl:'CAMPO ATIVO',evolution:'+17%'},
+};
+
+function renderReport(){
+  const sel=document.getElementById('rep-client-sel');
+  const name=sel?sel.value:'Fernanda Luz';
+  const d=repClients[name]||repClients['Fernanda Luz'];
+  const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v};
+  const setH=(id,v)=>{const e=document.getElementById(id);if(e)e.innerHTML=v};
+  set('rep-avatar',d.ini); set('rep-name',name); set('rep-meta',d.meta);
+  set('rep-freq',d.freq); set('rep-score',d.score); set('rep-score-lbl',d.slbl);
+
+  // Chakras do relatório
+  const repChEl=document.getElementById('rep-chakras');
+  if(repChEl) repChEl.innerHTML=chakraDef.map((ch,i)=>{
+    const v=state.chakras[i];
+    return `<div class="gauge-item">
+      <div class="gauge-h"><span class="gauge-name" style="font-size:10px;color:${ch.color}">${ch.sym} ${ch.name}</span><span class="gauge-pct" style="color:${ch.color}">${Math.round(v)}%</span></div>
+      <div class="gauge-track" style="height:5px"><div class="gauge-fill" style="width:${v}%;background:${ch.color};height:5px"></div></div>
+    </div>`;
+  }).join('');
+
+  // Análise textual
+  const scol=d.score>=80?'var(--ok)':d.score>=65?'var(--v2)':d.score>=50?'var(--warn)':'var(--danger)';
+  const analysisEl=document.getElementById('rep-analysis');
+  if(analysisEl) analysisEl.innerHTML=[
+    {icon:'⬡',title:'Evolução Bioenergética',text:`${name} apresentou evolução consistente ao longo do ciclo atual. Frequência vibracional de ${d.freq}, indicando campo energético ${d.slbl.toLowerCase()}. Score bioenergético de ${d.score}/100, representando evolução de ${d.evolution} em relação ao início do protocolo.`},
+    {icon:'✦',title:'Campo Áurico & Chakras',text:`Chakra Cardíaco e Coronal demonstram expansão significativa. Chakra Laríngeo requer atenção e harmonização adicional. Campo etérico íntegro com presença de bloqueios em dissolução ativa.`},
+    {icon:'◈',title:'Bloqueios Etéricos',text:`Bloqueios de origem kármica identificados no campo emocional (2ª camada áurica). Processo de dissolução em 73% de conclusão. Recomenda-se continuidade do protocolo com broadcast 417 Hz nas próximas 2 sessões.`},
+    {icon:'◉',title:'Resposta ao Tratamento',text:`Cliente demonstra excelente receptividade à metodologia AXIS™. Conexão com a Mesa Arcturiana mantida acima de 85% em todas as sessões. Progresso dentro do esperado para o Ciclo 2.`},
+  ].map(a=>`<div style="padding:12px 14px;background:var(--s1);border-radius:8px;border-left:3px solid var(--v)">
+    <div style="font-size:11px;font-weight:700;color:var(--v2);margin-bottom:5px">${a.icon} ${a.title}</div>
+    <div style="font-size:11px;color:var(--tx2);line-height:1.6">${a.text}</div>
+  </div>`).join('');
+
+  // Recomendações
+  const recsEl=document.getElementById('rep-recs');
+  if(recsEl) recsEl.innerHTML=[
+    {icon:'〜',txt:'Broadcast 528 Hz por 45 minutos antes da próxima sessão',badge:'Prioritário'},
+    {icon:'✦',txt:'Ativação da Tigela Laríngea (Nota G — 384 Hz) para fortalecimento do 5º chakra',badge:'Recomendado'},
+    {icon:'◈',txt:'Limpeza radiônica adicional de contratos kármicos multigeracionais',badge:'Recomendado'},
+    {icon:'⟡',txt:'Manutenção do escudo áurico AXIS™ ativo 24/7 entre as sessões',badge:'Padrão'},
+    {icon:'◉',txt:'Próxima sessão: Ciclo 3 — Consagração e Integração Multidimensional',badge:'Próxima'},
+  ].map(r=>`<div class="alert-item alert-ok">
+    <span class="alert-icon">${r.icon}</span>
+    <div style="flex:1"><div class="alert-title">${r.txt}</div></div>
+    <span class="badge b-v" style="white-space:nowrap">${r.badge}</span>
+  </div>`).join('');
+
+  // Chart
+  setTimeout(drawRepChart,100);
+}
+
+function drawRepChart(){
+  const c=document.getElementById('rep-canvas');
+  if(!c)return;
+  const W=c.parentElement.offsetWidth||460, H=150;
+  c.width=W; c.height=H;
+  const ctx=c.getContext('2d');
+  ctx.clearRect(0,0,W,H);
+  const freq=[62,65,68,70,71,74,75,74];
+  const campo=[55,60,63,68,70,74,78,83];
+  const score=[57,62,65,68,70,73,76,78];
+  const n=8;
+  // Grid
+  [25,50,75,100].forEach(v=>{
+    const y=10+((1-v/100)*(H-25));
+    ctx.strokeStyle='rgba(138,110,255,.05)'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(30,y); ctx.lineTo(W,y); ctx.stroke();
+    ctx.fillStyle='rgba(107,95,160,.5)'; ctx.font='8px DM Mono,monospace';
+    ctx.textAlign='right'; ctx.fillText(v,28,y+3);
+  });
+  const drawS=(data,color,dotR=3)=>{
+    ctx.beginPath(); ctx.strokeStyle=color; ctx.lineWidth=2; ctx.shadowColor=color; ctx.shadowBlur=6;
+    data.forEach((v,i)=>{
+      const x=30+(i/(n-1))*(W-36), y=10+((1-v/100)*(H-25));
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    });
+    ctx.stroke(); ctx.shadowBlur=0;
+    data.forEach((v,i)=>{
+      const x=30+(i/(n-1))*(W-36), y=10+((1-v/100)*(H-25));
+      ctx.beginPath(); ctx.arc(x,y,dotR,0,Math.PI*2);
+      ctx.fillStyle=color; ctx.fill();
+      ctx.strokeStyle='var(--bg2)'; ctx.lineWidth=1.5; ctx.stroke();
+      ctx.fillStyle=color; ctx.font='bold 8px Syne,sans-serif';
+      ctx.textAlign='center'; ctx.textBaseline='bottom'; ctx.fillText(v,x,y-4);
+    });
+    // X axis
+    data.forEach((_,i)=>{
+      const x=30+(i/(n-1))*(W-36);
+      ctx.fillStyle='rgba(107,95,160,.6)'; ctx.font='8px DM Mono,monospace';
+      ctx.textAlign='center'; ctx.textBaseline='top'; ctx.fillText('S'+(i+1),x,H-13);
+    });
+  };
+  drawS(freq,'#b49dff'); drawS(campo,'#7eeae3',2.5); drawS(score,'#e8c97a',2.5);
+}
+
+// ══════════════════════════════════
+// UPDATE NAV TITLES
+// ══════════════════════════════════
+const extraTitles={
+  global:['Painel Global','Telemetria de Todos os Clientes'],
+  remoto:['Sessão Remota','Protocolo de Atendimento à Distância'],
+  aurico:['Mapa Áurico Holográfico','Leitura Multidimensional dos Corpos Sutis'],
+  relatorio:['Relatório Holográfico','AXIS Intelligence™ · Análise Completa'],
+};
+const origNavTab=navTab;
+// Extend navTab for new titles and init calls
+const _navTabInner=function(id,el){
+  document.querySelectorAll('.tab-page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn,.nav-btn').forEach(b=>b.classList.remove('active'));
+  const pg=document.getElementById('tab-'+id);
+  if(pg)pg.classList.add('active');
+  document.querySelectorAll(`[onclick*="navTab('${id}"]`).forEach(b=>b.classList.add('active'));
+  const allTitles=Object.assign({
+    scan:['Scanner Holográfico','Análise Radiônica Multidimensional'],
+    realtime:['Telemetria ao Vivo','Monitoramento em Tempo Real'],
+    broadcast:['Broadcast de Frequências','Envio Solfeggio & Intenção Radiônica'],
+    historico:['Histórico Vibracional','Evolução Energética por Sessão'],
+    alertas:['Alertas AXIS Intelligence™','Notificações Automáticas'],
+    cristais:['Cristais Sônicos','Tigelas de Quartzo Virtual'],
+  },extraTitles);
+  if(allTitles[id]){
+    document.getElementById('topbar-title').textContent=allTitles[id][0];
+    document.getElementById('topbar-crumb').textContent=allTitles[id][1];
+  }
+  if(id==='historico') setTimeout(drawHistBig,100);
+  if(id==='cristais') setTimeout(animCrystal,100);
+  if(id==='global'){renderGlobalPanel();updateGlobalKPIs();}
+  if(id==='remoto'){renderRemoteSteps();}
+  if(id==='aurico'){renderAuricBodiesGauges();renderInterferences();renderAuricLayers();if(!auricAnimFrame)drawAuricMap();}
+  if(id==='relatorio'){renderReport();}
+};
+// Override navTab globally
+window.navTab=_navTabInner;
+
+// ── INIT ──
+renderChakraGrid();
+renderDetailedGauges();
+renderBowls();
+checkAlerts();
+drawRadar();
+drawBroadcastWave();
+animCrystal();
+drawWave();
+drawTeleMain();
+
+state.intervalId=setInterval(mainTick,state.intervalMs);
+setInterval(updateClock,1000);
+setInterval(addLogEvent,6000);
+addLogEvent();
+
+// Resize canvases on window resize
+window.addEventListener('resize',()=>{drawWave();drawTeleMain();drawGlobalCompare();});
+
+// ══════════════════════════════════
+// WEB AUDIO ENGINE — Síntese Real de Frequências
+// ══════════════════════════════════
+let audioCtx=null, oscNode=null, gainNode=null, reverbNode=null;
+let audioPlaying=false;
+
+function initAudio(){
+  if(audioCtx) return;
+  audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+  gainNode=audioCtx.createGain();
+  gainNode.gain.setValueAtTime(0,audioCtx.currentTime);
+
+  // Simple reverb via ConvolverNode buffer
+  try{
+    reverbNode=audioCtx.createConvolver();
+    const len=audioCtx.sampleRate*2.5;
+    const buf=audioCtx.createBuffer(2,len,audioCtx.sampleRate);
+    for(let c=0;c<2;c++){
+      const d=buf.getChannelData(c);
+      for(let i=0;i<len;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2.2);
+    }
+    reverbNode.buffer=buf;
+    const dryGain=audioCtx.createGain(); dryGain.gain.value=0.65;
+    const wetGain=audioCtx.createGain(); wetGain.gain.value=0.35;
+    gainNode.connect(dryGain); gainNode.connect(reverbNode);
+    reverbNode.connect(wetGain);
+    dryGain.connect(audioCtx.destination); wetGain.connect(audioCtx.destination);
+  }catch(e){ gainNode.connect(audioCtx.destination); }
+}
+
+function playFrequency(hz, label){
+  initAudio();
+  if(oscNode){ oscNode.stop(); oscNode=null; audioPlaying=false; }
+
+  oscNode=audioCtx.createOscillator();
+  // Enrich with sub-harmonic
+  const sub=audioCtx.createOscillator();
+  const subGain=audioCtx.createGain(); subGain.gain.value=0.18;
+
+  oscNode.type='sine';
+  oscNode.frequency.setValueAtTime(hz, audioCtx.currentTime);
+  sub.type='sine';
+  sub.frequency.setValueAtTime(hz/2, audioCtx.currentTime);
+
+  oscNode.connect(gainNode);
+  sub.connect(subGain); subGain.connect(gainNode);
+
+  gainNode.gain.cancelScheduledValues(audioCtx.currentTime);
+  gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+  gainNode.gain.linearRampToValueAtTime(0.32, audioCtx.currentTime+1.8);
+
+  oscNode.start(); sub.start();
+  audioPlaying=true;
+  toast('🔊', `${hz} Hz — ${label}`, 'Síntese de onda pura ativa');
+
+  // Update player UI
+  const pf=document.getElementById('player-freq'); if(pf) pf.textContent=hz+' Hz';
+  updateAudioBadge(true);
+}
+
+function stopFrequency(){
+  if(!oscNode||!audioCtx) return;
+  gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime+1.2);
+  setTimeout(()=>{ if(oscNode){oscNode.stop();oscNode=null;} audioPlaying=false; updateAudioBadge(false); },1300);
+}
+
+function updateAudioBadge(active){
+  const el=document.getElementById('audio-live-badge');
+  if(el){ el.textContent=active?'♫ Tocando':'♫ Silencioso'; el.className=active?'badge b-ok':'badge b-v'; }
+}
+
+// Attach audio to freq buttons — override selectFreq
+const _origSelectFreq=window.selectFreq;
+window.selectFreq=function(el,hz,name){
+  _origSelectFreq(el,hz,name);
+  const names={174:'Alívio da Dor',285:'Restauração Etérica',396:'Libertação',417:'Facilitação da Mudança',528:'Transformação DNA',639:'Harmonização',741:'Despertar',852:'Retorno à Ordem',963:'Iluminação',432:'Harmonia Universal',111:'Regeneração Celular',888:'Abundância'};
+  playFrequency(hz, names[hz]||name||'');
+};
+
+// Bowl audio
+const _origSelectBowl=window.selectBowl;
+window.selectBowl=function(idx,el){
+  _origSelectBowl(idx,el);
+  playFrequency(bowlFreqs[idx], chakraDef[idx].name+' — '+bowlFreqs[idx]+' Hz');
+};
+const _origStopBowl=window.stopBowl;
+window.stopBowl=function(){ _origStopBowl(); stopFrequency(); };
+
+// ══════════════════════════════════
+// CROSS-MODULE INTEGRATION
+// ══════════════════════════════════
+// Inject "Abrir no Biômetro" shortcuts into alert actions
+function enhanceAlertActions(){
+  // Quick-action float button — opens remote scan from any tab
+  const fab=document.createElement('div');
+  fab.id='fab-btn';
+  fab.style.cssText='position:fixed;bottom:28px;right:28px;z-index:800;display:flex;flex-direction:column;gap:8px;align-items:flex-end';
+  fab.innerHTML=`
+    <div id="fab-menu" style="display:none;flex-direction:column;gap:6px;align-items:flex-end;margin-bottom:6px">
+      <div class="fab-item" onclick="window.navTab('remoto');closeFab()" style="background:rgba(14,12,40,.95);border:1px solid var(--bd2);border-radius:10px;padding:8px 14px;font-size:11px;font-weight:600;color:var(--v2);cursor:pointer;white-space:nowrap;backdrop-filter:blur(8px)">◈ Sessão Remota</div>
+      <div class="fab-item" onclick="window.navTab('aurico');closeFab()" style="background:rgba(14,12,40,.95);border:1px solid var(--bd2);border-radius:10px;padding:8px 14px;font-size:11px;font-weight:600;color:var(--t2);cursor:pointer;white-space:nowrap;backdrop-filter:blur(8px)">◎ Mapa Áurico</div>
+      <div class="fab-item" onclick="window.navTab('broadcast');closeFab()" style="background:rgba(14,12,40,.95);border:1px solid var(--bd2);border-radius:10px;padding:8px 14px;font-size:11px;font-weight:600;color:var(--g2);cursor:pointer;white-space:nowrap;backdrop-filter:blur(8px)">◉ Broadcast</div>
+      <div class="fab-item" onclick="window.navTab('relatorio');closeFab()" style="background:rgba(14,12,40,.95);border:1px solid var(--bd2);border-radius:10px;padding:8px 14px;font-size:11px;font-weight:600;color:var(--r2);cursor:pointer;white-space:nowrap;backdrop-filter:blur(8px)">📄 Relatório</div>
+    </div>
+    <div id="fab-core" onclick="toggleFab()" style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--v),var(--g));display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 24px rgba(138,110,255,.45);font-size:22px;transition:transform .2s;border:2px solid rgba(255,255,255,.1)">⟡</div>`;
+  document.body.appendChild(fab);
+}
+
+let fabOpen=false;
+function toggleFab(){
+  fabOpen=!fabOpen;
+  const menu=document.getElementById('fab-menu');
+  const core=document.getElementById('fab-core');
+  if(menu) menu.style.display=fabOpen?'flex':'none';
+  if(core) core.style.transform=fabOpen?'rotate(45deg)':'rotate(0)';
+}
+function closeFab(){
+  fabOpen=false;
+  const menu=document.getElementById('fab-menu');
+  const core=document.getElementById('fab-core');
+  if(menu) menu.style.display='none';
+  if(core) core.style.transform='rotate(0)';
+}
+
+// ── Audio badge in topbar
+function injectAudioBadge(){
+  const ta=document.querySelector('.topbar-actions');
+  if(!ta) return;
+  const badge=document.createElement('span');
+  badge.id='audio-live-badge';
+  badge.className='badge b-v';
+  badge.textContent='♫ Silencioso';
+  badge.style.cursor='pointer';
+  badge.onclick=()=>{ if(audioPlaying) stopFrequency(); else toast('🔊','Selecione uma frequência','Vá em Broadcast ou Cristais para ativar o áudio'); };
+  ta.insertBefore(badge, ta.children[2]);
+
+  // Stop audio button
+  const stopBtn=document.createElement('button');
+  stopBtn.className='btn btn-ghost btn-sm';
+  stopBtn.textContent='⏹ Áudio';
+  stopBtn.onclick=stopFrequency;
+  ta.insertBefore(stopBtn, ta.children[3]);
+}
+
+// ══════════════════════════════════
+// LIVE GLOBAL PANEL UPDATE
+// ══════════════════════════════════
+// Drift global client scores gently over time
+setInterval(()=>{
+  globalClients.forEach(c=>{
+    c.freq=Math.max(400,Math.min(999,c.freq+(Math.random()-.45)*8));
+    c.campo=Math.max(40,Math.min(100,c.campo+(Math.random()-.45)*1.5));
+    c.bloq=Math.max(0,Math.min(70,c.bloq+(Math.random()-.55)*1.2));
+    c.chak=Math.max(30,Math.min(100,c.chak+(Math.random()-.45)*1.5));
+    c.score=Math.round(Math.max(0,Math.min(100,c.campo*.3+c.chak*.25+(100-c.bloq)*.2+c.mesa*.15+c.freq/10*.1)));
+    c.trend=c.score>=(c._prevScore||c.score)?'↑':'↓';
+    c._prevScore=c.score;
+  });
+  updateGlobalKPIs();
+  // If global tab visible, refresh table
+  const globalTab=document.getElementById('tab-global');
+  if(globalTab&&globalTab.classList.contains('active')) renderGlobalPanel();
+},8000);
+
+// ══════════════════════════════════
+// ADDITIONAL CSS — inject into head
+// ══════════════════════════════════
+(function injectCSS(){
+  const style=document.createElement('style');
+  style.textContent=`
+    /* Mobile responsive */
+    @media(max-width:700px){
+      .kpi-strip{grid-template-columns:1fr 1fr!important}
+      .g2,.g3,.g4{grid-template-columns:1fr!important}
+      .tabs-bar{overflow-x:auto;padding:0 10px}
+      .tab-btn{white-space:nowrap;padding:11px 12px;font-size:10px}
+      .content{padding:14px}
+      #fab-btn{bottom:16px;right:16px}
+      .hist-row{grid-template-columns:50px 70px 1fr 1fr!important}
+      .hist-row span:nth-child(n+5){display:none}
+    }
+
+    /* Scrollable tabs bar */
+    .tabs-bar{overflow-x:auto;scrollbar-width:none}
+    .tabs-bar::-webkit-scrollbar{display:none}
+
+    /* FAB hover effects */
+    .fab-item:hover{
+      transform:translateX(-4px);
+      box-shadow:0 4px 16px rgba(138,110,255,.3);
+    }
+    .fab-item{transition:transform .18s,box-shadow .18s}
+
+    /* Pulse on broadcast active */
+    @keyframes broadcast-pulse{
+      0%,100%{box-shadow:0 0 0 0 rgba(78,203,142,.4)}
+      50%{box-shadow:0 0 0 12px rgba(78,203,142,0)}
+    }
+    .broadcasting-active{ animation:broadcast-pulse 2s ease infinite; }
+
+    /* Auric canvas glow */
+    #auric-canvas{filter:drop-shadow(0 0 18px rgba(138,110,255,.2))}
+
+    /* Score color transitions */
+    [id$="-score"],[id$="score-big"]{transition:color .8s ease}
+
+    /* Smooth gauge fills */
+    .gauge-fill,.chk-fill,.prog-fill,.global-score-fill{
+      transition:width 1.2s cubic-bezier(.4,0,.2,1)!important;
+    }
+
+    /* Global row hover */
+    .global-row:hover{background:var(--s1)!important}
+
+    /* Remote protocol step highlight */
+    #remote-steps > div:nth-child(1){
+      position:relative;
+    }
+
+    /* Toast stack */
+    #toast-el{transition:transform .35s cubic-bezier(.34,1.56,.64,1),opacity .25s}
+
+    /* Scan line speed variants */
+    .scan-line-fast{animation-duration:2s!important}
+    .scan-line-slow{animation-duration:8s!important}
+
+    /* Topbar scrollable on small screens */
+    @media(max-width:900px){
+      .topbar{padding:0 14px}
+      .topbar-actions .btn:not(.btn-v){display:none}
+    }
+
+    /* Print styles for report */
+    @media print{
+      .sidebar,.topbar,.tabs-bar,#fab-btn,.modal-ov{display:none!important}
+      .shell{grid-template-columns:1fr!important}
+      .tab-page{display:block!important}
+      body{background:#fff!important;color:#000!important}
+    }
+  `;
+  document.head.appendChild(style);
+})();
+
+// ══════════════════════════════════
+// FINAL INIT CALLS
+// ══════════════════════════════════
+enhanceAlertActions();
+injectAudioBadge();
+
+// Pre-render report so it's ready
+setTimeout(()=>{
+  renderReport();
+  renderRemoteSteps();
+},300);
+
+// Keyboard shortcuts
+document.addEventListener('keydown',e=>{
+  if(e.ctrlKey||e.metaKey) return;
+  const map={
+    '1':()=>window.navTab('scan'),
+    '2':()=>window.navTab('realtime'),
+    '3':()=>window.navTab('broadcast'),
+    '4':()=>window.navTab('historico'),
+    '5':()=>window.navTab('alertas'),
+    '6':()=>window.navTab('cristais'),
+    '7':()=>window.navTab('global'),
+    '8':()=>window.navTab('remoto'),
+    '9':()=>window.navTab('aurico'),
+    '0':()=>window.navTab('relatorio'),
+    ' ':()=>{ if(audioPlaying)stopFrequency(); else toast('⌨','Atalho','Espaço: parar áudio | 1-0: navegar módulos'); e.preventDefault(); },
+    'Escape':()=>{ closeFab(); stopFrequency(); },
+  };
+  if(map[e.key]) map[e.key]();
+});
+
+// Show keyboard shortcut hint on load
+setTimeout(()=>toast('⌨','AXIS™ pronto','Teclas 1–0 navegam os módulos | Espaço para áudio'),1800);
+</script>
+</body>
+</html>
